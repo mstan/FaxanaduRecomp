@@ -5,6 +5,8 @@ Built with the [NESRecomp](https://github.com/mstan/nesrecomp) framework.
 
 > **Status: Playable.** The game runs from title screen through credits. No outstanding known bugs. Not 100% playtested — minor edge cases may exist, but normal gameplay is fully functional.
 
+[![FaxanaduRecomp showcase](media/title_screen.png)](https://www.youtube.com/watch?v=lLXSnK3HVW4)
+
 ## Quick Start
 
 1. Download `FaxanaduRecomp-windows-x64.zip` from [Releases](../../releases)
@@ -37,6 +39,15 @@ Example: `--password "k8fPcv?,TwSYzGZQhMIQhCEA"`
 | F5  | Toggle turbo (fast-forward) |
 | F6  | Save state → `C:\temp\quicksave.sav` |
 | F7  | Load state ← `C:\temp\quicksave.sav` |
+
+## ROM
+
+| Field | Value |
+|-------|-------|
+| Title | Faxanadu (USA) |
+| CRC32 | `42C4EC66` |
+| MD5   | `e224bf737cf9bab9df01173ef0bbff65` |
+| SHA-1 | `34690743679841e67f88cc4973de97e86136ac0b` |
 
 ## Building from Source
 
