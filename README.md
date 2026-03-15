@@ -23,14 +23,21 @@ Built with the [NESRecomp](https://github.com/mstan/nesrecomp) framework.
 | Start      | Enter |
 | Select     | Right Shift |
 
-## Game-specific Options
+## Mantra (Password) Features
+
+Faxanadu uses a mantra system instead of battery-backed saves. FaxanaduRecomp adds convenience features around this:
+
+**Auto-load** — On startup, the game reads `saves.txt` (next to the exe) and auto-fills the most recent mantra on the password entry screen. No need to write down or retype passwords.
+
+**CLI override** — `--password STRING` overrides the `saves.txt` mantra for a single session.
 
 ```
-FaxanaduRecomp.exe [ROM] --password STRING
+FaxanaduRecomp.exe [ROM] --password "k8fPcv?,TwSYzGZQhMIQhCEA"
 ```
 
-`--password STRING` — Auto-fill the mantra (password) on the password entry screen.
-Example: `--password "k8fPcv?,TwSYzGZQhMIQhCEA"`
+**saves.txt format** — One mantra per line, most recent first. Human-readable and copy-pasteable. You can edit this file manually to add or change your saved mantra.
+
+> **Note:** Auto-saving mantras from the priest dialog is not yet implemented. For now, write the mantra shown by the priest into `saves.txt` manually, or pass it via `--password`.
 
 ## Save States
 
@@ -66,7 +73,7 @@ has been translated to C by [NESRecomp](nesrecomp/) and compiled to native x64.
 
 | File | Purpose |
 |------|---------|
-| `extras.c` | Faxanadu-specific hooks (password injection) |
+| `extras.c` | Faxanadu-specific hooks (mantra injection, auto-load) |
 | `game.cfg` | Recompiler config (dispatch tables, trampolines) |
 | `baserom_annotations.csv` | Address annotations for generated code |
 | `generated/faxanadu_full.c` | Recompiled 6502 code (committed) |
