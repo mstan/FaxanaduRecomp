@@ -1,31 +1,25 @@
 # FaxanaduRecomp
 
 Static recompilation of Faxanadu (NES) for native PC.
-Built with [NESRecomp](https://github.com/yourusername/nesrecomp) framework.
+Built with the [NESRecomp](https://github.com/mstan/nesrecomp) framework.
 
-## Prerequisites
+> **Status: Playable.** The game runs from title screen through credits. No outstanding known bugs. Not 100% playtested — minor edge cases may exist, but normal gameplay is fully functional.
 
-- Windows 10+, Visual Studio 2022
-- CMake 3.20+
-- SDL2 (bundled in `nesrecomp/runner/external/SDL2/`)
+## Quick Start
 
-## Build
+1. Download `FaxanaduRecomp-windows-x64.zip` from [Releases](../../releases)
+2. Extract and run `FaxanaduRecomp.exe`
+3. Select your Faxanadu (USA) ROM when prompted — the path is saved for future launches
 
-```
-cmake -S . -B build -G "Visual Studio 17 2022" -A x64
-cmake --build build --config Release
-```
+## Controls
 
-## Run
-
-Place your Faxanadu ROM as `baserom.nes` in the `build/Release/` directory, then:
-
-```
-build/Release/FaxanaduRecomp.exe
-```
-
-The launcher will prompt for a ROM file if none is found, and verifies the CRC32
-against the expected value (`0x42C4EC66`) before starting.
+| NES Button | Keyboard |
+|------------|----------|
+| D-Pad      | Arrow keys |
+| A          | Z |
+| B          | X |
+| Start      | Enter |
+| Select     | Right Shift |
 
 ## Game-specific Options
 
@@ -33,14 +27,25 @@ against the expected value (`0x42C4EC66`) before starting.
 FaxanaduRecomp.exe [ROM] --password STRING
 ```
 
-`--password STRING` � Auto-fill the Faxanadu mantra (password) on the password entry screen.
+`--password STRING` — Auto-fill the mantra (password) on the password entry screen.
 Example: `--password "k8fPcv?,TwSYzGZQhMIQhCEA"`
 
-## Input Scripts and Save States
+## Save States
+
+| Key | Action |
+|-----|--------|
+| F5  | Toggle turbo (fast-forward) |
+| F6  | Save state → `C:\temp\quicksave.sav` |
+| F7  | Load state ← `C:\temp\quicksave.sav` |
+
+## Building from Source
+
+Prerequisites: Windows 10+, Visual Studio 2022, CMake 3.20+ (SDL2 is bundled)
 
 ```
-FaxanaduRecomp.exe baserom.nes --script C:/temp/my_session.txt
-FaxanaduRecomp.exe baserom.nes --loadstate C:/temp/quicksave.sav
+git clone --recurse-submodules https://github.com/mstan/FaxanaduRecomp
+cmake -S . -B build -G "Visual Studio 17 2022" -A x64
+cmake --build build --config Release
 ```
 
 ## Architecture
