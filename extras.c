@@ -145,7 +145,7 @@ static void maybe_inject_password(void) {
 
 /* ---- game_extras.h implementation ---- */
 
-uint32_t game_get_expected_crc32(void) { return 0x42C4EC66u; }
+uint32_t game_get_expected_crc32(void) { return 0x57DD23D1u; }
 
 const char *game_get_name(void) { return "Faxanadu"; }
 
@@ -180,4 +180,10 @@ int game_handle_arg(const char *key, const char *val) {
 
 const char *game_arg_usage(void) {
     return "  --password STRING   Auto-fill Faxanadu mantra on password screen\n";
+}
+
+int game_dispatch_override(uint16_t addr) { (void)addr; return 0; }
+
+uint8_t game_ram_read_hook(uint16_t pc, uint16_t addr, uint8_t val) {
+    (void)pc; (void)addr; return val;
 }

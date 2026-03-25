@@ -52,9 +52,9 @@ FaxanaduRecomp.exe [ROM] --password "k8fPcv?,TwSYzGZQhMIQhCEA"
 | Field | Value |
 |-------|-------|
 | Title | Faxanadu (USA) |
-| CRC32 | `42C4EC66` |
-| MD5   | `e224bf737cf9bab9df01173ef0bbff65` |
-| SHA-1 | `34690743679841e67f88cc4973de97e86136ac0b` |
+| CRC32 | `57DD23D1` (ROM data only, iNES header excluded) |
+| MD5   | `b3bb9296b5e1e0c83e90b6da9e8a41aa` (ROM data only) |
+| SHA-1 | `5b05c8859f356013d37f0545f5de5fa1693da5da` (ROM data only) |
 
 ## Building from Source
 
