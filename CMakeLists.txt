@@ -14,7 +14,7 @@ find_package(SDL2 REQUIRED)
 option(ENABLE_NESTOPIA_ORACLE "Build with Nestopia emulator oracle for verify mode" ON)
 
 if(ENABLE_NESTOPIA_ORACLE)
-    include(${CMAKE_SOURCE_DIR}/nestopia-core/CMakeLists_core.cmake)
+    include(${CMAKE_SOURCE_DIR}/nestopia_cmake.cmake)
 endif()
 
 # ---- Main executable ----

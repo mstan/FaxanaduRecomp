@@ -1,6 +1,7 @@
 # Nestopia libretro core — static library. No dependencies.
+# Included from FaxanaduRecomp/CMakeLists.txt.
 
-set(NESTOPIA_DIR ${CMAKE_CURRENT_LIST_DIR})
+set(NESTOPIA_DIR ${CMAKE_SOURCE_DIR}/nestopia-core)
 set(NESTOPIA_CORE_DIR ${NESTOPIA_DIR}/source/core)
 
 file(GLOB_RECURSE NESTOPIA_CORE_SOURCES ${NESTOPIA_CORE_DIR}/*.cpp)
@@ -9,6 +10,7 @@ list(FILTER NESTOPIA_CORE_SOURCES EXCLUDE REGEX "NstVideoFilter2xSaI\\.cpp$")
 list(FILTER NESTOPIA_CORE_SOURCES EXCLUDE REGEX "NstVideoFilterHqX\\.cpp$")
 list(FILTER NESTOPIA_CORE_SOURCES EXCLUDE REGEX "NstVideoFilterScaleX\\.cpp$")
 list(FILTER NESTOPIA_CORE_SOURCES EXCLUDE REGEX "NstZlib\\.cpp$")
+
 file(GLOB NESTOPIA_NTSC_SOURCES ${NESTOPIA_DIR}/source/nes_ntsc/*.cpp)
 
 add_library(nestopia_core STATIC
