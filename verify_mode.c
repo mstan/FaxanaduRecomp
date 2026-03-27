@@ -1,7 +1,12 @@
 /*
  * verify_mode.c — Dual-execution verification mode
  *
- * Modeled after snesrecomp-v2/src/common_cpu_infra.c:RtlRunFrameCompare()
+ * In VERIFY mode: native code runs the game normally. Nestopia runs
+ * in the background. After each frame, we compare RAM between the two.
+ * Divergences are logged and recorded in the ring buffer.
+ *
+ * In EMULATED mode: Nestopia drives everything (handled in extras.c).
+ * In NATIVE mode: no emulator, just recompiled code.
  */
 #include "verify_mode.h"
 #include "nes_snapshot.h"
@@ -11,31 +16,31 @@
 #include <stdio.h>
 #include <string.h>
 
-#ifdef ENABLE_FCEUX_ORACLE
-#include "fceux_bridge.h"
+#ifdef ENABLE_NESTOPIA_ORACLE
+#include "nestopia_bridge.h"
 #endif
 
 RunMode  g_run_mode = RUN_MODE_NATIVE;
 static uint64_t s_divergence_count = 0;
-static int s_fceux_initialized = 0;
+static int s_emu_initialized = 0;
 
 void verify_mode_init(const char *rom_path) {
-#ifdef ENABLE_FCEUX_ORACLE
+#ifdef ENABLE_NESTOPIA_ORACLE
     if (g_run_mode == RUN_MODE_NATIVE) return;
 
-    int rc = fceux_bridge_init(rom_path);
+    int rc = nestopia_bridge_init(rom_path);
     if (rc != 0) {
-        fprintf(stderr, "[verify] FCEUX init failed (rc=%d), falling back to native\n", rc);
+        fprintf(stderr, "[verify] Nestopia init failed (rc=%d), falling back to native\n", rc);
         g_run_mode = RUN_MODE_NATIVE;
         return;
     }
-    s_fceux_initialized = 1;
-    fprintf(stderr, "[verify] FCEUX oracle initialized (mode=%s)\n",
+    s_emu_initialized = 1;
+    fprintf(stderr, "[verify] Nestopia oracle initialized (mode=%s)\n",
             g_run_mode == RUN_MODE_VERIFY ? "verify" : "emulated");
 #else
     (void)rom_path;
     if (g_run_mode != RUN_MODE_NATIVE) {
-        fprintf(stderr, "[verify] FCEUX oracle not compiled in, falling back to native\n");
+        fprintf(stderr, "[verify] Nestopia not compiled in, falling back to native\n");
         g_run_mode = RUN_MODE_NATIVE;
     }
 #endif
@@ -43,75 +48,46 @@ void verify_mode_init(const char *rom_path) {
 
 int verify_mode_run_nmi(void) {
     if (g_run_mode == RUN_MODE_NATIVE) {
-        /* Pure native: just call the recompiled NMI */
         func_NMI();
         return 1;
     }
 
-#ifdef ENABLE_FCEUX_ORACLE
-    if (!s_fceux_initialized) {
+#ifdef ENABLE_NESTOPIA_ORACLE
+    if (!s_emu_initialized) {
         func_NMI();
         return 1;
     }
 
     if (g_run_mode == RUN_MODE_EMULATED) {
-        /* Pure FCEUX: run one frame via oracle, then copy RAM state back
-         * so the native runtime (PPU renderer, etc.) has correct data. */
-        fceux_bridge_run_frame(g_controller1_buttons);
-
-        /* Extract FCEUX state into our runtime */
-        fceux_bridge_get_ram(g_ram);
-        fceux_bridge_get_sram(g_sram);
-        fceux_bridge_get_oam(g_ppu_oam);
-        fceux_bridge_get_palette(g_ppu_pal);
-        fceux_bridge_get_nametable(g_ppu_nt);
-
-        uint8_t a, x, y, s, p;
-        uint16_t pc;
-        fceux_bridge_get_cpu(&a, &x, &y, &s, &p, &pc);
-        g_cpu.A = a;
-        g_cpu.X = x;
-        g_cpu.Y = y;
-        g_cpu.S = s;
+        /* Handled by game_run_main in extras.c — shouldn't reach here */
+        func_NMI();
         return 1;
     }
 
-    /* VERIFY mode: run both, compare */
-    static NESSnapshot snap_before, snap_native, snap_emulated;
+    /* VERIFY mode: native runs the game, Nestopia runs in background.
+     * Compare RAM after each frame. Log all divergences. */
 
-    /* 1. Capture state before NMI */
-    nes_snapshot_capture(&snap_before);
-
-    /* 2. Run FCEUX oracle frame */
-    fceux_bridge_run_frame(g_controller1_buttons);
-
-    /* 3. Extract FCEUX post-frame state as "emulated" result */
-    fceux_bridge_get_ram(snap_emulated.ram);
-    fceux_bridge_get_sram(snap_emulated.sram);
-    fceux_bridge_get_oam(snap_emulated.ppu_oam);
-    fceux_bridge_get_palette(snap_emulated.ppu_pal);
-
-    /* 4. Restore pre-NMI state */
-    nes_snapshot_restore(&snap_before);
-
-    /* 5. Run native recompiled NMI */
+    /* 1. Run native NMI */
     func_NMI();
 
-    /* 6. Capture native post-frame state */
-    nes_snapshot_capture(&snap_native);
+    /* 2. Run Nestopia for one frame (same input) */
+    nestopia_bridge_run_frame(g_controller1_buttons);
 
-    /* 7. Compare RAM (primary comparison target) */
-    SnapshotDiff diffs[32];
+    /* 3. Get Nestopia's RAM */
+    static uint8_t emu_ram[0x800];
+    nestopia_bridge_get_ram(emu_ram);
+
+    /* 4. Compare work RAM */
     int diff_count = 0;
+    int first_diff_addr = -1;
+    uint8_t first_native = 0, first_emu = 0;
 
-    /* Compare work RAM */
     for (int i = 0; i < 0x0800; i++) {
-        if (snap_native.ram[i] != snap_emulated.ram[i]) {
-            if (diff_count < 32) {
-                diffs[diff_count].addr   = (uint16_t)i;
-                diffs[diff_count].val_a  = snap_native.ram[i];
-                diffs[diff_count].val_b  = snap_emulated.ram[i];
-                diffs[diff_count].region = "ram";
+        if (g_ram[i] != emu_ram[i]) {
+            if (diff_count == 0) {
+                first_diff_addr = i;
+                first_native = g_ram[i];
+                first_emu = emu_ram[i];
             }
             diff_count++;
         }
@@ -121,23 +97,10 @@ int verify_mode_run_nmi(void) {
 
     if (!passed) {
         s_divergence_count++;
-        if (s_divergence_count <= 10) {
-            fprintf(stderr, "[verify] DIVERGENCE at frame %llu: %d byte(s) differ in RAM\n",
-                    (unsigned long long)g_frame_count, diff_count);
-            int show = diff_count < 8 ? diff_count : 8;
-            for (int i = 0; i < show; i++) {
-                fprintf(stderr, "  [%s $%04X] native=0x%02X oracle=0x%02X\n",
-                        diffs[i].region, diffs[i].addr,
-                        diffs[i].val_a, diffs[i].val_b);
-            }
-            if (diff_count > 8)
-                fprintf(stderr, "  ... and %d more\n", diff_count - 8);
-        }
+        fprintf(stderr, "[verify] DIVERGE frame %llu: %d bytes differ | first: $%04X native=0x%02X emu=0x%02X\n",
+                (unsigned long long)g_frame_count, diff_count,
+                first_diff_addr, first_native, first_emu);
     }
-
-    /* The native result is kept (we're already in native state after func_NMI).
-     * This means the game continues from native execution.
-     * If you want oracle-as-ground-truth, restore snap_emulated instead. */
 
     return passed;
 #else

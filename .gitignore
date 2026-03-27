@@ -3,4 +3,13 @@ build/
 *.bin
 *.sav
 *.log
-# DO NOT ignore generated/ — committed for reproducibility
+*.zip
+.mcp.json
+
+# Dead FCEUX integration (replaced by Nestopia)
+fceux_stubs.cpp
+fceux_bridge.cpp
+fceux_bridge.h
+fceux_minimal_stubs.cpp
+fceux-core/
+# DO NOT ignore generated/ ï¿½ committed for reproducibility

@@ -10,12 +10,11 @@ include(${NESRECOMP_ROOT}/runner/runner.cmake)
 list(APPEND CMAKE_PREFIX_PATH "${NESRECOMP_ROOT}/runner/external/SDL2/cmake")
 find_package(SDL2 REQUIRED)
 
-# ---- FCEUX Oracle (optional) ----
-option(ENABLE_FCEUX_ORACLE "Build with FCEUX emulator oracle for verify mode" OFF)
+# ---- Nestopia Oracle (optional) ----
+option(ENABLE_NESTOPIA_ORACLE "Build with Nestopia emulator oracle for verify mode" ON)
 
-set(FCEUX_SOURCES "")
-if(ENABLE_FCEUX_ORACLE)
-    include(${CMAKE_SOURCE_DIR}/fceux-core/CMakeLists_core.cmake)
+if(ENABLE_NESTOPIA_ORACLE)
+    include(${CMAKE_SOURCE_DIR}/nestopia-core/CMakeLists_core.cmake)
 endif()
 
 # ---- Main executable ----
@@ -45,19 +44,16 @@ if(WIN32)
     target_link_libraries(FaxanaduRecomp PRIVATE ws2_32)
 endif()
 
-# ---- FCEUX Oracle integration ----
-if(ENABLE_FCEUX_ORACLE)
-    # Add bridge (C++ source) — no stubs needed, real Win32 driver is included
+# ---- Nestopia Oracle integration ----
+if(ENABLE_NESTOPIA_ORACLE)
     target_sources(FaxanaduRecomp PRIVATE
-        fceux_bridge.cpp
+        nestopia_bridge.cpp
     )
-    target_link_libraries(FaxanaduRecomp PRIVATE fceux_core)
-    target_compile_definitions(FaxanaduRecomp PRIVATE ENABLE_FCEUX_ORACLE __WIN_DRIVER__)
+    target_link_libraries(FaxanaduRecomp PRIVATE nestopia_core)
+    target_compile_definitions(FaxanaduRecomp PRIVATE ENABLE_NESTOPIA_ORACLE)
     target_include_directories(FaxanaduRecomp PRIVATE
-        ${CMAKE_SOURCE_DIR}/fceux-core/src
-        ${CMAKE_SOURCE_DIR}/fceux-core/src/drivers/win/zlib
-        ${CMAKE_SOURCE_DIR}/fceux-core/src/drivers/win/directx
-        ${CMAKE_SOURCE_DIR}/fceux-core/src/lua/src
+        ${CMAKE_SOURCE_DIR}/nestopia-core/libretro
+        ${CMAKE_SOURCE_DIR}/nestopia-core/libretro/libretro-common/include
     )
 endif()
 

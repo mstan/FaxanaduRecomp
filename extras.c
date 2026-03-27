@@ -11,8 +11,8 @@
 #include "debug_server.h"
 #include "verify_mode.h"
 #include "input_script.h"
-#ifdef ENABLE_FCEUX_ORACLE
-#include "fceux_bridge.h"
+#ifdef ENABLE_NESTOPIA_ORACLE
+#include "nestopia_bridge.h"
 #endif
 #include <SDL.h>
 #include <stdio.h>
@@ -23,6 +23,18 @@
 #  define WIN32_LEAN_AND_MEAN
 #  include <windows.h>
 #endif
+
+/* ---- Debug mode ---- */
+static int s_debug_enabled = 0;
+static void get_exe_relative_path(const char *filename, char *out, int max_len);
+
+static int check_debug_ini(void) {
+    char path[512];
+    get_exe_relative_path("debug.ini", path, sizeof(path));
+    FILE *f = fopen(path, "r");
+    if (f) { fclose(f); return 1; }
+    return 0;
+}
 
 /* ---- Debug server state ---- */
 static int s_tcp_port = 4370;
@@ -163,12 +175,21 @@ uint32_t game_get_expected_crc32(void) { return 0x57DD23D1u; }
 const char *game_get_name(void) { return "Faxanadu"; }
 
 void game_on_init(void) {
-    /* Start TCP debug server */
-    debug_server_init(s_tcp_port);
+    s_debug_enabled = check_debug_ini();
 
-    /* Initialize verify mode if requested */
-    if (g_run_mode != RUN_MODE_NATIVE && g_rom_path_for_extras) {
-        verify_mode_init(g_rom_path_for_extras);
+    if (s_debug_enabled) {
+        printf("[Debug] debug.ini found — TCP server and verify mode enabled\n");
+        debug_server_init(s_tcp_port);
+
+        if (g_run_mode != RUN_MODE_NATIVE && g_rom_path_for_extras) {
+            verify_mode_init(g_rom_path_for_extras);
+        }
+    } else if (g_run_mode != RUN_MODE_NATIVE) {
+        /* --verify or --emulated implies debug even without ini */
+        s_debug_enabled = 1;
+        debug_server_init(s_tcp_port);
+        if (g_rom_path_for_extras)
+            verify_mode_init(g_rom_path_for_extras);
     }
 
     /* If no --password CLI flag, try loading from saves.txt */
@@ -182,21 +203,23 @@ void game_on_init(void) {
 
 void game_on_frame(uint64_t frame_count) {
     (void)frame_count;
-    debug_server_poll();
-    debug_server_wait_if_paused();
-
-    /* Apply debug server input override if active */
-    int ovr = debug_server_get_input_override();
-    if (ovr >= 0)
-        g_controller1_buttons = (uint8_t)ovr;
+    if (s_debug_enabled) {
+        debug_server_poll();
+        debug_server_wait_if_paused();
+        int ovr = debug_server_get_input_override();
+        if (ovr >= 0)
+            g_controller1_buttons = (uint8_t)ovr;
+    }
 
     maybe_inject_password();
 }
 
 void game_post_nmi(uint64_t frame_count) {
     (void)frame_count;
-    debug_server_record_frame();
-    debug_server_check_watchpoints();
+    if (s_debug_enabled) {
+        debug_server_record_frame();
+        debug_server_check_watchpoints();
+    }
 }
 
 int game_handle_arg(const char *key, const char *val) {
@@ -237,15 +260,11 @@ void game_run_nmi(void) {
 
 void game_run_main(void) {
     if (g_run_mode == RUN_MODE_EMULATED) {
-#ifdef ENABLE_FCEUX_ORACLE
-        /* FCEUX drives the entire execution — its own CPU, PPU, APU.
-         * We use FCEUX's rendered framebuffer directly (separate PPU). */
-        printf("[Emulated] FCEUX driving main loop (FCEUX PPU output)\n");
+#ifdef ENABLE_NESTOPIA_ORACLE
+        /* Nestopia drives the entire execution — its own CPU, PPU, APU. */
+        printf("[Emulated] Nestopia driving main loop\n");
 
-        /* Buffers for FCEUX's output */
-        static uint8_t  fceux_pixels[256 * 240];  /* palette-indexed */
-        static uint32_t fceux_palette[256];        /* NES palette → ARGB */
-        static uint32_t fceux_argb[256 * 240];     /* final ARGB framebuffer */
+        static uint32_t fceux_argb[256 * 240];  /* ARGB framebuffer */
 
         extern void runner_present_framebuf(const uint32_t *argb_buf);
 
@@ -279,30 +298,17 @@ void game_run_main(void) {
             debug_server_wait_if_paused();
 
             /* Run one FCEUX frame (FCEUX's own PPU renders internally) */
-            fceux_bridge_run_frame(g_controller1_buttons);
+            nestopia_bridge_run_frame(g_controller1_buttons);
 
             /* Get FCEUX's rendered framebuffer (palette indices) and palette */
-            fceux_bridge_get_framebuf(fceux_pixels);
-            fceux_bridge_get_palette_argb(fceux_palette);
-
-            /* Convert palette-indexed pixels to ARGB8888 */
-            for (int i = 0; i < 256 * 240; i++) {
-                fceux_argb[i] = fceux_palette[fceux_pixels[i]];
-            }
+            nestopia_bridge_get_framebuf_argb(fceux_argb);
 
             /* Present FCEUX's frame directly to SDL window */
             runner_present_framebuf(fceux_argb);
 
             /* Also extract RAM state for debug server queries */
-            fceux_bridge_get_ram(g_ram);
-            fceux_bridge_get_sram(g_sram);
-            {
-                uint8_t a, x, y, s, p;
-                uint16_t pc;
-                fceux_bridge_get_cpu(&a, &x, &y, &s, &p, &pc);
-                g_cpu.A = a; g_cpu.X = x; g_cpu.Y = y; g_cpu.S = s;
-            }
-
+            nestopia_bridge_get_ram(g_ram);
+            nestopia_bridge_get_sram(g_sram);
             g_frame_count++;
 
             /* Record frame for debug server */
