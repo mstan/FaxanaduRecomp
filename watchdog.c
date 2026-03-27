@@ -9,11 +9,19 @@
 #include "nes_runtime.h"
 
 #include <stdio.h>
+#include <string.h>
 #include <time.h>
 
 #ifdef RECOMP_STACK_TRACKING
 #include "recomp_stack.h"
 #endif
+
+/* Watchdog globals (extern'd by runner's debug_server.c) */
+extern int         g_watchdog_triggered;
+extern uint32_t    g_watchdog_frame;
+extern const char *g_watchdog_stack_dump;
+
+static char s_watchdog_stack_buf[2048] = "";
 
 jmp_buf g_watchdog_jmp;
 static clock_t s_frame_start = 0;
@@ -40,15 +48,28 @@ void watchdog_check(void) {
         fprintf(stderr, "\n=== WATCHDOG: Frame %llu exceeded %.1fs ===\n",
                 (unsigned long long)g_frame_count, elapsed);
 
+        /* Populate watchdog globals for debug_server watchdog_status command */
+        g_watchdog_triggered = 1;
+        g_watchdog_frame = (uint32_t)g_frame_count;
+
+        int spos = 0;
 #ifdef RECOMP_STACK_TRACKING
         fprintf(stderr, "Call stack (most recent first):\n");
         for (int i = g_recomp_stack_top - 1; i >= 0; i--) {
-            fprintf(stderr, "  [%d] %s\n", i,
-                    g_recomp_stack[i] ? g_recomp_stack[i] : "(null)");
+            const char *fn = g_recomp_stack[i] ? g_recomp_stack[i] : "(null)";
+            fprintf(stderr, "  [%d] %s\n", i, fn);
+            spos += snprintf(s_watchdog_stack_buf + spos,
+                             sizeof(s_watchdog_stack_buf) - spos,
+                             "[%d] %s\\n", i, fn);
         }
 #else
         fprintf(stderr, "(no stack tracking compiled in)\n");
+        spos += snprintf(s_watchdog_stack_buf + spos,
+                         sizeof(s_watchdog_stack_buf) - spos,
+                         "(no stack tracking compiled in)");
 #endif
+        g_watchdog_stack_dump = s_watchdog_stack_buf;
+
         fprintf(stderr, "CPU: A=%02X X=%02X Y=%02X S=%02X bank=%d\n",
                 g_cpu.A, g_cpu.X, g_cpu.Y, g_cpu.S, g_current_bank);
         fprintf(stderr, "=== Continuing (forced VBlank trigger) ===\n\n");

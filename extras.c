@@ -18,11 +18,17 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <stdarg.h>
 
 #ifdef _WIN32
 #  define WIN32_LEAN_AND_MEAN
 #  include <windows.h>
 #endif
+
+/* ---- Watchdog globals (extern'd by runner's debug_server.c) ---- */
+int         g_watchdog_triggered = 0;
+uint32_t    g_watchdog_frame     = 0;
+const char *g_watchdog_stack_dump = "";
 
 /* ---- Debug mode ---- */
 static int s_debug_enabled = 0;
@@ -333,4 +339,67 @@ int game_dispatch_override(uint16_t addr) { (void)addr; return 0; }
 
 uint8_t game_ram_read_hook(uint16_t pc, uint16_t addr, uint8_t val) {
     (void)pc; (void)addr; return val;
+}
+
+/* ---- Debug server game hooks ---- */
+
+void game_fill_frame_record(void *record) {
+    NESFrameRecord *r = (NESFrameRecord *)record;
+    r->game_data[0] = g_ram[0x12];    /* game_mode */
+    r->game_data[1] = g_ram[0xEB];    /* room_id */
+    r->game_data[2] = g_ram[0x0394];  /* player_hp */
+    r->game_data[3] = g_ram[0x035C];  /* player_gold_lo */
+    r->game_data[4] = g_ram[0x035D];  /* player_gold_hi */
+}
+
+int game_handle_debug_cmd(const char *cmd, int id, const char *json) {
+    (void)json;
+
+    if (strcmp(cmd, "faxanadu_state") == 0) {
+        debug_server_send_fmt(
+            "{\"id\":%d,\"ok\":true,"
+            "\"game_mode\":\"0x%02X\",\"room\":\"0x%02X\","
+            "\"player_hp\":%d,\"player_max_hp\":%d,"
+            "\"gold\":%d,"
+            "\"scroll_x\":%d,\"scroll_y\":%d,"
+            "\"frame\":%llu}",
+            id,
+            g_ram[0x12], g_ram[0xEB],
+            g_ram[0x0394], g_ram[0x0396],
+            g_ram[0x035C] | (g_ram[0x035D] << 8),
+            g_ppuscroll_x, g_ppuscroll_y,
+            (unsigned long long)g_frame_count);
+        return 1;
+    }
+
+    if (strcmp(cmd, "entity_table") == 0) {
+        /* Faxanadu entities live at $0300-$03FF area.
+         * Entity type at $0300+i, state at $0310+i, X at $0320+i, Y at $0330+i.
+         * 16 entity slots. */
+        char *buf = (char *)malloc(4096);
+        if (!buf) {
+            debug_server_send_fmt("{\"id\":%d,\"ok\":false,\"error\":\"alloc failed\"}", id);
+            return 1;
+        }
+
+        int pos = snprintf(buf, 128, "{\"id\":%d,\"ok\":true,\"entities\":[", id);
+        int first = 1;
+        for (int i = 0; i < 16; i++) {
+            uint8_t type = g_ram[0x0300 + i];
+            if (type == 0) continue;  /* empty slot */
+            if (!first) buf[pos++] = ',';
+            first = 0;
+            pos += snprintf(buf + pos, 128,
+                "{\"slot\":%d,\"type\":\"0x%02X\",\"state\":\"0x%02X\","
+                "\"x\":%d,\"y\":%d}",
+                i, type, g_ram[0x0310 + i],
+                g_ram[0x0320 + i], g_ram[0x0330 + i]);
+        }
+        pos += snprintf(buf + pos, 8, "]}");
+        debug_server_send_line(buf);
+        free(buf);
+        return 1;
+    }
+
+    return 0;
 }
