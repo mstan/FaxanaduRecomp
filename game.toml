@@ -1,0 +1,94 @@
+# game.toml — Faxanadu (NES, Mapper 1 / MMC1, 16 PRG banks, CHR RAM)
+
+[game]
+output_prefix = "faxanadu"
+
+# ── Bank-switch trampolines ──────────────────────────────────────────────────
+# JSR $F859 is followed by 3 inline data bytes (bank, addr_lo, addr_hi).
+# $CC1A is the MMC1 PRG bank-switch function in the fixed bank.
+[[trampoline]]
+addr = 0xF859
+inline_bytes = 3
+bs_fn_addr = 0xCC1A
+
+# ── Known 2-byte LE dispatch tables ─────────────────────────────────────────
+# Each entry is a (target-1) LE16 pair.
+
+[[known_table]]
+bank = 14
+start = 0x8087
+end = 0x8151   # main entity state dispatch (101 entries)
+
+[[known_table]]
+bank = 14
+start = 0x8958
+end = 0x8968   # entity state dispatch 2 (8 entries)
+
+[[known_table]]
+bank = 14
+start = 0xA6D8
+end = 0xA6E8   # entity state dispatch 3 (8 entries)
+
+[[known_table]]
+bank = 14
+start = 0xA5E7
+end = 0xA66B   # entity type dispatch (66 entries)
+
+[[known_table]]
+bank = 14
+start = 0xBAF7
+end = 0xBB25   # entity state machine dispatch via $02B3 (23 entries)
+
+[[known_table]]
+bank = 14
+start = 0xAC71
+end = 0xAC75   # drop spawn dispatch (coin=$AC75, bread=$AC9F)
+
+[[known_table]]
+bank = 5
+start = 0x826A
+end = 0x828E   # sound dispatch table 1 (18 entries)
+
+[[known_table]]
+bank = 5
+start = 0x85B1
+end = 0x8621   # sound dispatch table 2 (entries 2-57)
+
+# ── Split dispatch tables (lo-bytes and hi-bytes in separate arrays) ─────────
+
+[[split_table]]
+bank = 12
+lo_addr = 0x827B
+hi_addr = 0x8293
+count = 24
+stride = 1     # room/scene state dispatch at $826E (24 states)
+
+[[split_table]]
+bank = 15
+lo_addr = 0xD64C
+hi_addr = 0xD650
+count = 4
+stride = 1     # fixed-bank CHR update handler dispatch at $D61D (4 slots)
+
+[[split_table]]
+bank = 14
+lo_addr = 0xBB27
+hi_addr = 0xBB28
+count = 12
+stride = 2     # entity sprite handler table at $C2E9 (12 entries)
+
+# ── Extra function seeds (dynamically dispatched, not statically discoverable)
+
+[functions]
+fixed = [
+    0xC0A0, 0xC559, 0xC9C1, 0xCCC4, 0xCE9A, 0xD8F0, 0xFF03, 0xFF3C, 0xFFA5,
+    0xD673,  # fixed-bank VRAM write (called dynamically)
+    0xC2E9,  # entity loop continuation — pushed as $C2E8 by $BAD9 4-PHA
+]
+bank5 = [
+    0x828E,  # entity dispatch via RAM vector $2901
+    0x9D86,  # from correct illegal opcode sizes
+]
+bank14 = [
+    0x8C0F,  # entity dispatch entry (no static reference)
+]
