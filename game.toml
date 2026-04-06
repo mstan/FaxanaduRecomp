@@ -87,6 +87,7 @@ fixed = [
 ]
 bank5 = [
     0x828E,  # entity dispatch via RAM vector $2901
+    0x8680,  # bare RTS no-op in sound dispatch table
     0x9D86,  # from correct illegal opcode sizes
 ]
 bank14 = [
