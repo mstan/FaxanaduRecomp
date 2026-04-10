@@ -2,6 +2,8 @@
 
 [game]
 output_prefix = "faxanadu"
+disable_ptr_scan = true
+disable_secondary = true
 
 # ── Bank-switch trampolines ──────────────────────────────────────────────────
 # JSR $F859 is followed by 3 inline data bytes (bank, addr_lo, addr_hi).
