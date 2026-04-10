@@ -6,6 +6,10 @@ set(CMAKE_CXX_STANDARD 17)
 
 set(NESRECOMP_ROOT ${CMAKE_SOURCE_DIR}/nesrecomp)
 
+# ---- Nestopia Oracle (optional, must be set before runner.cmake) ----
+option(ENABLE_NESTOPIA_ORACLE "Build with Nestopia emulator oracle for verify mode" ON)
+set(NESTOPIA_DIR "${CMAKE_SOURCE_DIR}/nestopia-core")
+
 # ---- nesrecomp pin check ----
 # nesrecomp/ is a Windows directory junction → F:/Projects/nesrecomp.
 # nesrecomp.pin records the expected nesrecomp version. Two optional fields:
@@ -81,13 +85,6 @@ include(${NESRECOMP_ROOT}/runner/runner.cmake)
 list(APPEND CMAKE_PREFIX_PATH "${NESRECOMP_ROOT}/runner/external/SDL2/cmake")
 find_package(SDL2 REQUIRED)
 
-# ---- Nestopia Oracle (optional) ----
-option(ENABLE_NESTOPIA_ORACLE "Build with Nestopia emulator oracle for verify mode" ON)
-
-if(ENABLE_NESTOPIA_ORACLE)
-    include(${CMAKE_SOURCE_DIR}/nestopia_cmake.cmake)
-endif()
-
 # ---- Main executable ----
 add_executable(FaxanaduRecomp
     ${NESRECOMP_RUNNER_SOURCES}
@@ -116,15 +113,8 @@ endif()
 
 # ---- Nestopia Oracle integration ----
 if(ENABLE_NESTOPIA_ORACLE)
-    target_sources(FaxanaduRecomp PRIVATE
-        nestopia_bridge.cpp
-    )
     target_link_libraries(FaxanaduRecomp PRIVATE nestopia_core)
     target_compile_definitions(FaxanaduRecomp PRIVATE ENABLE_NESTOPIA_ORACLE)
-    target_include_directories(FaxanaduRecomp PRIVATE
-        ${CMAKE_SOURCE_DIR}/nestopia-core/libretro
-        ${CMAKE_SOURCE_DIR}/nestopia-core/libretro/libretro-common/include
-    )
 endif()
 
 # ---- Post-build ----
