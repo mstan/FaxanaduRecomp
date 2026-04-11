@@ -49,11 +49,28 @@ static int s_tcp_port = 4370;
 /* ROM path exposed by runner for verify mode init */
 const char *g_rom_path_for_extras = NULL;
 
-/* ---- Text override: Faxanadu tile encoding (A=0xE0, space=0x20) ----
- * Used for title/menu text.  Dialogue text in bank12/13 uses raw ASCII. */
+/* ---- Text override: Faxanadu tile encodings ---- */
+
+/* FAXANADU_1 — title/menu text.  A=0xE0, space=0x20.  Null-terminated. */
 static uint8_t fax_tile_encode(char ch) {
     if (ch >= 'A' && ch <= 'Z') return (uint8_t)(0xE0 + (ch - 'A'));
     if (ch == ' ')               return 0x20;
+    return 0xFF;  /* unencodable */
+}
+
+/* FAXANADU_DIALOGUE — NPC dialogue text.  Plain ASCII printable characters
+ * map to themselves.  Space maps to 0xFD (word space token).  '\n' maps to
+ * 0xFC (line break within dialogue box).  Terminated by 0xFF. */
+static uint8_t fax_dialogue_encode(char ch) {
+    if (ch >= 0x21 && ch <= 0x7E) return (uint8_t)ch;  /* printable ASCII */
+    if (ch == ' ')                return 0xFD;           /* word space */
+    if (ch == '\n')               return 0xFC;           /* line break */
+    return 0xFF;  /* unencodable */
+}
+
+/* ASCII — plain null-terminated ASCII (Mantra screen, etc.). */
+static uint8_t ascii_encode(char ch) {
+    if (ch >= 0x20 && ch <= 0x7E) return (uint8_t)ch;
     return 0xFF;  /* unencodable */
 }
 
@@ -64,10 +81,11 @@ static char s_text_overrides_path[512] = "text_overrides.json";
 static void text_override_setup(void) {
     text_override_init();
 
-    /* Register Faxanadu menu tile encoding (A=0xE0, space=0x20).
-     * Used for bank12 title/menu text rendered via direct $2007 PPU writes.
-     * Add more encoders here for other text regions (e.g. "fax_dialogue"). */
-    text_override_register_encoding("FAXANADU_1", fax_tile_encode);
+    /* Register all Faxanadu text encodings.  Each carries its own terminator
+     * byte so the override system writes the correct end-of-string marker. */
+    text_override_register_encoding("FAXANADU_1",        fax_tile_encode,     0x00);
+    text_override_register_encoding("FAXANADU_DIALOGUE", fax_dialogue_encode, 0xFF);
+    text_override_register_encoding("ASCII",             ascii_encode,        0x00);
 
     /* Load overrides from the JSON table (CWD by default, see --text-overrides).
      * Edit that file while the game runs; changes hot-reload within ~1 second. */

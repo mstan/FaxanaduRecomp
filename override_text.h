@@ -25,10 +25,12 @@
  *   Register from extras.c before calling text_override_load_json().
  *
  * Variable-length:
- *   Replacements may be shorter or longer than the original string.  The null
- *   terminator is always written immediately after the encoded replacement.
- *   The renderer reads until null, so longer strings render if the nametable
- *   has room.  Overwriting adjacent ROM data is the modder's responsibility.
+ *   Replacements may be shorter or longer than the original string.  The
+ *   encoding's terminator byte is always written immediately after the encoded
+ *   replacement (0x00 for FAXANADU_1/ASCII, 0xFF for FAXANADU_DIALOGUE).
+ *   The renderer reads until the terminator, so longer strings render if the
+ *   nametable has room.  Overwriting adjacent ROM data is the modder's
+ *   responsibility.
  *
  * Portability:
  *   Core logic depends only on nes_runtime.h (g_ram, runner_get_prg_bank_rw).
@@ -63,9 +65,12 @@ void text_override_apply(void);
  * ====================================================================== */
 
 /* Register a named tile encoder.  Must be done before text_override_load_json().
- * name: identifier used in the JSON "encoding" field (e.g. "fax_menu").
- * fn:   the game-specific encoder function. */
-void text_override_register_encoding(const char *name, tile_encode_fn fn);
+ * name:       identifier used in the JSON "encoding" field (e.g. "FAXANADU_1").
+ * fn:         the game-specific encoder function.
+ * terminator: byte value written after encoded replacement (0x00 for null-
+ *             terminated encodings like FAXANADU_1, 0xFF for FAXANADU_DIALOGUE). */
+void text_override_register_encoding(const char *name, tile_encode_fn fn,
+                                      uint8_t terminator);
 
 /* Look up a registered encoder by name.  Returns NULL if not found. */
 tile_encode_fn text_override_find_encoding(const char *name);
@@ -114,19 +119,19 @@ void text_override_patch_prg(int bank, uint16_t prg_addr,
                               const uint8_t *replacement, int rep_len);
 
 /* Patch from an ASCII string + encoder.
- * Encodes replacement and writes it followed by an implicit null terminator.
+ * Encodes replacement and writes it followed by the encoding's terminator byte.
  * Replacement may be longer than the original string — the renderer reads until
- * the null, so extra characters render if the nametable has room.  Writing past
- * adjacent ROM data is the caller's responsibility.
+ * the terminator, so extra characters render if the nametable has room.  Writing
+ * past adjacent ROM data is the caller's responsibility.
  * Returns 1 on success, 0 on encode error. */
 int text_override_patch_prg_ascii(int bank, uint16_t prg_addr,
                                    const char *replacement,
-                                   tile_encode_fn encode);
+                                   tile_encode_fn encode, uint8_t terminator);
 
 /* Identical to text_override_patch_prg_ascii — kept for JSON loader symmetry. */
 int text_override_patch_prg_auto(int bank, uint16_t prg_addr,
                                   const char *replacement,
-                                  tile_encode_fn encode);
+                                  tile_encode_fn encode, uint8_t terminator);
 
 /* =========================================================================
  * PPU DMA buffer pattern registration (for $0500 path)

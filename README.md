@@ -60,8 +60,23 @@ FaxanaduRecomp.exe [ROM] --password "k8fPcv?,TwSYzGZQhMIQhCEA"
 
 Prerequisites: Windows 10+, Visual Studio 2022, CMake 3.20+ (SDL2 is bundled)
 
+```bash
+git clone https://github.com/mstan/FaxanaduRecomp
+cd FaxanaduRecomp
+
+# Windows
+setup.bat
+
+# Linux / macOS
+chmod +x setup.sh && ./setup.sh
 ```
-git clone --recurse-submodules https://github.com/mstan/FaxanaduRecomp
+
+This clones [nesrecomp](https://github.com/mstan/nesrecomp) at the exact
+version pinned in `nesrecomp.pin` and links the Nestopia oracle core.
+
+Then build:
+
+```bash
 cmake -S . -B build -G "Visual Studio 17 2022" -A x64
 cmake --build build --config Release
 ```

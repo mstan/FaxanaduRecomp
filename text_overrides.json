@@ -1,4 +1,5 @@
 [
   { "bank": 12, "addr": "9DBD", "encoding": "FAXANADU_1", "source": "START",    "replacement": "BEGIN"    },
-  { "bank": 12, "addr": "9DC3", "encoding": "FAXANADU_1", "source": "CONTINUE", "replacement": "PASSWORD" }
+  { "bank": 12, "addr": "9DC3", "encoding": "FAXANADU_1", "source": "CONTINUE", "replacement": "PASSWORD" },
+  { "bank": 13, "addr": "87FB", "encoding": "FAXANADU_DIALOGUE", "source": "I've been on a long journey...", "replacement": "I've been on a long quest.\nI came back to my home town to find it is almost deserted.\nThe gate is closed, people are gone,\nand the walls are crumbling.\nI wonder what happened." }
 ]

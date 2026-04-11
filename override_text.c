@@ -63,6 +63,7 @@ static int          s_num_overrides = 0;
 typedef struct {
     char           name[32];
     tile_encode_fn fn;
+    uint8_t        terminator;
 } EncEntry;
 
 static EncEntry s_encodings[TEXT_OVERRIDE_MAX_ENC];
@@ -93,7 +94,8 @@ void text_override_init(void) {
  * Encoding registry
  * ====================================================================== */
 
-void text_override_register_encoding(const char *name, tile_encode_fn fn) {
+void text_override_register_encoding(const char *name, tile_encode_fn fn,
+                                      uint8_t terminator) {
     if (s_num_encodings >= TEXT_OVERRIDE_MAX_ENC) {
         fprintf(stderr, "[TextOverride] encoding table full\n");
         return;
@@ -102,6 +104,7 @@ void text_override_register_encoding(const char *name, tile_encode_fn fn) {
     strncpy(e->name, name, sizeof(e->name) - 1);
     e->name[sizeof(e->name) - 1] = '\0';
     e->fn = fn;
+    e->terminator = terminator;
 }
 
 tile_encode_fn text_override_find_encoding(const char *name) {
@@ -110,6 +113,15 @@ tile_encode_fn text_override_find_encoding(const char *name) {
             return s_encodings[i].fn;
     }
     return NULL;
+}
+
+/* Look up a registered encoding's terminator byte. Returns 0x00 if not found. */
+static uint8_t find_terminator(const char *name) {
+    for (int i = 0; i < s_num_encodings; i++) {
+        if (strcmp(s_encodings[i].name, name) == 0)
+            return s_encodings[i].terminator;
+    }
+    return 0x00;
 }
 
 /* ======================================================================
@@ -140,8 +152,8 @@ void text_override_patch_prg(int bank, uint16_t prg_addr,
 
 int text_override_patch_prg_ascii(int bank, uint16_t prg_addr,
                                    const char *replacement,
-                                   tile_encode_fn encode) {
-    /* +1 for the null terminator we always append. */
+                                   tile_encode_fn encode, uint8_t terminator) {
+    /* +1 for the terminator byte we always append. */
     uint8_t buf[TEXT_OVERRIDE_MAX_LEN + 1];
     int     rep_len = 0;
 
@@ -153,24 +165,24 @@ int text_override_patch_prg_ascii(int bank, uint16_t prg_addr,
     }
     if (rep_len == 0) return 0;
 
-    buf[rep_len] = 0x00;  /* implicit null terminator */
+    buf[rep_len] = terminator;  /* encoding-specific terminator */
 
 #ifndef NDEBUG
     /* Warn if replacement is longer than what was stored at this address.
-     * The renderer stops at null so this is safe, but adjacent shadow data
-     * will be overwritten — flag it so the modder knows. */
+     * The renderer stops at the terminator so this is safe, but adjacent
+     * shadow data will be overwritten — flag it so the modder knows. */
     {
         uint8_t *bank_ptr = runner_get_prg_bank_rw(bank);
         if (bank_ptr && prg_addr >= 0x8000 && prg_addr <= 0xBFFF) {
             int offset   = prg_addr - 0x8000;
             int src_len  = 0;
             while (src_len < TEXT_OVERRIDE_MAX_LEN && offset + src_len < 0x4000
-                   && bank_ptr[offset + src_len] != 0x00)
+                   && bank_ptr[offset + src_len] != terminator)
                 src_len++;
             if (rep_len > src_len)
                 fprintf(stderr,
                     "[TextOverride] WARN bank%d $%04X: replacement len %d > source len %d"
-                    " — adjacent data will be overwritten\n",
+                    " -- adjacent data will be overwritten\n",
                     bank, prg_addr, rep_len, src_len);
         }
     }
@@ -184,8 +196,8 @@ int text_override_patch_prg_ascii(int bank, uint16_t prg_addr,
 
 int text_override_patch_prg_auto(int bank, uint16_t prg_addr,
                                   const char *replacement,
-                                  tile_encode_fn encode) {
-    return text_override_patch_prg_ascii(bank, prg_addr, replacement, encode);
+                                  tile_encode_fn encode, uint8_t terminator) {
+    return text_override_patch_prg_ascii(bank, prg_addr, replacement, encode, terminator);
 }
 
 /* ======================================================================
@@ -207,7 +219,19 @@ static const char *json_read_str(const char *p, char *buf, int buflen) {
         if (*p == '\\') {
             p++;
             if (!*p) return NULL;
-            /* Minimal escaping: just emit the next character as-is. */
+            char ch = *p;
+            switch (ch) {
+                case 'n':  ch = '\n'; break;
+                case 'r':  ch = '\r'; break;
+                case 't':  ch = '\t'; break;
+                case '\\': ch = '\\'; break;
+                case '"':  ch = '"';  break;
+                case '/':  ch = '/';  break;
+                default:   break;  /* emit as-is for unknown escapes */
+            }
+            if (i < buflen - 1) buf[i++] = ch;
+            p++;
+            continue;
         }
         if (i < buflen - 1) buf[i++] = *p;
         p++;
@@ -338,13 +362,18 @@ static int json_parse_entry(const char **pp) {
         return 0;
     }
 
+    /* Empty replacement = skip this entry (template placeholder). */
+    if (replacement[0] == '\0')
+        return 0;
+
     tile_encode_fn encode = text_override_find_encoding(enc_name);
     if (!encode) {
         fprintf(stderr, "[TextOverride] JSON: unknown encoding \"%s\"\n", enc_name);
         return 0;
     }
+    uint8_t terminator = find_terminator(enc_name);
 
-    if (!text_override_patch_prg_auto(bank, addr, replacement, encode)) {
+    if (!text_override_patch_prg_auto(bank, addr, replacement, encode, terminator)) {
         fprintf(stderr, "[TextOverride] JSON: patch failed bank%d $%04X \"%s\"\n",
                 bank, addr, replacement);
         return 0;
