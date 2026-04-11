@@ -89,6 +89,7 @@ find_package(SDL2 REQUIRED)
 add_executable(FaxanaduRecomp
     ${NESRECOMP_RUNNER_SOURCES}
     extras.c
+    override_text.c   # optional text override plugin — game-specific strings in extras.c
     recomp_stack.c
     nes_snapshot.c
     verify_mode.c

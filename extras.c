@@ -11,6 +11,7 @@
 #include "debug_server.h"
 #include "verify_mode.h"
 #include "input_script.h"
+#include "override_text.h"
 #ifdef ENABLE_NESTOPIA_ORACLE
 #include "nestopia_bridge.h"
 #endif
@@ -47,6 +48,35 @@ static int s_tcp_port = 4370;
 
 /* ROM path exposed by runner for verify mode init */
 const char *g_rom_path_for_extras = NULL;
+
+/* ---- Text override: Faxanadu tile encoding (A=0xE0, space=0x20) ----
+ * Used for title/menu text.  Dialogue text in bank12/13 uses raw ASCII. */
+static uint8_t fax_tile_encode(char ch) {
+    if (ch >= 'A' && ch <= 'Z') return (uint8_t)(0xE0 + (ch - 'A'));
+    if (ch == ' ')               return 0x20;
+    return 0xFF;  /* unencodable */
+}
+
+static void text_override_setup(void) {
+    text_override_init();
+
+    /* Title screen menu text lives in bank12 PRG ROM and is rendered via
+     * direct $2007 PPU writes (not the $0500 DMA buffer).  Patch the source
+     * bytes in the ROM shadow so every rendering path sees the override
+     * automatically — no caller knowledge required.
+     *
+     * bank12 layout (A=0xE0 tile encoding, null-terminated):
+     *   $9DBD: "START"    (5 bytes + $00)
+     *   $9DC3: "CONTINUE" (8 bytes + $00)
+     *
+     * Replacement strings are encoded with fax_tile_encode then written
+     * into the PRG shadow at the same addresses.  Shorter strings are
+     * null-terminated; remaining bytes are padded with space tile. */
+    text_override_patch_prg_ascii(12, 0x9DBD, 5, "BEGIN",    fax_tile_encode);
+    text_override_patch_prg_ascii(12, 0x9DC3, 8, "PASSWORD", fax_tile_encode);
+
+    printf("[TextOverride] PRG patched: START→BEGIN, CONTINUE→PASSWORD (bank12)\n");
+}
 
 /* ---- Password state ---- */
 static const char *s_password          = NULL;
@@ -181,6 +211,7 @@ uint32_t game_get_expected_crc32(void) { return 0x57DD23D1u; }
 const char *game_get_name(void) { return "Faxanadu"; }
 
 void game_on_init(void) {
+    text_override_setup();
     s_debug_enabled = check_debug_ini();
 
     if (s_debug_enabled) {
@@ -216,6 +247,9 @@ void game_on_frame(uint64_t frame_count) {
         if (ovr >= 0)
             g_controller1_buttons = (uint8_t)ovr;
     }
+
+    /* Apply PPU DMA buffer overrides (for $0500-path text, e.g. dialogue). */
+    text_override_apply();
 
     maybe_inject_password();
 }
