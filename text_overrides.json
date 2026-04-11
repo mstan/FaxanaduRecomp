@@ -1,0 +1,4 @@
+[
+  { "bank": 12, "addr": "9DBD", "encoding": "FAXANADU_1", "source": "START",    "replacement": "BEGIN"    },
+  { "bank": 12, "addr": "9DC3", "encoding": "FAXANADU_1", "source": "CONTINUE", "replacement": "PASSWORD" }
+]

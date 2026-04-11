@@ -57,25 +57,21 @@ static uint8_t fax_tile_encode(char ch) {
     return 0xFF;  /* unencodable */
 }
 
+/* Path to the JSON override table.  Default = CWD-relative so the file lives
+ * wherever the user launches the game from.  Override with --text-overrides. */
+static char s_text_overrides_path[512] = "text_overrides.json";
+
 static void text_override_setup(void) {
     text_override_init();
 
-    /* Title screen menu text lives in bank12 PRG ROM and is rendered via
-     * direct $2007 PPU writes (not the $0500 DMA buffer).  Patch the source
-     * bytes in the ROM shadow so every rendering path sees the override
-     * automatically — no caller knowledge required.
-     *
-     * bank12 layout (A=0xE0 tile encoding, null-terminated):
-     *   $9DBD: "START"    (5 bytes + $00)
-     *   $9DC3: "CONTINUE" (8 bytes + $00)
-     *
-     * Replacement strings are encoded with fax_tile_encode then written
-     * into the PRG shadow at the same addresses.  Shorter strings are
-     * null-terminated; remaining bytes are padded with space tile. */
-    text_override_patch_prg_ascii(12, 0x9DBD, 5, "BEGIN",    fax_tile_encode);
-    text_override_patch_prg_ascii(12, 0x9DC3, 8, "PASSWORD", fax_tile_encode);
+    /* Register Faxanadu menu tile encoding (A=0xE0, space=0x20).
+     * Used for bank12 title/menu text rendered via direct $2007 PPU writes.
+     * Add more encoders here for other text regions (e.g. "fax_dialogue"). */
+    text_override_register_encoding("FAXANADU_1", fax_tile_encode);
 
-    printf("[TextOverride] PRG patched: START→BEGIN, CONTINUE→PASSWORD (bank12)\n");
+    /* Load overrides from the JSON table (CWD by default, see --text-overrides).
+     * Edit that file while the game runs; changes hot-reload within ~1 second. */
+    text_override_load_json(s_text_overrides_path);
 }
 
 /* ---- Password state ---- */
@@ -248,6 +244,9 @@ void game_on_frame(uint64_t frame_count) {
             g_controller1_buttons = (uint8_t)ovr;
     }
 
+    /* Hot-reload text_overrides.json if the file changed on disk (~1 s polling). */
+    text_override_reload_if_changed();
+
     /* Apply PPU DMA buffer overrides (for $0500-path text, e.g. dialogue). */
     text_override_apply();
 
@@ -263,6 +262,12 @@ void game_post_nmi(uint64_t frame_count) {
 }
 
 int game_handle_arg(const char *key, const char *val) {
+    if (strcmp(key, "--text-overrides") == 0 && val) {
+        strncpy(s_text_overrides_path, val, sizeof(s_text_overrides_path) - 1);
+        s_text_overrides_path[sizeof(s_text_overrides_path) - 1] = '\0';
+        printf("[TextOverride] Override path set to \"%s\"\n", val);
+        return 1;
+    }
     if (strcmp(key, "--password") == 0 && val) {
         s_password = val;
         s_password_from_cli = 1;
@@ -288,7 +293,8 @@ int game_handle_arg(const char *key, const char *val) {
 }
 
 const char *game_arg_usage(void) {
-    return "  --password STRING   Auto-fill Faxanadu mantra on password screen\n"
+    return "  --text-overrides PATH  Path to text_overrides.json (default: ./text_overrides.json)\n"
+           "  --password STRING   Auto-fill Faxanadu mantra on password screen\n"
            "  --tcp-port PORT     TCP debug server port (default 4370)\n"
            "  --verify            Enable dual-execution verify mode (FCEUX oracle)\n"
            "  --emulated          Run purely via FCEUX emulator (no recompiled code)\n";
