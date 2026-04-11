@@ -197,9 +197,11 @@ populated and `replacement` empty.
 python tools/scan_text.py [ROM] [OUTPUT] [--min-len N] [--banks 12,13]
 ```
 
-### `tools/faxanadu_all_text.json`
+### `tools/text_overrides.json`
 
 Pre-generated template containing all 199 verified text strings:
 5 menu strings (FAXANADU_1), 1 Mantra screen block (ASCII), and
-193 NPC dialogue entries (FAXANADU_DIALOGUE). Fill in `replacement`
-fields for strings you want to change.
+193 NPC dialogue entries (FAXANADU_DIALOGUE). All `replacement` fields
+are empty — fill in the ones you want to change, then copy the file
+next to `FaxanaduRecomp.exe`. That is the exact filename the game looks
+for by default.
