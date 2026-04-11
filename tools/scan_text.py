@@ -1,25 +1,29 @@
 #!/usr/bin/env python3
 """
-scan_text.py — Scan a Faxanadu PRG ROM for null-terminated text strings.
+scan_text.py — Scan a Faxanadu PRG ROM for text strings and emit a text_overrides.json template.
 
-Emits a text_overrides.json template.  Every detected string gets an entry
-with "source" populated and "replacement" left empty.  Fill in replacements
-for strings you want to override; entries with empty replacement are ignored
-by the loader.
+Every detected string gets an entry with "source" populated and "replacement" left empty.
+Fill in replacements for strings you want to override; entries with empty replacement
+are ignored by the loader.
 
-The scan algorithm is generic: it slides a window over each PRG bank, tries
-each configured encoding at each byte offset, and emits any run of valid
-tile bytes followed by a null terminator that meets the minimum length.
-
-Encodings defined here are Faxanadu-specific.  To use with another game,
-add its tile-map to ENCODINGS below.
+Encodings
+---------
+FAXANADU_1        bank12 menu/title text.  A=0xE0, space=0x20.  Null-terminated (0x00).
+ASCII             Null-terminated plain ASCII.  Mostly false positives outside known regions.
+FAXANADU_DIALOGUE bank13 NPC dialogue.  Plain ASCII letters/punctuation plus control bytes:
+                    0xFD = word space
+                    0xFE = space variant (word-wrap budget differs from 0xFD)
+                    0xFC = line break within the same dialogue box
+                  Entries are 0xFF-terminated.  Each 0xFF ends one NPC line/exchange.
+                  source field renders control bytes as readable characters:
+                    0xFD / 0xFE -> space,  0xFC -> \\n
 
 Usage:
     python tools/scan_text.py [ROM] [OUTPUT] [--min-len N] [--banks 12,13]
 
     ROM      Path to iNES ROM file  (default: baserom.nes)
     OUTPUT   Output JSON path       (default: text_overrides_full.json)
-    --min-len N     Minimum string length to record  (default: 4)
+    --min-len N     Minimum string character count to record  (default: 4)
     --banks A,B,…   Comma-separated bank numbers to scan  (default: all)
 
 Examples:
@@ -38,23 +42,24 @@ PRG_BANK_SIZE    = 0x4000   # 16 KB per bank
 NES_BANK_BASE    = 0x8000   # switchable banks mapped here at runtime
 
 # ---------------------------------------------------------------------------
-# Encoding tables: tile_byte → printable char.
-# 0x00 is the null terminator and must NOT appear in these maps.
+# Encoding definitions.
+# Each entry: (name, tile_map, terminator)
+#   tile_map:   byte -> display char.  Bytes not in the map break a string.
+#   terminator: byte that ends a string (not included in output).
 # ---------------------------------------------------------------------------
 
-ENCODINGS = [
-    # Faxanadu menu/title text (bank12 $9DBD area).
-    # A=0xE0, B=0xE1, … Z=0xF9, space=0x20.
-    ("FAXANADU_1", {
-        **{0xE0 + i: chr(ord('A') + i) for i in range(26)},
-        0x20: ' ',
-    }),
+# Faxanadu dialogue tile map: printable ASCII + control tokens.
+_DIALOGUE_MAP = {i: chr(i) for i in range(0x21, 0x7F)}  # '!' through '~'
+_DIALOGUE_MAP[0x20] = ' '   # regular space (rare in dialogue, but valid)
+_DIALOGUE_MAP[0xFC] = '\n'  # line break within dialogue box
+_DIALOGUE_MAP[0xFD] = ' '   # word space (primary)
+_DIALOGUE_MAP[0xFE] = ' '   # space variant
 
-    # Faxanadu dialogue text (banks 12–13).
-    # Standard printable ASCII, null-terminated.
-    ("ASCII", {
-        i: chr(i) for i in range(0x20, 0x7F)
-    }),
+ENCODINGS = [
+    # (name,                tile_map,                                              terminator)
+    ("FAXANADU_1",         {**{0xE0+i: chr(ord('A')+i) for i in range(26)}, 0x20:' '}, 0x00),
+    ("ASCII",              {i: chr(i) for i in range(0x20, 0x7F)},                     0x00),
+    ("FAXANADU_DIALOGUE",  _DIALOGUE_MAP,                                               0xFF),
 ]
 
 
@@ -62,10 +67,11 @@ ENCODINGS = [
 # Scanner
 # ---------------------------------------------------------------------------
 
-def scan_bank(bank_data, bank_num, enc_name, tile_map, min_len):
+def scan_bank(bank_data, bank_num, enc_name, tile_map, terminator, min_len):
     """
-    Slide over bank_data looking for null-terminated strings that consist
-    entirely of bytes present in tile_map.  Returns a list of entry dicts.
+    Slide over bank_data looking for strings that consist entirely of bytes
+    present in tile_map, terminated by `terminator`.
+    Returns a list of entry dicts.
     """
     results = []
     size    = len(bank_data)
@@ -77,17 +83,20 @@ def scan_bank(bank_data, bank_num, enc_name, tile_map, min_len):
 
         while pos < size:
             b = bank_data[pos]
-            if b == 0x00:
-                break           # null terminator — end of candidate string
+            if b == terminator:
+                break
             if b not in tile_map:
-                break           # byte not in this encoding — not a match
+                break
             chars.append(tile_map[b])
             pos += 1
 
         length = len(chars)
-        hit    = (length >= min_len
-                  and pos < size
-                  and bank_data[pos] == 0x00)
+        # Strip leading/trailing whitespace from source for length check,
+        # but keep the full string for the output.
+        hit = (length >= min_len
+               and pos < size
+               and bank_data[pos] == terminator
+               and ''.join(chars).strip())  # must have non-whitespace content
 
         if hit:
             nes_addr = NES_BANK_BASE + offset
@@ -95,10 +104,10 @@ def scan_bank(bank_data, bank_num, enc_name, tile_map, min_len):
                 "bank":        bank_num,
                 "addr":        f"{nes_addr:04X}",
                 "encoding":    enc_name,
-                "source":      ''.join(chars),
+                "source":      ''.join(chars).strip(),
                 "replacement": "",
             })
-            offset = pos + 1    # skip past null, no overlapping matches
+            offset = pos + 1    # skip past terminator, no overlapping matches
         else:
             offset += 1
 
@@ -115,7 +124,7 @@ def main():
     min_len     = 4
     bank_filter = None  # None = all banks
 
-    args      = sys.argv[1:]
+    args       = sys.argv[1:]
     positional = 0
     i          = 0
     while i < len(args):
@@ -159,10 +168,10 @@ def main():
         bank_offset = INES_HEADER_SIZE + bank_num * PRG_BANK_SIZE
         bank_data   = rom[bank_offset : bank_offset + PRG_BANK_SIZE]
 
-        for enc_name, tile_map in ENCODINGS:
-            found = scan_bank(bank_data, bank_num, enc_name, tile_map, min_len)
+        for enc_name, tile_map, terminator in ENCODINGS:
+            found = scan_bank(bank_data, bank_num, enc_name, tile_map, terminator, min_len)
             if found:
-                print(f"  bank {bank_num:2d}  {enc_name:<12s}  {len(found):4d} strings")
+                print(f"  bank {bank_num:2d}  {enc_name:<20s}  {len(found):4d} strings")
             entries.extend(found)
 
     # Sort by bank, then by NES address within the bank

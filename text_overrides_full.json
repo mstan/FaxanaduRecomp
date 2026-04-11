@@ -28,6 +28,13 @@
     "replacement": ""
   },
   {
+    "bank": 1,
+    "addr": "AD70",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "rG$rL",
+    "replacement": ""
+  },
+  {
     "bank": 2,
     "addr": "A463",
     "encoding": "ASCII",
@@ -39,6 +46,41 @@
     "addr": "8428",
     "encoding": "ASCII",
     "source": "UUUUU",
+    "replacement": ""
+  },
+  {
+    "bank": 3,
+    "addr": "8812",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": ".3)-/4*.05+/16,027",
+    "replacement": ""
+  },
+  {
+    "bank": 3,
+    "addr": "882C",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "-359.46:/57;068<17",
+    "replacement": ""
+  },
+  {
+    "bank": 3,
+    "addr": "8CE9",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "/&(",
+    "replacement": ""
+  },
+  {
+    "bank": 3,
+    "addr": "8D23",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "60;571<682=793",
+    "replacement": ""
+  },
+  {
+    "bank": 3,
+    "addr": "8D3E",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": ";=6><",
     "replacement": ""
   },
   {
@@ -57,6 +99,13 @@
   },
   {
     "bank": 3,
+    "addr": "8EBE",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "UUUUU",
+    "replacement": ""
+  },
+  {
+    "bank": 3,
     "addr": "8ECF",
     "encoding": "ASCII",
     "source": "UUUUUUUU",
@@ -67,6 +116,13 @@
     "addr": "9209",
     "encoding": "ASCII",
     "source": "UUUUUUUUU",
+    "replacement": ""
+  },
+  {
+    "bank": 3,
+    "addr": "9257",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "UUUUUUU",
     "replacement": ""
   },
   {
@@ -91,6 +147,34 @@
     "replacement": ""
   },
   {
+    "bank": 3,
+    "addr": "9C93",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "UUUU",
+    "replacement": ""
+  },
+  {
+    "bank": 3,
+    "addr": "9CA6",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "UUUU",
+    "replacement": ""
+  },
+  {
+    "bank": 3,
+    "addr": "9CAD",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "UUUU",
+    "replacement": ""
+  },
+  {
+    "bank": 3,
+    "addr": "9CEA",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "UUUUUUUU",
+    "replacement": ""
+  },
+  {
     "bank": 4,
     "addr": "8209",
     "encoding": "ASCII",
@@ -102,6 +186,27 @@
     "addr": "85A7",
     "encoding": "FAXANADU_1",
     "source": "KIII",
+    "replacement": ""
+  },
+  {
+    "bank": 4,
+    "addr": "8B79",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "UMMD|",
+    "replacement": ""
+  },
+  {
+    "bank": 4,
+    "addr": "8EBA",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "pxxxxx",
+    "replacement": ""
+  },
+  {
+    "bank": 4,
+    "addr": "8FBC",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "@|x|",
     "replacement": ""
   },
   {
@@ -141,9 +246,16 @@
   },
   {
     "bank": 4,
+    "addr": "9B79",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "UMMD|",
+    "replacement": ""
+  },
+  {
+    "bank": 4,
     "addr": "9EE8",
     "encoding": "ASCII",
-    "source": "  \"\" ",
+    "source": "\"\"",
     "replacement": ""
   },
   {
@@ -162,6 +274,13 @@
   },
   {
     "bank": 4,
+    "addr": "A56C",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "t 08",
+    "replacement": ""
+  },
+  {
+    "bank": 4,
     "addr": "A5BD",
     "encoding": "ASCII",
     "source": "|||0",
@@ -171,7 +290,7 @@
     "bank": 4,
     "addr": "A841",
     "encoding": "ASCII",
-    "source": " o_RLYQ",
+    "source": "o_RLYQ",
     "replacement": ""
   },
   {
@@ -179,6 +298,13 @@
     "addr": "A84B",
     "encoding": "ASCII",
     "source": "?????",
+    "replacement": ""
+  },
+  {
+    "bank": 4,
+    "addr": "A8AA",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "@@@@@@",
     "replacement": ""
   },
   {
@@ -192,7 +318,7 @@
     "bank": 4,
     "addr": "A980",
     "encoding": "ASCII",
-    "source": "?;5+0+5 ",
+    "source": "?;5+0+5",
     "replacement": ""
   },
   {
@@ -207,6 +333,13 @@
     "addr": "A9DA",
     "encoding": "ASCII",
     "source": "9qw?",
+    "replacement": ""
+  },
+  {
+    "bank": 4,
+    "addr": "AA7A",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "@@@@@@",
     "replacement": ""
   },
   {
@@ -246,6 +379,13 @@
   },
   {
     "bank": 4,
+    "addr": "AE50",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "dddd",
+    "replacement": ""
+  },
+  {
+    "bank": 4,
     "addr": "AE58",
     "encoding": "ASCII",
     "source": "8888",
@@ -269,21 +409,7 @@
     "bank": 4,
     "addr": "AF51",
     "encoding": "ASCII",
-    "source": "   `@``",
-    "replacement": ""
-  },
-  {
-    "bank": 4,
-    "addr": "AF61",
-    "encoding": "FAXANADU_1",
-    "source": "       ",
-    "replacement": ""
-  },
-  {
-    "bank": 4,
-    "addr": "AF61",
-    "encoding": "ASCII",
-    "source": "       ",
+    "source": "`@``",
     "replacement": ""
   },
   {
@@ -305,6 +431,13 @@
     "addr": "B077",
     "encoding": "ASCII",
     "source": "'$445444",
+    "replacement": ""
+  },
+  {
+    "bank": 4,
+    "addr": "B088",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "---\n--=",
     "replacement": ""
   },
   {
@@ -346,7 +479,14 @@
     "bank": 4,
     "addr": "B591",
     "encoding": "ASCII",
-    "source": "\"``b # ",
+    "source": "\"``b #",
+    "replacement": ""
+  },
+  {
+    "bank": 4,
+    "addr": "B5B3",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "`ohkj",
     "replacement": ""
   },
   {
@@ -361,6 +501,13 @@
     "addr": "B9CB",
     "encoding": "FAXANADU_1",
     "source": "QQQI",
+    "replacement": ""
+  },
+  {
+    "bank": 4,
+    "addr": "B9EF",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "0*Phpp4hj",
     "replacement": ""
   },
   {
@@ -382,6 +529,41 @@
     "addr": "BC20",
     "encoding": "ASCII",
     "source": "E(DH",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "8723",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "`bN<PHeQHVR_XeMU",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "87AF",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": ")+,-*",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "8918",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "?CJU[`",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "8A77",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "@`7924",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "8E66",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "$'+0HKOT3DRWW\\b",
     "replacement": ""
   },
   {
@@ -606,6 +788,13 @@
     "addr": "9B9A",
     "encoding": "ASCII",
     "source": "15:==:5",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "9D8C",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "&),4,)&)&),4,)&)+.191.+.+.191.+%",
     "replacement": ""
   },
   {
@@ -1163,6 +1352,13 @@
   },
   {
     "bank": 6,
+    "addr": "85A4",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "]/",
+    "replacement": ""
+  },
+  {
+    "bank": 6,
     "addr": "85B7",
     "encoding": "ASCII",
     "source": "=yrw#",
@@ -1184,9 +1380,30 @@
   },
   {
     "bank": 6,
+    "addr": "8933",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "{{}",
+    "replacement": ""
+  },
+  {
+    "bank": 6,
     "addr": "89F6",
     "encoding": "ASCII",
     "source": "8lv7",
+    "replacement": ""
+  },
+  {
+    "bank": 6,
+    "addr": "8D81",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "R8",
+    "replacement": ""
+  },
+  {
+    "bank": 6,
+    "addr": "8DED",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "~",
     "replacement": ""
   },
   {
@@ -1200,14 +1417,14 @@
     "bank": 6,
     "addr": "8EAC",
     "encoding": "ASCII",
-    "source": " `@ ",
+    "source": "`@",
     "replacement": ""
   },
   {
     "bank": 6,
     "addr": "8F2B",
     "encoding": "ASCII",
-    "source": " `@ ",
+    "source": "`@",
     "replacement": ""
   },
   {
@@ -1235,7 +1452,7 @@
     "bank": 6,
     "addr": "976A",
     "encoding": "ASCII",
-    "source": "t.. ",
+    "source": "t..",
     "replacement": ""
   },
   {
@@ -1263,7 +1480,7 @@
     "bank": 6,
     "addr": "A29E",
     "encoding": "ASCII",
-    "source": " @@ ",
+    "source": "@@",
     "replacement": ""
   },
   {
@@ -1275,16 +1492,9 @@
   },
   {
     "bank": 6,
-    "addr": "A3AA",
-    "encoding": "FAXANADU_1",
-    "source": "    ",
-    "replacement": ""
-  },
-  {
-    "bank": 6,
-    "addr": "A3AA",
-    "encoding": "ASCII",
-    "source": "    ",
+    "addr": "A363",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "6p_?",
     "replacement": ""
   },
   {
@@ -1299,6 +1509,20 @@
     "addr": "A63C",
     "encoding": "ASCII",
     "source": "~?10~q",
+    "replacement": ""
+  },
+  {
+    "bank": 6,
+    "addr": "A685",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "Ng7y",
+    "replacement": ""
+  },
+  {
+    "bank": 6,
+    "addr": "AC67",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "\\lj",
     "replacement": ""
   },
   {
@@ -1334,6 +1558,20 @@
     "addr": "B526",
     "encoding": "ASCII",
     "source": "G_?!",
+    "replacement": ""
+  },
+  {
+    "bank": 6,
+    "addr": "B7DC",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "?>~  \n~",
+    "replacement": ""
+  },
+  {
+    "bank": 6,
+    "addr": "B84A",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "xp@8\n|\nn",
     "replacement": ""
   },
   {
@@ -1396,7 +1634,7 @@
     "bank": 7,
     "addr": "8F4E",
     "encoding": "ASCII",
-    "source": "  ! ",
+    "source": "!",
     "replacement": ""
   },
   {
@@ -1445,14 +1683,14 @@
     "bank": 8,
     "addr": "81AE",
     "encoding": "ASCII",
-    "source": " 08*~<",
+    "source": "08*~<",
     "replacement": ""
   },
   {
     "bank": 8,
     "addr": "822D",
     "encoding": "ASCII",
-    "source": " 08*~<8",
+    "source": "08*~<8",
     "replacement": ""
   },
   {
@@ -1494,14 +1732,14 @@
     "bank": 8,
     "addr": "873F",
     "encoding": "ASCII",
-    "source": "  _K",
+    "source": "_K",
     "replacement": ""
   },
   {
     "bank": 8,
     "addr": "884C",
     "encoding": "ASCII",
-    "source": " @ppp",
+    "source": "@ppp",
     "replacement": ""
   },
   {
@@ -1548,9 +1786,23 @@
   },
   {
     "bank": 8,
+    "addr": "8E08",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "nmk&x",
+    "replacement": ""
+  },
+  {
+    "bank": 8,
     "addr": "8E28",
     "encoding": "ASCII",
     "source": "xw65",
+    "replacement": ""
+  },
+  {
+    "bank": 8,
+    "addr": "8EE8",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "xps3x",
     "replacement": ""
   },
   {
@@ -1579,6 +1831,13 @@
     "addr": "915A",
     "encoding": "ASCII",
     "source": "`@pppp``@",
+    "replacement": ""
+  },
+  {
+    "bank": 8,
+    "addr": "9325",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "LgNOPYZ",
     "replacement": ""
   },
   {
@@ -1627,7 +1886,7 @@
     "bank": 8,
     "addr": "9E4B",
     "encoding": "ASCII",
-    "source": " 8 8 :0",
+    "source": "8 8 :0",
     "replacement": ""
   },
   {
@@ -1635,6 +1894,13 @@
     "addr": "9ED6",
     "encoding": "ASCII",
     "source": "?<xwo",
+    "replacement": ""
+  },
+  {
+    "bank": 8,
+    "addr": "9FEF",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "A1!'x",
     "replacement": ""
   },
   {
@@ -1683,7 +1949,7 @@
     "bank": 10,
     "addr": "86C8",
     "encoding": "ASCII",
-    "source": " \"  ??",
+    "source": "\"  ??",
     "replacement": ""
   },
   {
@@ -1704,7 +1970,7 @@
     "bank": 10,
     "addr": "88D9",
     "encoding": "ASCII",
-    "source": "@     (H ",
+    "source": "@     (H",
     "replacement": ""
   },
   {
@@ -1737,9 +2003,30 @@
   },
   {
     "bank": 10,
+    "addr": "9378",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "```00000",
+    "replacement": ""
+  },
+  {
+    "bank": 10,
+    "addr": "9448",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "ggmM[[sb",
+    "replacement": ""
+  },
+  {
+    "bank": 10,
     "addr": "96D2",
     "encoding": "FAXANADU_1",
     "source": "GHTZ",
+    "replacement": ""
+  },
+  {
+    "bank": 10,
+    "addr": "9994",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "B`d`",
     "replacement": ""
   },
   {
@@ -1816,7 +2103,7 @@
     "bank": 10,
     "addr": "A238",
     "encoding": "ASCII",
-    "source": "  ```p ",
+    "source": "```p",
     "replacement": ""
   },
   {
@@ -1842,6 +2129,13 @@
   },
   {
     "bank": 10,
+    "addr": "A798",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "<>><.>>",
+    "replacement": ""
+  },
+  {
+    "bank": 10,
     "addr": "A868",
     "encoding": "ASCII",
     "source": "8<<8<<8<",
@@ -1862,6 +2156,97 @@
     "replacement": ""
   },
   {
+    "bank": 10,
+    "addr": "B51E",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "!\"#$%,-./0123456789:;<=>?@ABC",
+    "replacement": ""
+  },
+  {
+    "bank": 11,
+    "addr": "8331",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "GRG^",
+    "replacement": ""
+  },
+  {
+    "bank": 11,
+    "addr": "833B",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "GXG]",
+    "replacement": ""
+  },
+  {
+    "bank": 11,
+    "addr": "837F",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "GUH1",
+    "replacement": ""
+  },
+  {
+    "bank": 11,
+    "addr": "83DB",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": ";Kb8",
+    "replacement": ""
+  },
+  {
+    "bank": 11,
+    "addr": "840A",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "GjGS",
+    "replacement": ""
+  },
+  {
+    "bank": 11,
+    "addr": "846A",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "\\=1,",
+    "replacement": ""
+  },
+  {
+    "bank": 11,
+    "addr": "8636",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "&}&u",
+    "replacement": ""
+  },
+  {
+    "bank": 11,
+    "addr": "86F8",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "5 <",
+    "replacement": ""
+  },
+  {
+    "bank": 11,
+    "addr": "87B0",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "`M Z",
+    "replacement": ""
+  },
+  {
+    "bank": 11,
+    "addr": "87DE",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "L}(m(r",
+    "replacement": ""
+  },
+  {
+    "bank": 11,
+    "addr": "8868",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "!-!f",
+    "replacement": ""
+  },
+  {
+    "bank": 11,
+    "addr": "8964",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": ".jV2",
+    "replacement": ""
+  },
+  {
     "bank": 12,
     "addr": "80F4",
     "encoding": "ASCII",
@@ -1879,14 +2264,21 @@
     "bank": 12,
     "addr": "91BE",
     "encoding": "ASCII",
-    "source": "Mantra is in the wrong.                         Enter your mantra.   ",
+    "source": "Mantra is in the wrong.                         Enter your mantra.",
+    "replacement": ""
+  },
+  {
+    "bank": 12,
+    "addr": "945C",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "!\"#$%&'()*+,-./0123456789:;<=>?",
     "replacement": ""
   },
   {
     "bank": 12,
     "addr": "9DBC",
     "encoding": "FAXANADU_1",
-    "source": " START",
+    "source": "START",
     "replacement": ""
   },
   {
@@ -1900,7 +2292,7 @@
     "bank": 12,
     "addr": "9DD2",
     "encoding": "FAXANADU_1",
-    "source": " HUDSON SOFT",
+    "source": "HUDSON SOFT",
     "replacement": ""
   },
   {
@@ -2031,6 +2423,1357 @@
   },
   {
     "bank": 13,
+    "addr": "8300",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "Hello. Could I help youwith anything.\nWhat would you like?",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "833B",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "Thank you for shopping.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "8353",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "This is not enough Golds.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "836D",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "Anything else?",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "837C",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "Come back again.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "838D",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "You can't carry any more.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "83A7",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "Dried meat to bring energy for 50 Golds.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "83D0",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "Dried meat to bring energy for 150 Golds.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "83FA",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "Dried meat to bring energy for 180 Golds.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "8424",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "Dried meat to bring energy for 250 Golds.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "844E",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "Dried meat to bring energy for 350 Golds.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "8478",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "Dried meat to bring energy for 500 Golds.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "84A2",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "Dried meat to bring energy for 800 Golds.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "84CC",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "Hello. I sell keys. What would you like?",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "84F5",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "Hello. I sell tools. What would you like?",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "851F",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "Come here to buy. Come here to sell.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "8544",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "You don't have a key.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "855A",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "You have nothing to buy.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "8573",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "Which one would like to sell?",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "8591",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "What would you like?",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "85A6",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "I shall give magic for 200 Golds.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "85C8",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "Watch your remaining power level.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "85EA",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "Do you know the magic of fire? I'll teach you for 3000 Golds.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "8628",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "Don't rely too much on magic.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "8646",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "Do you want a martial art lesson for 200 Golds?",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "8676",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "Do you want a treatment?",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "868F",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "Don't try too hard.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "86A3",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "It is 250 Golds ,please.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "86BC",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "It is 500 Golds ,please.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "86D5",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "It is 1000 Golds,please.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "86EE",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "It is 2500 Golds,please.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "8707",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "It is 1800 Golds,please.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "8720",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "It is 3000 Golds,please.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "8739",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "You need peace of mind. I will meditate with you.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "8786",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "'\nMake sure you live up to it.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "87A5",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "Don't have negative thoughts.\nRemember your mantra.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "87D9",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "Do you want to hear it once more?",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "87FB",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "I've been on a long journey.\nI came back to my home town to find it is almost deserted.\nThe gate is closed, people are gone,\nand the walls are crumbling.\nI wonder what happened.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "88AD",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "I want you to see the king right away\nalthough you've just arrived.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "88F1",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "Go straight ahead and you'llfind the town ofApolune.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "8926",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "There is a mark of \"Jack\" by the key hole.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "8951",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "This is the Elf town of Eolis.\nIt is located atthe bottom of the World Tree\nand the Elves live here.\nGo to see the Guru before you see the king.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "89E2",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "There are many rings with different magic.\nLook for them one by one.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "8A27",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "If you are goingto see the king,take this ring.\nThis ring will identify you. Don't lose it.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "8A83",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "Visit all Gurus on your way.\nYou'll get a title according to your experience.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "8AD1",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "The last well isalmost dry.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "8AED",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "There is a fountain in the town of Forepaw.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "8B19",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "The Dwarfs are already in town.It looks like the end is near.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "8B57",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "Do you have a weapon for fighting?",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "8B7A",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "I can't let you go.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "8B8E",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "The King is waiting for you.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "8BAB",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "Good luck!",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "8BB6",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "Glad you could come. Disaster has befallen us.\nThe Elf fountain water, our life source,has stopped.\nThe wells are drying up.\nMany men went out and nobody came back.\nYou are our lasthope. I shall give you1500 Golds.\nPrepare for your journeywith this money.\nIt will be a dangerous journey.\nTake care of yourself.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "8CED",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "There is nothingmore I can do tohelp you.\nLooking forward to good news.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "8D35",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "The Dwarfs are robbing the Elves' moneyand jewelry.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "8D69",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "A meteorite fellinto the World Tree and created havoc.\nAt the end of the confusion,\nthe Dwarfs of the underworld came up\nand attacked the Elves. Nobody knows the reason.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "8E13",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "Listen to people.\nYou'll only get frustrated if you just walkaround.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "8E58",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "Don't try too hard.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "8E6C",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "Welcome to the town of Apolune.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "8E8C",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "There is the town of Forepaw ahead of you.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "8EB7",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "There are Dwarfsall over in the Tower of Trunk.\nGo out of town, turn right and go straight,\nthen you'll findthe Tower of Trunk.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "8F37",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "Good luck.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "8F42",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "You should have a shield. It'll protect you fromDwarf attacks.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "8F81",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "The Mattock should be in theTower.\nYou can get it by defeating a Dwarf.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "8FC9",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "We blocked the passage to the next town by building a wall,\nbut the Dwarfs keep coming.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "9021",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "If you have the Mattock,you can break the wall,\nbut if you don'thave it...",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "906C",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "You need a key.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "907C",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "You need a different key.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "9096",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "Are you hurt? Our doctor can help.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "90B9",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "Watch out for the jar of poison.\nThe poison will take your energyaway.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "9100",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "Did you learn the Guru's mantra?\nThe mantra will return you to this world.\nHold on to the mantra.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "9162",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "There is a secret Guru in the Tower of Fortress.\nYou'll find important infor-mation and a key there.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "91C7",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "You can carry 8 items. They are all important. Choose well.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "9203",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "This is the townof Forepaw.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "921F",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "If the fountain flows,water willcome back to thetown.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "9255",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "Water from 3 springs flows into the fountain.\nFind the 3 springs and return the waterto the fountain.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "92BB",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "Water is flowingin our fountain.Thanks to your help.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "92F0",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "I hear quite often about a fountainin the sky.\nWhen you go downfrom the town,\nyou'll come to aplace where the sky opens above.\nThey say a fountain is up in the sky,\nbut you need Wing Boots...",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "93B0",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "If you can push the rock away from the fountain,\nyou'll find the way to Mascon.\nBut, you can't move it without the Ring of Ruby.\nThe old man of the spring will have it. Ask him.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "9462",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "There is a spring in the tower of Fortress.\nYou'll find the dried up fountain\nand the entranceto the tower right above this town.\nSo long.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "94ED",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "The Dwarf who lives in the tower has Wing boots.\nWhen you get them, look for a fountain in the sky.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "9551",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "When you push the rock away from the fountain,\nyou'll find the passage to Mascon,\nbut you need the Ring of Ruby.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "95C2",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "Look for Wing Boots.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "95D7",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "Go below the blue sky. You'llfind a fountain in the sky.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "9610",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "Use this key to open the doorbelow.\nYou'll find the first spring.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "9652",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "If you don't have a Joker key, come back again.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "9682",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "Ho, ho, ho. I'll tell you about the water of the spring.\n..... ..... Oops! ..fallen asleep.\nThe water was poisoned.\nThe posion is almost gone so it's all right to wake him up.\nWatch. ..... ..... Something is wrong...\nOops!",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "9761",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "Get the key fromthe Guri in the tower of Fortress and\nsearch for the undiscovered first fountain.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "97C3",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "You've done wellto get here. This is the spring of Trunk.\nYou need Elixir to revive the spring.\nWill you give meyour medicine?",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "9842",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "This spring willflow again. There are two more.\nYou'd better go and find them.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "9891",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "Come back with the medicine.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "98AE",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "As soon as waterflows in the fountain,\ngo to Mascon andfind the poison the Dwarfs hide,\notherwise the Elves will be destroyed.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "992D",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "Thank you for coming.\nI will revive the spring right away.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "9968",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "I'll give you the Ring of Ruby.\nNow, push the rock away from the fountain.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "99B3",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "Trust your power.\nYou are the chosen warrior to rescue this world.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "99F6",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "What business doyou have here?\nThis is the misty town of Mascon.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "9A37",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "The tower of Forepaw is stillfar away.\nPrepare well and go.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "9A73",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "When the meteor-ite is dissolvedin water,\nit becomes poison which will bring sickness.\nIt started when the Dwarfs brought it into the World Tree.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "9B05",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "Did you get the pendant? It willstrengthen your offense power.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "9B44",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "There are storesoutside town.\nThey sell usefulitems,\nthough it's inconvenient to get there.\nI wonder if you could find them.Look up while you walk.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "9BD8",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "It is a large and beautiful shield.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "9BFC",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "The meteorite ismeditated on at the tower of Suffer.\nYou'll find the Tower above a Guru. Be careful.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "9C61",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "You need Wing Boots\nin order to get to the misty town of Victim.\nLook for them inthe Tower of Suffer.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "9CC7",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "This town has been covered with a mist ever\nsince the mete- orite hit the town.\nSome areas might still be burning.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "9D3A",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "The house outside town wasabandoned\nand the Dwarfs are living there.\nWatch out for them.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "9D93",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "You'll get to the Tower of Suffer soon.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "9DBB",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "The pendant has been a treasure of the town.\nBut it is best for the town if you keep it.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "9E14",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "The Dwarfs are chanting their mantras\nto a segment of the meteorite.\nThey believe it has special cosmic power.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "9E83",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "The meteorite which was in theTower of Suffer\nhas been moved to the Tower of Mist.\nThe Dwarfs must have learned of your coming.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "9F03",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "They say the Hour Glass will enable you\nto move around while the time stops.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "9F50",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "The Hour Glass will exhaust your energy,\nso be careful when you use it.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "9F98",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "Welcome to the Town of Victim.\nI have been unable to leave town.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "9FD9",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "It is dangerous to leave town unless you have a magic shield.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "A017",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "There is a magichall outside town.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "A03A",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "There is a magiccane which will give you magic power.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "A070",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "The door to the Capital town below is open. Go to it now.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "A0AA",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "It was only a rumor. Sorry about that.\nI got this armorin exchange for a bottle.\nIf you wish, you can have it.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "A119",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "I'll have a drink. Well... not yet.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "A13D",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "Looks like I'm lost.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "A152",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "I'm lost. My magic does not work.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "A174",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "It can be magic of justice or a magic of destruction.\nIt all depends on who uses it.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "A1C9",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "Magics have individual powers.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "A1E8",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "Magic of offenceis effective, but it consumes power.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "A21D",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "When you hold the Dwarf's meteorite in your hand,\nit will become Black Onyx with power inside.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "A27C",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "If you go straight ahead,\nyou will get to the Tower of Mist.\nIf you defeat the dwarf who lives in the Tower\nand get the meteorite, come back here.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "A30F",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "As long as thereare crazed Dwarfs,\nthe deadly threat of the meteorite\nwill loom over the Elves.\nUse this key to open the next door to get to Conflate.\nFight for the Elves.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "A3BB",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "I give keys to travelers like yourself.\nYou have an \"Ace\" key, don't you?",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "A405",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "This is a trading town called Conflate.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "A42D",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "You'll find the legendary shieldand helmet\nin the World of Branch.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "A470",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "The town is surrounded by doors for protection.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "A4A0",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "When you get theshield and helmet, go to see the Guru.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "A4D7",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "I am a guardian of the Guru. He is an im- portant person.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "A511",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "There should be something you can get.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "A538",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "Don't rely on your magic power\nduring the finalbattle with the Dwarfs.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "A57F",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "The town used toprosper from trading with theDwarfs.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "A5B4",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "They are terrible now,\nbut they used tobe skilled craftsmen.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "A5F1",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "I used to go to the town of Dwarfs quite often\nwhen we had business with them.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "A640",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "Do you want to know what I do?\nI am the pickpocket Gingi.\nI'm an importantperson around here.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "A69E",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "Don't rely on your magic power\nonly during the final fight against the Dwarfs.\nYou can wear theBattle Helmet and Battle Suit\nonly when you have the Dragon Slayer.\nYou will not be able to return us the Dragon Slayer\nuntil we have true peace here.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "A794",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "Don't rely on your magic power\nalone during thelast fight against the Dwarfs.\nYou can wear theBattle Helmet and Battle Suit\nonly when you have the Dragon Slayer.\nYou will not be able to return us the Dragon Slayer\nuntil we have true peace here.\nThis ring will open the door toDartmoor. Take it with you.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "A8C4",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "Daydreak is a town at the border.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "A8E6",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "I have friends in Dartmoor\nwhich is known as an evil place.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "A922",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "Look for the Battle Suit.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "A93C",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "Did you find themagic cane?",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "A958",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "You are the famous warrior.\nYou are as good looking as I've heard.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "A99B",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "You are the warrior everyoneis talking about.\nCould I have your autograph?\nAre you busy now? Well, will you come to visit me?\nMy name is Moto.Please don't forget.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "AA3E",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "Look at you! When did you last take a bath?",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "AA6A",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "The Guru of Conflate has theRing of Dwarfs.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "AA96",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "Did you get the Battle Suit?",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "AAB3",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "The castle of Dartmoor is a complex maze.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "AADD",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "Is this your first visit to this store? It is my first.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "AB15",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "Have not seen you for a while.You'll find a magic cane\nwhen you get above the tower of Pillar.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "AB74",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "There is the Castle of Fraternal\ndown below the town of Dartmoor.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "ABB6",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "You need the Demon's Ring\nto get into the fortress of Zenis.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "ABF3",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "Dragon Slayer isin the hands of king of the Dwarfs.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "AC27",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "Defeat the Evil one with Dragon Slayer.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "AC4F",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "Go to see the Guru in the Castle of Fraternal.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "AC7E",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "If you see the Guru, he'll giveyou the Demon's Ring.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "ACB3",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "Search inside the castle. You should find a Guru.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "ACE5",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "The magic of offence does notwork against theEvil one.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "AD1C",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "The Dwarfs re- gard the meteor-ite as a cosmic messenger.\nIt is a dreadfulthing as you already know.\nIt turns into a poison when dissolved in water.\nIt is not incon-ceivable that\nyou would ex- perience mental and physical changes\nwhen you are near or touch it.\nThat is why the Dwarfs have changed and gonecrazy.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "AE54",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "The monster you've just de- feated is King Grieve,\nthe king of the Dwarfs. The EvilOne changed his appearance.\nThe king pro- tected the swordfrom the Evil One\nby hiding it within his own body.\nUse the sword todefeat the Evil One in the fortress.\nThis will open the door to the fortress.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "AF73",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "I'll meditate for you.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "AF8A",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "Glad to have youback safely.\nIt will take time, but the Elves and the Dwarfs\nwill become friends and re- turn the peace to this land\nas it used to be. I understandyou will leave\nto continue yourjourney. What a restless guy!",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "B06A",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "There is the mark of \"Queen\" by the key hole.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "B098",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "There is the mark of \"King\" by the key hole.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "B0C5",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "There is the mark of \"Ace\" by the key hole.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "B0F1",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "There is the mark of \"Joker\" by the key hole.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "B11F",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "Do you need a ring to open a door?",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "B142",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "I've used Red Potion.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "B158",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "I've used Mattock.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "B16B",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "I've used Hour Glass.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "B181",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "I've used Wing Boots.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "B197",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "I've used key.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "B1A6",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "I've used Elixir.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "B1B8",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "I'm holding Elixir.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "B1CC",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "I'm holding Red Potion.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "B1E4",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "I'm holding Mattock.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "B1F9",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "I'm holding Wing Boots.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "B211",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "I'm holding Hour Glass.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "B229",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "I've got the Battle Suit.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "B243",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "I've got the Battle Helmet.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "B25F",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "I've got the Dragon Slayer.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "B27B",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "I've got the Black Onyx.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "B294",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "I've got the Pendant.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "B2AA",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "I've got the Magical Rod.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "B2C4",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "I've touched Poison.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "B2D9",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "The glove increases offensive power.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "B2FE",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "The power of the Glove is gone.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "B31E",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "I am free from injury because of the ointment.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "B34D",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "The power of the ointment is gone.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "B370",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "The power of the Wing Boots is gone.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "B395",
+    "encoding": "FAXANADU_DIALOGUE",
+    "source": "The power of the Hour Glass is gone.",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
     "addr": "B3DB",
     "encoding": "ASCII",
     "source": "xHHx",
@@ -2061,7 +3804,7 @@
     "bank": 14,
     "addr": "ABB7",
     "encoding": "FAXANADU_1",
-    "source": " QQ A QQ A",
+    "source": "QQ A QQ A",
     "replacement": ""
   },
   {
@@ -2096,7 +3839,7 @@
     "bank": 15,
     "addr": "BFE0",
     "encoding": "ASCII",
-    "source": "        FAXANADU'B",
+    "source": "FAXANADU'B",
     "replacement": ""
   }
 ]
