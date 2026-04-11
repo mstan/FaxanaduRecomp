@@ -90,6 +90,8 @@ add_executable(FaxanaduRecomp
     ${NESRECOMP_RUNNER_SOURCES}
     extras.c
     override_text.c   # optional text override plugin — game-specific strings in extras.c
+    ${NESRECOMP_RUNNER_ROOT}/src/override_chr.c   # CHR asset dump + override plugin
+    ${NESRECOMP_RUNNER_ROOT}/src/chr_codec.c       # NES 2bpp CHR <-> PNG codec
     recomp_stack.c
     nes_snapshot.c
     verify_mode.c
@@ -102,6 +104,7 @@ target_compile_definitions(FaxanaduRecomp PRIVATE RECOMP_STACK_TRACKING WATCHDOG
 
 target_include_directories(FaxanaduRecomp PRIVATE
     ${NESRECOMP_RUNNER_INCLUDE_DIRS}
+    ${NESRECOMP_RUNNER_ROOT}/src          # for chr_codec.h, stb_image.h
     ${CMAKE_SOURCE_DIR}
     ${SDL2_INCLUDE_DIRS}
 )

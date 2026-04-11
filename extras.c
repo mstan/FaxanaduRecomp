@@ -12,6 +12,7 @@
 #include "verify_mode.h"
 #include "input_script.h"
 #include "override_text.h"
+#include "override_chr.h"
 #ifdef ENABLE_NESTOPIA_ORACLE
 #include "nestopia_bridge.h"
 #endif
@@ -77,6 +78,7 @@ static uint8_t ascii_encode(char ch) {
 /* Path to the JSON override table.  Default = CWD-relative so the file lives
  * wherever the user launches the game from.  Override with --text-overrides. */
 static char s_text_overrides_path[512] = "text_overrides.json";
+static int  s_text_overrides_enabled = 0;  /* opt-in via --text-overrides */
 
 static void text_override_setup(void) {
     text_override_init();
@@ -224,8 +226,49 @@ uint32_t game_get_expected_crc32(void) { return 0x57DD23D1u; }
 
 const char *game_get_name(void) { return "Faxanadu"; }
 
+/* CHR override — opt-in via --chr-overrides or --chr-dump. */
+static char s_chr_overrides_dir[512] = "tiles";
+static char s_tile_compile_dir[512] = "";
+static int  s_tile_compile = 0;
+static int  s_chr_dump = 0;
+static int  s_chr_enabled = 0;       /* set by --chr-overrides or --chr-dump */
+static int  s_chr_overrides_set = 0; /* explicitly passed --chr-overrides */
+
 void game_on_init(void) {
-    text_override_setup();
+    /* --tile-compile: batch convert PNGs to .chr.bin, then exit */
+    if (s_tile_compile) {
+        int n = chr_override_compile_dir(s_tile_compile_dir);
+        printf("[ChrOverride] Compiled %d PNGs in %s\n", n, s_tile_compile_dir);
+        exit(0);
+    }
+
+    /* Text override plugin — opt-in via --text-overrides */
+    if (s_text_overrides_enabled)
+        text_override_setup();
+
+    /* Auto-detect tiles/manifest.json next to exe (like debug.ini) */
+    if (!s_chr_enabled) {
+        char tiles_manifest[512];
+        get_exe_relative_path("tiles/manifest.json", tiles_manifest, sizeof(tiles_manifest));
+        FILE *tf = fopen(tiles_manifest, "r");
+        if (tf) {
+            fclose(tf);
+            s_chr_enabled = 1;
+            s_chr_overrides_set = 1;
+            get_exe_relative_path("tiles", s_chr_overrides_dir, sizeof(s_chr_overrides_dir));
+            printf("[ChrOverride] Auto-detected tiles/manifest.json\n");
+        }
+    }
+
+    /* Tile override plugin — via CLI or auto-detect */
+    if (s_chr_enabled) {
+        chr_override_init();
+        if (s_chr_dump)
+            chr_override_set_dump(1);
+        if (s_chr_overrides_set)
+            chr_override_load_manifest(s_chr_overrides_dir);
+    }
+
     s_debug_enabled = check_debug_ini();
 
     if (s_debug_enabled) {
@@ -262,17 +305,23 @@ void game_on_frame(uint64_t frame_count) {
             g_controller1_buttons = (uint8_t)ovr;
     }
 
-    /* Hot-reload text_overrides.json if the file changed on disk (~1 s polling). */
-    text_override_reload_if_changed();
+    if (s_text_overrides_enabled) {
+        text_override_reload_if_changed();
+        text_override_apply();
+    }
 
-    /* Apply PPU DMA buffer overrides (for $0500-path text, e.g. dialogue). */
-    text_override_apply();
+    if (s_chr_enabled)
+        chr_override_reload_if_changed();
 
     maybe_inject_password();
 }
 
 void game_post_nmi(uint64_t frame_count) {
     (void)frame_count;
+
+    if (s_chr_enabled)
+        chr_override_frame_end();
+
     if (s_debug_enabled) {
         debug_server_record_frame();
         debug_server_check_watchpoints();
@@ -283,7 +332,29 @@ int game_handle_arg(const char *key, const char *val) {
     if (strcmp(key, "--text-overrides") == 0 && val) {
         strncpy(s_text_overrides_path, val, sizeof(s_text_overrides_path) - 1);
         s_text_overrides_path[sizeof(s_text_overrides_path) - 1] = '\0';
+        s_text_overrides_enabled = 1;
         printf("[TextOverride] Override path set to \"%s\"\n", val);
+        return 1;
+    }
+    if (strcmp(key, "--tile-dump") == 0) {
+        s_chr_dump = 1;
+        s_chr_enabled = 1;
+        printf("[ChrOverride] Tile dump enabled\n");
+        return 1;
+    }
+    if (strcmp(key, "--tiles") == 0 && val) {
+        strncpy(s_chr_overrides_dir, val, sizeof(s_chr_overrides_dir) - 1);
+        s_chr_overrides_dir[sizeof(s_chr_overrides_dir) - 1] = '\0';
+        s_chr_enabled = 1;
+        s_chr_overrides_set = 1;
+        printf("[ChrOverride] Tile dir set to \"%s\"\n", val);
+        return 1;
+    }
+    if (strcmp(key, "--tile-compile") == 0 && val) {
+        strncpy(s_tile_compile_dir, val, sizeof(s_tile_compile_dir) - 1);
+        s_tile_compile_dir[sizeof(s_tile_compile_dir) - 1] = '\0';
+        s_tile_compile = 1;
+        printf("[ChrOverride] Tile compile dir: \"%s\"\n", val);
         return 1;
     }
     if (strcmp(key, "--password") == 0 && val) {
@@ -312,6 +383,9 @@ int game_handle_arg(const char *key, const char *val) {
 
 const char *game_arg_usage(void) {
     return "  --text-overrides PATH  Path to text_overrides.json (default: ./text_overrides.json)\n"
+           "  --tile-dump            Dump unique CHR transfers as PNGs to tiles/\n"
+           "  --tiles DIR            Path to tile override directory (default: ./tiles)\n"
+           "  --tile-compile DIR     Batch convert all PNGs in DIR to .chr.bin cache files\n"
            "  --password STRING   Auto-fill Faxanadu mantra on password screen\n"
            "  --tcp-port PORT     TCP debug server port (default 4370)\n"
            "  --verify            Enable dual-execution verify mode (FCEUX oracle)\n"
