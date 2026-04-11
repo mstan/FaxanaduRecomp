@@ -68,17 +68,6 @@ typedef struct {
 static EncEntry s_encodings[TEXT_OVERRIDE_MAX_ENC];
 static int      s_num_encodings = 0;
 
-/* ---- PRG auto-patch cache (orig_len per bank+addr pair) --------------- */
-
-typedef struct {
-    int      bank;
-    uint16_t addr;
-    int      orig_len;
-} PrgRecord;
-
-static PrgRecord s_prg_records[TEXT_OVERRIDE_MAX];
-static int       s_num_prg_records = 0;
-
 /* ---- JSON hot-reload state -------------------------------------------- */
 
 static char   s_json_path[512];
@@ -93,12 +82,11 @@ static int    s_reload_ticks  = 0;
  * ====================================================================== */
 
 void text_override_init(void) {
-    s_num_overrides   = 0;
-    s_num_encodings   = 0;
-    s_num_prg_records = 0;
-    s_json_path_set   = 0;
-    s_json_mtime      = 0;
-    s_reload_ticks    = 0;
+    s_num_overrides = 0;
+    s_num_encodings = 0;
+    s_json_path_set = 0;
+    s_json_mtime    = 0;
+    s_reload_ticks  = 0;
 }
 
 /* ======================================================================
@@ -151,10 +139,10 @@ void text_override_patch_prg(int bank, uint16_t prg_addr,
 /* ---- ASCII + encoder, fixed original_len ------------------------------ */
 
 int text_override_patch_prg_ascii(int bank, uint16_t prg_addr,
-                                   int original_len,
                                    const char *replacement,
                                    tile_encode_fn encode) {
-    uint8_t buf[TEXT_OVERRIDE_MAX_LEN];
+    /* +1 for the null terminator we always append. */
+    uint8_t buf[TEXT_OVERRIDE_MAX_LEN + 1];
     int     rep_len = 0;
 
     for (const char *p = replacement; *p; p++) {
@@ -165,66 +153,18 @@ int text_override_patch_prg_ascii(int bank, uint16_t prg_addr,
     }
     if (rep_len == 0) return 0;
 
-    /* Build a slot-sized buffer: replacement + null + space padding. */
-    uint8_t patched[TEXT_OVERRIDE_MAX_LEN];
-    memset(patched, SPACE_TILE, (size_t)original_len);
-    int copy = (rep_len < original_len) ? rep_len : original_len;
-    memcpy(patched, buf, (size_t)copy);
-    if (rep_len < original_len)
-        patched[rep_len] = 0x00;
+    buf[rep_len] = 0x00;  /* implicit null terminator */
 
-    text_override_patch_prg(bank, prg_addr, patched, original_len);
+    text_override_patch_prg(bank, prg_addr, buf, rep_len + 1);
     return 1;
 }
 
-/* ---- ASCII + encoder, auto-detect original_len by null scan ----------- */
+/* ---- ASCII + encoder, _auto variant (addr only, no length needed) ----- */
 
 int text_override_patch_prg_auto(int bank, uint16_t prg_addr,
                                   const char *replacement,
                                   tile_encode_fn encode) {
-    /* Look up cached orig_len for this (bank, addr) pair. */
-    int orig_len = -1;
-    for (int i = 0; i < s_num_prg_records; i++) {
-        if (s_prg_records[i].bank == bank && s_prg_records[i].addr == prg_addr) {
-            orig_len = s_prg_records[i].orig_len;
-            break;
-        }
-    }
-
-    if (orig_len < 0) {
-        /* First time: scan PRG buffer for null terminator to find slot length. */
-        uint8_t *bank_ptr = runner_get_prg_bank_rw(bank);
-        if (!bank_ptr) {
-            fprintf(stderr, "[TextOverride] patch_prg_auto: bank %d not available\n", bank);
-            return 0;
-        }
-        if (prg_addr < 0x8000 || prg_addr > 0xBFFF) {
-            fprintf(stderr, "[TextOverride] patch_prg_auto: addr $%04X out of range\n", prg_addr);
-            return 0;
-        }
-        int          offset = prg_addr - 0x8000;
-        const uint8_t *base = bank_ptr + offset;
-        orig_len = 0;
-        while (orig_len < TEXT_OVERRIDE_MAX_LEN && offset + orig_len < 0x4000) {
-            if (base[orig_len] == 0x00) break;
-            orig_len++;
-        }
-        if (orig_len == 0) {
-            fprintf(stderr, "[TextOverride] patch_prg_auto: zero-length string at bank%d $%04X\n",
-                    bank, prg_addr);
-            return 0;
-        }
-
-        /* Cache the discovered length — survives hot-reloads. */
-        if (s_num_prg_records < TEXT_OVERRIDE_MAX) {
-            PrgRecord *r = &s_prg_records[s_num_prg_records++];
-            r->bank     = bank;
-            r->addr     = prg_addr;
-            r->orig_len = orig_len;
-        }
-    }
-
-    return text_override_patch_prg_ascii(bank, prg_addr, orig_len, replacement, encode);
+    return text_override_patch_prg_ascii(bank, prg_addr, replacement, encode);
 }
 
 /* ======================================================================

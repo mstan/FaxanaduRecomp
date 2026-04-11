@@ -25,11 +25,10 @@
  *   Register from extras.c before calling text_override_load_json().
  *
  * Variable-length:
- *   text_override_patch_prg_auto() scans the PRG buffer to find the null
- *   terminator and uses that as the max overwrite length.  The original length
- *   is saved on first patch so hot-reloads use a stable window.
- *   Shorter replacements are null-terminated and space-padded; longer ones
- *   are clamped to the original length.
+ *   Replacements may be shorter or longer than the original string.  The null
+ *   terminator is always written immediately after the encoded replacement.
+ *   The renderer reads until null, so longer strings render if the nametable
+ *   has room.  Overwriting adjacent ROM data is the modder's responsibility.
  *
  * Portability:
  *   Core logic depends only on nes_runtime.h (g_ram, runner_get_prg_bank_rw).
@@ -40,7 +39,7 @@
 
 /* Maximum simultaneous override registrations. */
 #define TEXT_OVERRIDE_MAX     32
-/* Maximum tile bytes in a single pattern or replacement. */
+/* Maximum tile bytes in a single replacement (null terminator is appended implicitly). */
 #define TEXT_OVERRIDE_MAX_LEN 64
 /* Maximum named encodings that can be registered. */
 #define TEXT_OVERRIDE_MAX_ENC 16
@@ -115,18 +114,16 @@ void text_override_patch_prg(int bank, uint16_t prg_addr,
                               const uint8_t *replacement, int rep_len);
 
 /* Patch from an ASCII string + encoder.
- * original_len: number of bytes to overwrite (must know in advance).
- * Shorter replacements are null-terminated then space-padded; longer ones
- * are truncated to original_len. */
+ * Encodes replacement and writes it followed by an implicit null terminator.
+ * Replacement may be longer than the original string — the renderer reads until
+ * the null, so extra characters render if the nametable has room.  Writing past
+ * adjacent ROM data is the caller's responsibility.
+ * Returns 1 on success, 0 on encode error. */
 int text_override_patch_prg_ascii(int bank, uint16_t prg_addr,
-                                   int original_len,
                                    const char *replacement,
                                    tile_encode_fn encode);
 
-/* Patch from an ASCII string + encoder, auto-detecting original length by
- * scanning for the null terminator in the current PRG buffer.
- * The detected length is cached per (bank, addr) pair for stable hot-reloads.
- * Returns 1 on success, 0 on failure. */
+/* Identical to text_override_patch_prg_ascii — kept for JSON loader symmetry. */
 int text_override_patch_prg_auto(int bank, uint16_t prg_addr,
                                   const char *replacement,
                                   tile_encode_fn encode);
