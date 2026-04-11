@@ -1,0 +1,2102 @@
+[
+  {
+    "bank": 0,
+    "addr": "A772",
+    "encoding": "ASCII",
+    "source": "lC}Q",
+    "replacement": ""
+  },
+  {
+    "bank": 0,
+    "addr": "B6F2",
+    "encoding": "ASCII",
+    "source": "_T5Sg",
+    "replacement": ""
+  },
+  {
+    "bank": 0,
+    "addr": "B951",
+    "encoding": "ASCII",
+    "source": "MM4@",
+    "replacement": ""
+  },
+  {
+    "bank": 1,
+    "addr": "AC24",
+    "encoding": "ASCII",
+    "source": "3,?&@",
+    "replacement": ""
+  },
+  {
+    "bank": 2,
+    "addr": "A463",
+    "encoding": "ASCII",
+    "source": "{,rl<",
+    "replacement": ""
+  },
+  {
+    "bank": 3,
+    "addr": "8428",
+    "encoding": "ASCII",
+    "source": "UUUUU",
+    "replacement": ""
+  },
+  {
+    "bank": 3,
+    "addr": "8E90",
+    "encoding": "ASCII",
+    "source": "UUUUU",
+    "replacement": ""
+  },
+  {
+    "bank": 3,
+    "addr": "8EAD",
+    "encoding": "ASCII",
+    "source": "UUUU",
+    "replacement": ""
+  },
+  {
+    "bank": 3,
+    "addr": "8ECF",
+    "encoding": "ASCII",
+    "source": "UUUUUUUU",
+    "replacement": ""
+  },
+  {
+    "bank": 3,
+    "addr": "9209",
+    "encoding": "ASCII",
+    "source": "UUUUUUUUU",
+    "replacement": ""
+  },
+  {
+    "bank": 3,
+    "addr": "9284",
+    "encoding": "ASCII",
+    "source": "UUUUUUUUUUUUUUUUUUUU",
+    "replacement": ""
+  },
+  {
+    "bank": 3,
+    "addr": "929B",
+    "encoding": "ASCII",
+    "source": "UUUUU",
+    "replacement": ""
+  },
+  {
+    "bank": 3,
+    "addr": "98A1",
+    "encoding": "ASCII",
+    "source": "UUUUUUUU",
+    "replacement": ""
+  },
+  {
+    "bank": 4,
+    "addr": "8209",
+    "encoding": "ASCII",
+    "source": "HL\\HxTt",
+    "replacement": ""
+  },
+  {
+    "bank": 4,
+    "addr": "85A7",
+    "encoding": "FAXANADU_1",
+    "source": "KIII",
+    "replacement": ""
+  },
+  {
+    "bank": 4,
+    "addr": "9186",
+    "encoding": "ASCII",
+    "source": ">c@@",
+    "replacement": ""
+  },
+  {
+    "bank": 4,
+    "addr": "9588",
+    "encoding": "ASCII",
+    "source": "@@@ \"",
+    "replacement": ""
+  },
+  {
+    "bank": 4,
+    "addr": "9618",
+    "encoding": "ASCII",
+    "source": "@@@ \"",
+    "replacement": ""
+  },
+  {
+    "bank": 4,
+    "addr": "97D0",
+    "encoding": "ASCII",
+    "source": "&|:d&X:dX",
+    "replacement": ""
+  },
+  {
+    "bank": 4,
+    "addr": "97E0",
+    "encoding": "ASCII",
+    "source": "*TBTBTBTT(<(<(<(",
+    "replacement": ""
+  },
+  {
+    "bank": 4,
+    "addr": "9EE8",
+    "encoding": "ASCII",
+    "source": "  \"\" ",
+    "replacement": ""
+  },
+  {
+    "bank": 4,
+    "addr": "A490",
+    "encoding": "ASCII",
+    "source": "E+DH",
+    "replacement": ""
+  },
+  {
+    "bank": 4,
+    "addr": "A4F0",
+    "encoding": "ASCII",
+    "source": "E(DH",
+    "replacement": ""
+  },
+  {
+    "bank": 4,
+    "addr": "A5BD",
+    "encoding": "ASCII",
+    "source": "|||0",
+    "replacement": ""
+  },
+  {
+    "bank": 4,
+    "addr": "A841",
+    "encoding": "ASCII",
+    "source": " o_RLYQ",
+    "replacement": ""
+  },
+  {
+    "bank": 4,
+    "addr": "A84B",
+    "encoding": "ASCII",
+    "source": "?????",
+    "replacement": ""
+  },
+  {
+    "bank": 4,
+    "addr": "A8C8",
+    "encoding": "ASCII",
+    "source": "@@@@G@",
+    "replacement": ""
+  },
+  {
+    "bank": 4,
+    "addr": "A980",
+    "encoding": "ASCII",
+    "source": "?;5+0+5 ",
+    "replacement": ""
+  },
+  {
+    "bank": 4,
+    "addr": "A993",
+    "encoding": "FAXANADU_1",
+    "source": "IUIUI",
+    "replacement": ""
+  },
+  {
+    "bank": 4,
+    "addr": "A9DA",
+    "encoding": "ASCII",
+    "source": "9qw?",
+    "replacement": ""
+  },
+  {
+    "bank": 4,
+    "addr": "AA98",
+    "encoding": "ASCII",
+    "source": "@@@@@@",
+    "replacement": ""
+  },
+  {
+    "bank": 4,
+    "addr": "AB70",
+    "encoding": "ASCII",
+    "source": "l|B<,444::<",
+    "replacement": ""
+  },
+  {
+    "bank": 4,
+    "addr": "ABA0",
+    "encoding": "FAXANADU_1",
+    "source": "PHLMNMNBBBBABABB",
+    "replacement": ""
+  },
+  {
+    "bank": 4,
+    "addr": "AD53",
+    "encoding": "ASCII",
+    "source": "ABbB",
+    "replacement": ""
+  },
+  {
+    "bank": 4,
+    "addr": "AD74",
+    "encoding": "ASCII",
+    "source": "95ee",
+    "replacement": ""
+  },
+  {
+    "bank": 4,
+    "addr": "AE58",
+    "encoding": "ASCII",
+    "source": "8888",
+    "replacement": ""
+  },
+  {
+    "bank": 4,
+    "addr": "AE70",
+    "encoding": "ASCII",
+    "source": "||||LLdd",
+    "replacement": ""
+  },
+  {
+    "bank": 4,
+    "addr": "AE7C",
+    "encoding": "ASCII",
+    "source": "0088",
+    "replacement": ""
+  },
+  {
+    "bank": 4,
+    "addr": "AF51",
+    "encoding": "ASCII",
+    "source": "   `@``",
+    "replacement": ""
+  },
+  {
+    "bank": 4,
+    "addr": "AF61",
+    "encoding": "FAXANADU_1",
+    "source": "       ",
+    "replacement": ""
+  },
+  {
+    "bank": 4,
+    "addr": "AF61",
+    "encoding": "ASCII",
+    "source": "       ",
+    "replacement": ""
+  },
+  {
+    "bank": 4,
+    "addr": "AFE1",
+    "encoding": "ASCII",
+    "source": "~~~~~~",
+    "replacement": ""
+  },
+  {
+    "bank": 4,
+    "addr": "AFF1",
+    "encoding": "FAXANADU_1",
+    "source": "HHHHHH",
+    "replacement": ""
+  },
+  {
+    "bank": 4,
+    "addr": "B077",
+    "encoding": "ASCII",
+    "source": "'$445444",
+    "replacement": ""
+  },
+  {
+    "bank": 4,
+    "addr": "B0A2",
+    "encoding": "ASCII",
+    "source": "VVVVVV",
+    "replacement": ""
+  },
+  {
+    "bank": 4,
+    "addr": "B30A",
+    "encoding": "ASCII",
+    "source": "0TD8",
+    "replacement": ""
+  },
+  {
+    "bank": 4,
+    "addr": "B4E3",
+    "encoding": "ASCII",
+    "source": "2222>",
+    "replacement": ""
+  },
+  {
+    "bank": 4,
+    "addr": "B4F3",
+    "encoding": "ASCII",
+    "source": "LLLL|",
+    "replacement": ""
+  },
+  {
+    "bank": 4,
+    "addr": "B512",
+    "encoding": "ASCII",
+    "source": "j8qx02",
+    "replacement": ""
+  },
+  {
+    "bank": 4,
+    "addr": "B591",
+    "encoding": "ASCII",
+    "source": "\"``b # ",
+    "replacement": ""
+  },
+  {
+    "bank": 4,
+    "addr": "B5DE",
+    "encoding": "ASCII",
+    "source": "((>222222>",
+    "replacement": ""
+  },
+  {
+    "bank": 4,
+    "addr": "B9CB",
+    "encoding": "FAXANADU_1",
+    "source": "QQQI",
+    "replacement": ""
+  },
+  {
+    "bank": 4,
+    "addr": "BA73",
+    "encoding": "ASCII",
+    "source": "P8txP",
+    "replacement": ""
+  },
+  {
+    "bank": 4,
+    "addr": "BC00",
+    "encoding": "ASCII",
+    "source": "E+DH",
+    "replacement": ""
+  },
+  {
+    "bank": 4,
+    "addr": "BC20",
+    "encoding": "ASCII",
+    "source": "E(DH",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "8FA3",
+    "encoding": "ASCII",
+    "source": "<>?<?>",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "8FE5",
+    "encoding": "ASCII",
+    "source": "<>??A>",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "9005",
+    "encoding": "ASCII",
+    "source": "<<>??A>",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "9011",
+    "encoding": "ASCII",
+    "source": "??A>",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "9042",
+    "encoding": "ASCII",
+    "source": "<+44444",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "904A",
+    "encoding": "ASCII",
+    "source": "<+44555",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "9052",
+    "encoding": "ASCII",
+    "source": "<-55555",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "905A",
+    "encoding": "ASCII",
+    "source": "<-55444",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "9062",
+    "encoding": "ASCII",
+    "source": "<+4440+04477,038<8+",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "9325",
+    "encoding": "ASCII",
+    "source": "11!!!",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "938C",
+    "encoding": "ASCII",
+    "source": "!!!!",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "94A7",
+    "encoding": "ASCII",
+    "source": "-/-/0-/0/-,)(&$(-/-/0-/-)&(/,(",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "94C7",
+    "encoding": "ASCII",
+    "source": "20/-,(",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "9755",
+    "encoding": "ASCII",
+    "source": "941-;/;",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "9764",
+    "encoding": "ASCII",
+    "source": "72/+",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "9791",
+    "encoding": "ASCII",
+    "source": "941-;/;",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "97ED",
+    "encoding": "ASCII",
+    "source": "149=@E@=94)",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "97FD",
+    "encoding": "ASCII",
+    "source": ".2(+.2&",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "9820",
+    "encoding": "ASCII",
+    "source": "(+/(",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "982A",
+    "encoding": "ASCII",
+    "source": "&*62-*!",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "9832",
+    "encoding": "ASCII",
+    "source": "&*62-*)+.2)+.2",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "9841",
+    "encoding": "ASCII",
+    "source": "+.2&+.2$-04$-04",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "9861",
+    "encoding": "ASCII",
+    "source": "(+/(",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "9ADD",
+    "encoding": "ASCII",
+    "source": ";;<>",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "9AE2",
+    "encoding": "ASCII",
+    "source": ";479?",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "9AEB",
+    "encoding": "ASCII",
+    "source": "9?A?--3",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "9AFC",
+    "encoding": "ASCII",
+    "source": "5:=AA=:",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "9B04",
+    "encoding": "ASCII",
+    "source": ":=:>?>:6363222",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "9B79",
+    "encoding": "ASCII",
+    "source": "779;",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "9B7E",
+    "encoding": "ASCII",
+    "source": "7+/09",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "9B87",
+    "encoding": "ASCII",
+    "source": "5059<9))-",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "9B9A",
+    "encoding": "ASCII",
+    "source": "15:==:5",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "9EF4",
+    "encoding": "ASCII",
+    "source": ":958",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "9F08",
+    "encoding": "ASCII",
+    "source": ":95898",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "9F3B",
+    "encoding": "ASCII",
+    "source": "750775",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "9F7B",
+    "encoding": "ASCII",
+    "source": ".-),",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "9F91",
+    "encoding": "ASCII",
+    "source": "540343",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "9FC4",
+    "encoding": "ASCII",
+    "source": "40,442",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "A0C8",
+    "encoding": "ASCII",
+    "source": "!!!!!",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "A0CE",
+    "encoding": "ASCII",
+    "source": "111111!",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "A0E2",
+    "encoding": "ASCII",
+    "source": "1111!",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "A0F6",
+    "encoding": "ASCII",
+    "source": "1111!!1",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "A10A",
+    "encoding": "ASCII",
+    "source": "11!!1",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "A1A4",
+    "encoding": "ASCII",
+    "source": "8<8?",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "A1BF",
+    "encoding": "ASCII",
+    "source": "?4/,-4-2",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "A25A",
+    "encoding": "ASCII",
+    "source": "0307",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "A275",
+    "encoding": "ASCII",
+    "source": "7/,($-$/",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "A3B9",
+    "encoding": "ASCII",
+    "source": "<<0<<0<<<<0<<0<<<<0<<0<<0000",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "A423",
+    "encoding": "ASCII",
+    "source": "<<0<0<<<0000",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "A436",
+    "encoding": "ASCII",
+    "source": "<<0<<0",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "A43D",
+    "encoding": "ASCII",
+    "source": "<<<0<<0",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "A445",
+    "encoding": "ASCII",
+    "source": "<<<0<<0",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "A480",
+    "encoding": "ASCII",
+    "source": "0<<0<<<",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "A488",
+    "encoding": "ASCII",
+    "source": "0<<0<<<",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "A67E",
+    "encoding": "ASCII",
+    "source": "-,-/",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "A69E",
+    "encoding": "ASCII",
+    "source": "+*+-",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "A6CE",
+    "encoding": "ASCII",
+    "source": ")()+",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "A6EE",
+    "encoding": "ASCII",
+    "source": "'&')",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "AAB0",
+    "encoding": "ASCII",
+    "source": "<>?<?>",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "AAF2",
+    "encoding": "ASCII",
+    "source": "<>??A>",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "AB12",
+    "encoding": "ASCII",
+    "source": "<<>??A>",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "AB1E",
+    "encoding": "ASCII",
+    "source": "??A>",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "AB2F",
+    "encoding": "ASCII",
+    "source": "?DFA>:<",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "AB6D",
+    "encoding": "ASCII",
+    "source": "H7@@@@@",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "AB75",
+    "encoding": "ASCII",
+    "source": "H7@@AAA",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "AB7D",
+    "encoding": "ASCII",
+    "source": "H9AAAAA",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "AB85",
+    "encoding": "ASCII",
+    "source": "H9AA@@@",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "AB8D",
+    "encoding": "ASCII",
+    "source": "H7@@@<7<@@CC8<?DHD7",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "AC5C",
+    "encoding": "ASCII",
+    "source": "<7<4704@<7<4704>:5:25.2>:5:25.2<83803,0A>:5>",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "ACA9",
+    "encoding": "ASCII",
+    "source": "00000",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "ACAF",
+    "encoding": "ASCII",
+    "source": "0000000",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "ACB7",
+    "encoding": "ASCII",
+    "source": "0000000",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "ACBF",
+    "encoding": "ASCII",
+    "source": "0000000",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "ACC7",
+    "encoding": "ASCII",
+    "source": "0000000",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "ACCF",
+    "encoding": "ASCII",
+    "source": "0000000",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "ACD7",
+    "encoding": "ASCII",
+    "source": "00,,88,,+",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "ACED",
+    "encoding": "ASCII",
+    "source": "00000",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "ACF3",
+    "encoding": "ASCII",
+    "source": "0000000",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "ACFB",
+    "encoding": "ASCII",
+    "source": "0000000",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "AD03",
+    "encoding": "ASCII",
+    "source": "0000000",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "AD0B",
+    "encoding": "ASCII",
+    "source": "0033333",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "AD13",
+    "encoding": "ASCII",
+    "source": "3355555",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "AD1B",
+    "encoding": "ASCII",
+    "source": "5500000",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "AD23",
+    "encoding": "ASCII",
+    "source": "0000000",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "AD2E",
+    "encoding": "ASCII",
+    "source": ",,,,,,,,........00000",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "AD44",
+    "encoding": "ASCII",
+    "source": "0000000",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "AD4C",
+    "encoding": "ASCII",
+    "source": "00,,,,,,.",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "AD58",
+    "encoding": "ASCII",
+    "source": "......00000",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "AD64",
+    "encoding": "ASCII",
+    "source": "0000000",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "AD6C",
+    "encoding": "ASCII",
+    "source": "00,,,,,,,,........00000",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "AD84",
+    "encoding": "ASCII",
+    "source": "0000000",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "AD8C",
+    "encoding": "ASCII",
+    "source": "00,,,,,,.",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "AD98",
+    "encoding": "ASCII",
+    "source": "......,,,,,,.",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "ADBF",
+    "encoding": "ASCII",
+    "source": ",,,,,,,,.....",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "AEDF",
+    "encoding": "ASCII",
+    "source": "!!!!",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "B109",
+    "encoding": "ASCII",
+    "source": "527<;2",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "B119",
+    "encoding": "ASCII",
+    "source": "012+,-",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "B158",
+    "encoding": "ASCII",
+    "source": ":50+",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "B19D",
+    "encoding": "ASCII",
+    "source": "7778",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "B1A4",
+    "encoding": "ASCII",
+    "source": "8:::8",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "B1DE",
+    "encoding": "ASCII",
+    "source": "50+&",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "B223",
+    "encoding": "ASCII",
+    "source": "3335",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "B22A",
+    "encoding": "ASCII",
+    "source": "57775",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "B338",
+    "encoding": "ASCII",
+    "source": "!!!!!",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "B33E",
+    "encoding": "ASCII",
+    "source": "111111!",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "B352",
+    "encoding": "ASCII",
+    "source": "1111!",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "B366",
+    "encoding": "ASCII",
+    "source": "1111!!1",
+    "replacement": ""
+  },
+  {
+    "bank": 5,
+    "addr": "B37A",
+    "encoding": "ASCII",
+    "source": "11!!1",
+    "replacement": ""
+  },
+  {
+    "bank": 6,
+    "addr": "8213",
+    "encoding": "ASCII",
+    "source": "U{F<",
+    "replacement": ""
+  },
+  {
+    "bank": 6,
+    "addr": "822D",
+    "encoding": "ASCII",
+    "source": "@````",
+    "replacement": ""
+  },
+  {
+    "bank": 6,
+    "addr": "8365",
+    "encoding": "ASCII",
+    "source": "h<<p`",
+    "replacement": ""
+  },
+  {
+    "bank": 6,
+    "addr": "85B7",
+    "encoding": "ASCII",
+    "source": "=yrw#",
+    "replacement": ""
+  },
+  {
+    "bank": 6,
+    "addr": "86C2",
+    "encoding": "FAXANADU_1",
+    "source": "YQAAAAAQ",
+    "replacement": ""
+  },
+  {
+    "bank": 6,
+    "addr": "8916",
+    "encoding": "ASCII",
+    "source": ",Xas",
+    "replacement": ""
+  },
+  {
+    "bank": 6,
+    "addr": "89F6",
+    "encoding": "ASCII",
+    "source": "8lv7",
+    "replacement": ""
+  },
+  {
+    "bank": 6,
+    "addr": "8E1A",
+    "encoding": "ASCII",
+    "source": "SHh(",
+    "replacement": ""
+  },
+  {
+    "bank": 6,
+    "addr": "8EAC",
+    "encoding": "ASCII",
+    "source": " `@ ",
+    "replacement": ""
+  },
+  {
+    "bank": 6,
+    "addr": "8F2B",
+    "encoding": "ASCII",
+    "source": " `@ ",
+    "replacement": ""
+  },
+  {
+    "bank": 6,
+    "addr": "90AB",
+    "encoding": "ASCII",
+    "source": "0xx|<\\f",
+    "replacement": ""
+  },
+  {
+    "bank": 6,
+    "addr": "90CD",
+    "encoding": "FAXANADU_1",
+    "source": "WWOW",
+    "replacement": ""
+  },
+  {
+    "bank": 6,
+    "addr": "959C",
+    "encoding": "ASCII",
+    "source": "8800`",
+    "replacement": ""
+  },
+  {
+    "bank": 6,
+    "addr": "976A",
+    "encoding": "ASCII",
+    "source": "t.. ",
+    "replacement": ""
+  },
+  {
+    "bank": 6,
+    "addr": "9FFB",
+    "encoding": "ASCII",
+    "source": "&SccCCF",
+    "replacement": ""
+  },
+  {
+    "bank": 6,
+    "addr": "A07E",
+    "encoding": "ASCII",
+    "source": "4,((",
+    "replacement": ""
+  },
+  {
+    "bank": 6,
+    "addr": "A27C",
+    "encoding": "FAXANADU_1",
+    "source": "AAQQAQ",
+    "replacement": ""
+  },
+  {
+    "bank": 6,
+    "addr": "A29E",
+    "encoding": "ASCII",
+    "source": " @@ ",
+    "replacement": ""
+  },
+  {
+    "bank": 6,
+    "addr": "A327",
+    "encoding": "ASCII",
+    "source": "{cAR@",
+    "replacement": ""
+  },
+  {
+    "bank": 6,
+    "addr": "A3AA",
+    "encoding": "FAXANADU_1",
+    "source": "    ",
+    "replacement": ""
+  },
+  {
+    "bank": 6,
+    "addr": "A3AA",
+    "encoding": "ASCII",
+    "source": "    ",
+    "replacement": ""
+  },
+  {
+    "bank": 6,
+    "addr": "A50C",
+    "encoding": "ASCII",
+    "source": "??`@",
+    "replacement": ""
+  },
+  {
+    "bank": 6,
+    "addr": "A63C",
+    "encoding": "ASCII",
+    "source": "~?10~q",
+    "replacement": ""
+  },
+  {
+    "bank": 6,
+    "addr": "AD14",
+    "encoding": "ASCII",
+    "source": ")UWu[\\",
+    "replacement": ""
+  },
+  {
+    "bank": 6,
+    "addr": "AE35",
+    "encoding": "ASCII",
+    "source": "?_?#\\",
+    "replacement": ""
+  },
+  {
+    "bank": 6,
+    "addr": "AF2D",
+    "encoding": "ASCII",
+    "source": "???~",
+    "replacement": ""
+  },
+  {
+    "bank": 6,
+    "addr": "B493",
+    "encoding": "FAXANADU_1",
+    "source": "YYQQAAA",
+    "replacement": ""
+  },
+  {
+    "bank": 6,
+    "addr": "B526",
+    "encoding": "ASCII",
+    "source": "G_?!",
+    "replacement": ""
+  },
+  {
+    "bank": 6,
+    "addr": "B91A",
+    "encoding": "ASCII",
+    "source": "`pp00",
+    "replacement": ""
+  },
+  {
+    "bank": 6,
+    "addr": "B9FC",
+    "encoding": "FAXANADU_1",
+    "source": "QYYYYQ",
+    "replacement": ""
+  },
+  {
+    "bank": 7,
+    "addr": "8729",
+    "encoding": "ASCII",
+    "source": "?3!1=:;9",
+    "replacement": ""
+  },
+  {
+    "bank": 7,
+    "addr": "87A6",
+    "encoding": "ASCII",
+    "source": "p   ``",
+    "replacement": ""
+  },
+  {
+    "bank": 7,
+    "addr": "87CA",
+    "encoding": "FAXANADU_1",
+    "source": "AAAQ",
+    "replacement": ""
+  },
+  {
+    "bank": 7,
+    "addr": "8C3F",
+    "encoding": "ASCII",
+    "source": "zyy2",
+    "replacement": ""
+  },
+  {
+    "bank": 7,
+    "addr": "8DB8",
+    "encoding": "ASCII",
+    "source": "#QHKIG",
+    "replacement": ""
+  },
+  {
+    "bank": 7,
+    "addr": "8DC0",
+    "encoding": "ASCII",
+    "source": "0@@A",
+    "replacement": ""
+  },
+  {
+    "bank": 7,
+    "addr": "8F4E",
+    "encoding": "ASCII",
+    "source": "  ! ",
+    "replacement": ""
+  },
+  {
+    "bank": 7,
+    "addr": "8FD9",
+    "encoding": "ASCII",
+    "source": "/?><0",
+    "replacement": ""
+  },
+  {
+    "bank": 7,
+    "addr": "9D51",
+    "encoding": "ASCII",
+    "source": "%B$BS",
+    "replacement": ""
+  },
+  {
+    "bank": 7,
+    "addr": "AAB6",
+    "encoding": "ASCII",
+    "source": "/\"/(/./4/:/@/F/4/1",
+    "replacement": ""
+  },
+  {
+    "bank": 7,
+    "addr": "B03A",
+    "encoding": "ASCII",
+    "source": "4C5K5S5[5u",
+    "replacement": ""
+  },
+  {
+    "bank": 8,
+    "addr": "8037",
+    "encoding": "ASCII",
+    "source": ")*+,-.KLMNOPQRWXYZ[\\]^_uvwxyz{|",
+    "replacement": ""
+  },
+  {
+    "bank": 8,
+    "addr": "80FF",
+    "encoding": "ASCII",
+    "source": "IJKLMNOPQRWXYZ[\\]^_uvwxyz{|",
+    "replacement": ""
+  },
+  {
+    "bank": 8,
+    "addr": "81AE",
+    "encoding": "ASCII",
+    "source": " 08*~<",
+    "replacement": ""
+  },
+  {
+    "bank": 8,
+    "addr": "822D",
+    "encoding": "ASCII",
+    "source": " 08*~<8",
+    "replacement": ""
+  },
+  {
+    "bank": 8,
+    "addr": "82A7",
+    "encoding": "FAXANADU_1",
+    "source": "AAQQQ",
+    "replacement": ""
+  },
+  {
+    "bank": 8,
+    "addr": "83C7",
+    "encoding": "ASCII",
+    "source": "x8 (P",
+    "replacement": ""
+  },
+  {
+    "bank": 8,
+    "addr": "84BD",
+    "encoding": "ASCII",
+    "source": ".79>",
+    "replacement": ""
+  },
+  {
+    "bank": 8,
+    "addr": "851A",
+    "encoding": "ASCII",
+    "source": "=?.79>",
+    "replacement": ""
+  },
+  {
+    "bank": 8,
+    "addr": "86C8",
+    "encoding": "ASCII",
+    "source": "h($l",
+    "replacement": ""
+  },
+  {
+    "bank": 8,
+    "addr": "873F",
+    "encoding": "ASCII",
+    "source": "  _K",
+    "replacement": ""
+  },
+  {
+    "bank": 8,
+    "addr": "884C",
+    "encoding": "ASCII",
+    "source": " @ppp",
+    "replacement": ""
+  },
+  {
+    "bank": 8,
+    "addr": "88FD",
+    "encoding": "ASCII",
+    "source": "0pp```p",
+    "replacement": ""
+  },
+  {
+    "bank": 8,
+    "addr": "8906",
+    "encoding": "FAXANADU_1",
+    "source": "AAQQQM",
+    "replacement": ""
+  },
+  {
+    "bank": 8,
+    "addr": "8C35",
+    "encoding": "ASCII",
+    "source": "$~<<~$",
+    "replacement": ""
+  },
+  {
+    "bank": 8,
+    "addr": "8CAE",
+    "encoding": "ASCII",
+    "source": "88||8",
+    "replacement": ""
+  },
+  {
+    "bank": 8,
+    "addr": "8DA6",
+    "encoding": "ASCII",
+    "source": "8(DTD8",
+    "replacement": ""
+  },
+  {
+    "bank": 8,
+    "addr": "8DB4",
+    "encoding": "ASCII",
+    "source": "33'&dD@@;wwffDD@",
+    "replacement": ""
+  },
+  {
+    "bank": 8,
+    "addr": "8E28",
+    "encoding": "ASCII",
+    "source": "xw65",
+    "replacement": ""
+  },
+  {
+    "bank": 8,
+    "addr": "9066",
+    "encoding": "ASCII",
+    "source": "/=X1g3",
+    "replacement": ""
+  },
+  {
+    "bank": 8,
+    "addr": "911C",
+    "encoding": "ASCII",
+    "source": "pp`@",
+    "replacement": ""
+  },
+  {
+    "bank": 8,
+    "addr": "913C",
+    "encoding": "ASCII",
+    "source": "ppp`@",
+    "replacement": ""
+  },
+  {
+    "bank": 8,
+    "addr": "915A",
+    "encoding": "ASCII",
+    "source": "`@pppp``@",
+    "replacement": ""
+  },
+  {
+    "bank": 8,
+    "addr": "9467",
+    "encoding": "FAXANADU_1",
+    "source": "BTXO",
+    "replacement": ""
+  },
+  {
+    "bank": 8,
+    "addr": "96C7",
+    "encoding": "ASCII",
+    "source": "????",
+    "replacement": ""
+  },
+  {
+    "bank": 8,
+    "addr": "99C3",
+    "encoding": "FAXANADU_1",
+    "source": "VWWWVWWX",
+    "replacement": ""
+  },
+  {
+    "bank": 8,
+    "addr": "9A1F",
+    "encoding": "ASCII",
+    "source": "`00p",
+    "replacement": ""
+  },
+  {
+    "bank": 8,
+    "addr": "9D47",
+    "encoding": "FAXANADU_1",
+    "source": "ZQAH",
+    "replacement": ""
+  },
+  {
+    "bank": 8,
+    "addr": "9D93",
+    "encoding": "ASCII",
+    "source": "SCc##31",
+    "replacement": ""
+  },
+  {
+    "bank": 8,
+    "addr": "9E4B",
+    "encoding": "ASCII",
+    "source": " 8 8 :0",
+    "replacement": ""
+  },
+  {
+    "bank": 8,
+    "addr": "9ED6",
+    "encoding": "ASCII",
+    "source": "?<xwo",
+    "replacement": ""
+  },
+  {
+    "bank": 8,
+    "addr": "A173",
+    "encoding": "ASCII",
+    "source": ">>=}}{{{",
+    "replacement": ""
+  },
+  {
+    "bank": 8,
+    "addr": "A346",
+    "encoding": "ASCII",
+    "source": "x|||~",
+    "replacement": ""
+  },
+  {
+    "bank": 10,
+    "addr": "8151",
+    "encoding": "ASCII",
+    "source": "~CYQCg>",
+    "replacement": ""
+  },
+  {
+    "bank": 10,
+    "addr": "8159",
+    "encoding": "ASCII",
+    "source": "?|~~|X@",
+    "replacement": ""
+  },
+  {
+    "bank": 10,
+    "addr": "8180",
+    "encoding": "ASCII",
+    "source": "FFFFFFFFxxxxxxxx>g[QAC~",
+    "replacement": ""
+  },
+  {
+    "bank": 10,
+    "addr": "86A4",
+    "encoding": "ASCII",
+    "source": "*$\"\"??",
+    "replacement": ""
+  },
+  {
+    "bank": 10,
+    "addr": "86C8",
+    "encoding": "ASCII",
+    "source": " \"  ??",
+    "replacement": ""
+  },
+  {
+    "bank": 10,
+    "addr": "86E9",
+    "encoding": "ASCII",
+    "source": "`PPPPP_",
+    "replacement": ""
+  },
+  {
+    "bank": 10,
+    "addr": "876C",
+    "encoding": "ASCII",
+    "source": "08-,",
+    "replacement": ""
+  },
+  {
+    "bank": 10,
+    "addr": "88D9",
+    "encoding": "ASCII",
+    "source": "@     (H ",
+    "replacement": ""
+  },
+  {
+    "bank": 10,
+    "addr": "8A88",
+    "encoding": "FAXANADU_1",
+    "source": "QQAQQQA",
+    "replacement": ""
+  },
+  {
+    "bank": 10,
+    "addr": "8BF3",
+    "encoding": "ASCII",
+    "source": "#?><",
+    "replacement": ""
+  },
+  {
+    "bank": 10,
+    "addr": "8BFB",
+    "encoding": "ASCII",
+    "source": "3?><",
+    "replacement": ""
+  },
+  {
+    "bank": 10,
+    "addr": "92C1",
+    "encoding": "FAXANADU_1",
+    "source": "QTHBAAQ",
+    "replacement": ""
+  },
+  {
+    "bank": 10,
+    "addr": "96D2",
+    "encoding": "FAXANADU_1",
+    "source": "GHTZ",
+    "replacement": ""
+  },
+  {
+    "bank": 10,
+    "addr": "9A41",
+    "encoding": "ASCII",
+    "source": "}jurPT`",
+    "replacement": ""
+  },
+  {
+    "bank": 10,
+    "addr": "9B88",
+    "encoding": "ASCII",
+    "source": "UUUUUUUUUUUUUUUUUUUUUUUU",
+    "replacement": ""
+  },
+  {
+    "bank": 10,
+    "addr": "9C9B",
+    "encoding": "FAXANADU_1",
+    "source": "IIIA",
+    "replacement": ""
+  },
+  {
+    "bank": 10,
+    "addr": "9DFA",
+    "encoding": "FAXANADU_1",
+    "source": "UUQQQ",
+    "replacement": ""
+  },
+  {
+    "bank": 10,
+    "addr": "9E7C",
+    "encoding": "ASCII",
+    "source": "````",
+    "replacement": ""
+  },
+  {
+    "bank": 10,
+    "addr": "9F01",
+    "encoding": "ASCII",
+    "source": "<<8z~nv",
+    "replacement": ""
+  },
+  {
+    "bank": 10,
+    "addr": "9F60",
+    "encoding": "ASCII",
+    "source": "8,$(zvnv",
+    "replacement": ""
+  },
+  {
+    "bank": 10,
+    "addr": "9FC4",
+    "encoding": "ASCII",
+    "source": ":2::",
+    "replacement": ""
+  },
+  {
+    "bank": 10,
+    "addr": "A098",
+    "encoding": "ASCII",
+    "source": "```` @",
+    "replacement": ""
+  },
+  {
+    "bank": 10,
+    "addr": "A214",
+    "encoding": "FAXANADU_1",
+    "source": "YYQQIIAA",
+    "replacement": ""
+  },
+  {
+    "bank": 10,
+    "addr": "A238",
+    "encoding": "ASCII",
+    "source": "  ```p ",
+    "replacement": ""
+  },
+  {
+    "bank": 10,
+    "addr": "A259",
+    "encoding": "FAXANADU_1",
+    "source": "YUUUUA",
+    "replacement": ""
+  },
+  {
+    "bank": 10,
+    "addr": "A2DC",
+    "encoding": "ASCII",
+    "source": "Pp``",
+    "replacement": ""
+  },
+  {
+    "bank": 10,
+    "addr": "A344",
+    "encoding": "ASCII",
+    "source": ">*::",
+    "replacement": ""
+  },
+  {
+    "bank": 10,
+    "addr": "A868",
+    "encoding": "ASCII",
+    "source": "8<<8<<8<",
+    "replacement": ""
+  },
+  {
+    "bank": 10,
+    "addr": "A88A",
+    "encoding": "ASCII",
+    "source": "}_T P",
+    "replacement": ""
+  },
+  {
+    "bank": 10,
+    "addr": "B4F4",
+    "encoding": "ASCII",
+    "source": "&'()*'+)q'r)s't)u'v)",
+    "replacement": ""
+  },
+  {
+    "bank": 12,
+    "addr": "80F4",
+    "encoding": "ASCII",
+    "source": "(),-./",
+    "replacement": ""
+  },
+  {
+    "bank": 12,
+    "addr": "80FF",
+    "encoding": "ASCII",
+    "source": "bcdefghijklmno:;<=@APQ`",
+    "replacement": ""
+  },
+  {
+    "bank": 12,
+    "addr": "91BE",
+    "encoding": "ASCII",
+    "source": "Mantra is in the wrong.                         Enter your mantra.   ",
+    "replacement": ""
+  },
+  {
+    "bank": 12,
+    "addr": "9DBC",
+    "encoding": "FAXANADU_1",
+    "source": " START",
+    "replacement": ""
+  },
+  {
+    "bank": 12,
+    "addr": "9DC3",
+    "encoding": "FAXANADU_1",
+    "source": "CONTINUE",
+    "replacement": ""
+  },
+  {
+    "bank": 12,
+    "addr": "9DD2",
+    "encoding": "FAXANADU_1",
+    "source": " HUDSON SOFT",
+    "replacement": ""
+  },
+  {
+    "bank": 12,
+    "addr": "9DDF",
+    "encoding": "FAXANADU_1",
+    "source": "UNDER LICENSE FROM FALCOM",
+    "replacement": ""
+  },
+  {
+    "bank": 12,
+    "addr": "9DF9",
+    "encoding": "FAXANADU_1",
+    "source": "LICENSED TO NINTENDO",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "8063",
+    "encoding": "ASCII",
+    "source": "`` @",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "820B",
+    "encoding": "ASCII",
+    "source": "<ln>",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "8210",
+    "encoding": "ASCII",
+    "source": "@``xll8",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "821A",
+    "encoding": "ASCII",
+    "source": "8|`d8",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "8223",
+    "encoding": "ASCII",
+    "source": "<ll8",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "822A",
+    "encoding": "ASCII",
+    "source": "8d|`<",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "823E",
+    "encoding": "ASCII",
+    "source": "l8```xlll",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "824B",
+    "encoding": "ASCII",
+    "source": "0000",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "8255",
+    "encoding": "ASCII",
+    "source": "XX0``dlxxl",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "826A",
+    "encoding": "ASCII",
+    "source": "lVVVV",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "8272",
+    "encoding": "ASCII",
+    "source": "xllll",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "827A",
+    "encoding": "ASCII",
+    "source": "8lll8",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "8282",
+    "encoding": "ASCII",
+    "source": "xllx``",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "8292",
+    "encoding": "ASCII",
+    "source": "l|p``",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "82AA",
+    "encoding": "ASCII",
+    "source": "Hlll4",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "82BA",
+    "encoding": "ASCII",
+    "source": "RVVV,",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "B3DB",
+    "encoding": "ASCII",
+    "source": "xHHx",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "B43D",
+    "encoding": "ASCII",
+    "source": "zBCBzBBBz",
+    "replacement": ""
+  },
+  {
+    "bank": 13,
+    "addr": "B452",
+    "encoding": "ASCII",
+    "source": "i)*,",
+    "replacement": ""
+  },
+  {
+    "bank": 14,
+    "addr": "8CB6",
+    "encoding": "ASCII",
+    "source": "&)+/1359<?DGIK",
+    "replacement": ""
+  },
+  {
+    "bank": 14,
+    "addr": "ABB7",
+    "encoding": "FAXANADU_1",
+    "source": " QQ A QQ A",
+    "replacement": ""
+  },
+  {
+    "bank": 14,
+    "addr": "B9D4",
+    "encoding": "ASCII",
+    "source": "`````a`bB",
+    "replacement": ""
+  },
+  {
+    "bank": 15,
+    "addr": "9DC9",
+    "encoding": "ASCII",
+    "source": "#+3<",
+    "replacement": ""
+  },
+  {
+    "bank": 15,
+    "addr": "B8E1",
+    "encoding": "ASCII",
+    "source": ",<=.",
+    "replacement": ""
+  },
+  {
+    "bank": 15,
+    "addr": "B8E6",
+    "encoding": "ASCII",
+    "source": "->?/",
+    "replacement": ""
+  },
+  {
+    "bank": 15,
+    "addr": "BFE0",
+    "encoding": "ASCII",
+    "source": "        FAXANADU'B",
+    "replacement": ""
+  }
+]

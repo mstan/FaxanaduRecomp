@@ -155,6 +155,27 @@ int text_override_patch_prg_ascii(int bank, uint16_t prg_addr,
 
     buf[rep_len] = 0x00;  /* implicit null terminator */
 
+#ifndef NDEBUG
+    /* Warn if replacement is longer than what was stored at this address.
+     * The renderer stops at null so this is safe, but adjacent shadow data
+     * will be overwritten — flag it so the modder knows. */
+    {
+        uint8_t *bank_ptr = runner_get_prg_bank_rw(bank);
+        if (bank_ptr && prg_addr >= 0x8000 && prg_addr <= 0xBFFF) {
+            int offset   = prg_addr - 0x8000;
+            int src_len  = 0;
+            while (src_len < TEXT_OVERRIDE_MAX_LEN && offset + src_len < 0x4000
+                   && bank_ptr[offset + src_len] != 0x00)
+                src_len++;
+            if (rep_len > src_len)
+                fprintf(stderr,
+                    "[TextOverride] WARN bank%d $%04X: replacement len %d > source len %d"
+                    " — adjacent data will be overwritten\n",
+                    bank, prg_addr, rep_len, src_len);
+        }
+    }
+#endif
+
     text_override_patch_prg(bank, prg_addr, buf, rep_len + 1);
     return 1;
 }
