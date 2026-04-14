@@ -3,7 +3,7 @@
 # Two optional fields:
 #   branch = <ref>   ref to resolve when `sha` is unset.
 #                    Default: origin/master
-#   sha    = 90e8cf79ca2f51bc4a477e0edfbee439afa4f1c9
+#   sha    = 56d85de0895deee300ef4c06817aad7d5abb3ca1
 #                    Most explicit / reproducible.
 #
 # Resolution at CMake configure time:
@@ -23,5 +23,5 @@
 #   2. re-run the setup script (or manually: git -C nesrecomp checkout <sha>)
 #   3. commit this file change
 
-branch = origin/feature/chr-override-plugin
-sha    = 56d85de0895deee300ef4c06817aad7d5abb3ca1
+branch = origin/master
+sha    = ef48c05c3f5f543b99ceff72c5c07279210f771c
