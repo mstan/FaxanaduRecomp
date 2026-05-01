@@ -324,7 +324,6 @@ void game_post_nmi(uint64_t frame_count) {
 
     if (s_debug_enabled) {
         debug_server_record_frame();
-        debug_server_check_watchpoints();
     }
 }
 
@@ -451,7 +450,6 @@ void game_run_main(void) {
 
             /* Record frame for debug server */
             debug_server_record_frame();
-            debug_server_check_watchpoints();
 
             /* Frame pacing: ~60fps */
             if (!g_turbo) SDL_Delay(16);
