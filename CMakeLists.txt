@@ -134,3 +134,7 @@ if(MSVC)
     target_compile_options(FaxanaduRecomp PRIVATE /W3 /WX-)
     target_compile_options(FaxanaduRecomp PRIVATE /wd4102)
 endif()
+
+# ---- Pre-boot GUI launcher (RmlUi) ----
+include(${NESRECOMP_ROOT}/runner/launcher.cmake)
+nesrecomp_add_launcher(FaxanaduRecomp)
