@@ -138,3 +138,10 @@ endif()
 # ---- Pre-boot GUI launcher (RmlUi) ----
 include(${NESRECOMP_ROOT}/runner/launcher.cmake)
 nesrecomp_add_launcher(FaxanaduRecomp)
+
+# Faxanadu saves via a password (mantra), not battery SRAM. Drive the launcher's
+# SAVES panel to show/edit that password (the faxanadu.srm sidecar next to the exe
+# that the runtime auto-prefill reads/writes) instead of the binary SRAM UI.
+target_compile_definitions(FaxanaduRecomp PRIVATE
+    NESRECOMP_GAME_PASSWORD_SAVE="faxanadu.srm"
+    NESRECOMP_GAME_PASSWORD_SAVE_LABEL="Mantra")
