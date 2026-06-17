@@ -9,7 +9,11 @@
 
 #include <setjmp.h>
 
-#define WATCHDOG_TIMEOUT_SECS 10.0
+/* A natively-recompiled frame runs in microseconds; anything spending this long
+ * inside ONE non-advancing frame is a genuine infinite loop. Kept well above any
+ * real frame so there are no false positives, but low enough that the forced
+ * recovery below turns a stuck frame into a brief hitch instead of a long freeze. */
+#define WATCHDOG_TIMEOUT_SECS 1.0
 
 /* Jump buffer for watchdog abort. Set before calling game code. */
 extern jmp_buf g_watchdog_jmp;

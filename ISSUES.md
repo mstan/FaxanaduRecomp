@@ -488,9 +488,24 @@ OAM overflow — no longer needed after Issue #10 investigation).
 
 ---
 
-## ISSUE #12 — Synthetic SRAM: new passcodes are NOT auto-captured yet
+## ISSUE #12 — Synthetic SRAM: auto-capture new passcodes
 
-**Status:** PARTIAL — prefill works; auto-capture does not. (2026-06-16)
+**Status:** RESOLVED ✅ (2026-06-16)
+
+The "under-packs to 12 chars" diagnosis below was **wrong**. `func_96FE_b12 →
+func_976C_b12` reads only progress RAM (`$042C/$042D/$0437/$0439/$03BD-$03C1` + five
+item arrays at `$039D-$03B1` with counts `$03C2-$03C6`) and sets its own ZP pointers —
+no bank switch, no in-context state. The 12-vs-24 was simply minimal early-game
+progress, not an under-pack. Verified against the priest's own display: with a loaded
+save in gameplay, out-of-band `func_96FE_b12` reproduces the exact mantra the guru
+shows. `mantra_capture_tick` is re-enabled (`s_auto_capture_enabled = 1`): ~every 15 s
+it encodes current progress, dedups, persists to `faxanadu.srm`, and appends a
+timestamped line to `faxanadu_mantra_log.txt` (roll-back history). Original (incorrect)
+analysis kept below for the record.
+
+---
+
+**Status (original):** PARTIAL — prefill works; auto-capture does not. (2026-06-16)
 
 Faxanadu has no battery; its save IS the mantra. We added a synthetic-SRAM feature
 (extras.c): persist a mantra to a sidecar file `faxanadu.srm` and auto-inject it on
@@ -522,7 +537,25 @@ from the iNES battery bit).
 
 ## ISSUE #13 — Watchdog 10s misses on the mantra/password screen
 
-**Status:** DOCUMENTED, not chased. (2026-06-16)
+**Status:** RESOLVED ✅ (2026-06-16)
+
+Root cause: `watchdog_frame_start()` (which resets the per-frame timer) was declared
+but **never called** by the runner/recompiler, so `s_frame_start` only reset on timeout.
+The watchdog therefore fired every ~10 s of WALL-CLOCK during normal play and dumped
+whatever call stack happened to be executing — pure noise, not a real stall (the
+recurring ~604-frame interval ≈ 10 s gave it away). Its "forced VBlank trigger" message
+was also a no-op (it only logged + reset the timer; it never unstuck anything).
+
+Fix (Faxanadu-only, `watchdog.c`/`watchdog.h`): key the timer to `g_frame_count` so
+"elapsed" measures time spent inside a single non-advancing frame — it now trips only on
+a genuinely stuck frame. On a real stall it actually recovers (`runtime_reset_vblank_depth()`,
+unsticking the `MAX_VBLANK_DEPTH` pin so the next back-edge fires the NMI) and logs the
+vblank depth for diagnosis. Timeout lowered 10 s → 1 s (safe: a native frame is
+microseconds; only an infinite loop exceeds it).
+
+---
+
+**Status (original):** DOCUMENTED, not chased. (2026-06-16)
 
 On the bank-12 mantra/password screen, the runner's watchdog logs
 `=== WATCHDOG: Frame N exceeded 10.0s ===` roughly every ~606 frames (~10s) and

@@ -21,6 +21,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdarg.h>
+#include <time.h>
 
 #ifdef _WIN32
 #  define WIN32_LEAN_AND_MEAN
@@ -321,6 +322,28 @@ static int mantra_save_read(void) {
     return 1;
 }
 
+/* Append every distinct captured mantra to a human-readable, timestamped history
+ * next to the exe (faxanadu_mantra_log.txt), so the player can "go back in time"
+ * to any earlier state by entering an older mantra. A session header is written
+ * lazily, just before the first variant captured in this run. */
+static int s_mantra_session_logged = 0;
+static void mantra_log_append(const char *mantra) {
+    char path[512];
+    get_exe_relative_path("faxanadu_mantra_log.txt", path, sizeof(path));
+    FILE *f = fopen(path, "a");
+    if (!f) return;
+    time_t now = time(NULL);
+    struct tm *lt = localtime(&now);
+    char ts[32] = "????-??-?? ??:??:??";
+    if (lt) strftime(ts, sizeof(ts), "%Y-%m-%d %H:%M:%S", lt);
+    if (!s_mantra_session_logged) {
+        fprintf(f, "# --- session %s ---\n", ts);
+        s_mantra_session_logged = 1;
+    }
+    fprintf(f, "%s  %s\n", ts, mantra);
+    fclose(f);
+}
+
 /* Per-frame capture (called from game_post_nmi). Gated to real gameplay: skips
  * until the game has progress (encoder source fields non-zero), so we never
  * overwrite a good save with the blank power-on state. Persists only on change. */
@@ -330,12 +353,22 @@ static int mantra_save_read(void) {
  * bank/pointer state that only exists when the game itself runs the mantra
  * (priest) screen. So we do NOT auto-capture new passcodes yet — the prefill path
  * (load a known mantra from faxanadu.srm and auto-inject it) is the working win.
- * The fix is to capture at the priest's mantra screen instead. See ISSUES.md. */
-static int s_auto_capture_enabled = 0;
+ * The fix is to capture at the priest's mantra screen instead. See ISSUES.md.
+ *
+ * UPDATE (2026-06-16): that diagnosis was WRONG. func_96FE_b12 -> func_976C_b12 is
+ * fully self-contained: it reads only progress RAM ($042C/$042D/$0437/$0439/
+ * $03BD-$03C1 + five item arrays at $039D-$03B1 with counts $03C2-$03C6) and sets
+ * its own ZP pointers ($EE/$EF) for the item loops — no bank switch, no in-context
+ * state. The "12 vs 24 chars" the prior session saw was just MINIMAL early-game
+ * progress, not an under-pack. Validated against the priest's own display: with a
+ * populated save loaded into gameplay, out-of-band func_96FE_b12 reproduces the
+ * exact mantra the guru shows. So continuous out-of-band capture is correct: it
+ * encodes the current resumable progress every ~0.5s, exactly as a save-anywhere. */
+static int s_auto_capture_enabled = 1;
 
 static void mantra_capture_tick(uint64_t frame_count) {
-    if (!s_auto_capture_enabled) return;   /* see comment above — under-packs out-of-band */
-    if ((frame_count % 30) != 0) return;   /* ~twice a second */
+    if (!s_auto_capture_enabled) return;
+    if ((frame_count % 900) != 0) return;  /* ~every 15 seconds */
 
     /* Gameplay gate: any core progress field set => a started game. */
     if ((g_ram[0x042C] | g_ram[0x042D] | g_ram[0x0437] | g_ram[0x0439]) == 0)
@@ -346,6 +379,7 @@ static void mantra_capture_tick(uint64_t frame_count) {
     if (strcmp(mantra, s_saved_mantra) == 0) return;   /* unchanged */
 
     mantra_save_write(mantra);
+    mantra_log_append(mantra);   /* timestamped history for "go back in time" */
     /* Keep it ready for the prefill path too. */
     snprintf(s_loaded_password, sizeof(s_loaded_password), "%s", mantra);
     s_password = s_loaded_password;
@@ -668,6 +702,18 @@ int game_handle_debug_cmd(const char *cmd, int id, const char *json) {
         pos += snprintf(buf + pos, 8, "]}");
         debug_server_send_line(buf);
         free(buf);
+        return 1;
+    }
+
+    /* Diagnostic (debug.ini only): run the game's encoder out-of-band on the
+     * current progress and return the decoded mantra + char count. Mirrors what
+     * the synthetic-SRAM auto-capture persists — handy for inspecting live state. */
+    if (strcmp(cmd, "mantra_now") == 0) {
+        char m[25];
+        int n = faxanadu_generate_mantra(m, sizeof(m));
+        debug_server_send_fmt(
+            "{\"id\":%d,\"ok\":true,\"len\":%d,\"cb\":%d,\"mantra\":\"%s\"}",
+            id, n, g_ram[0x04CB], m);
         return 1;
     }
 
