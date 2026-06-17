@@ -488,6 +488,62 @@ OAM overflow — no longer needed after Issue #10 investigation).
 
 ---
 
+## ISSUE #12 — Synthetic SRAM: new passcodes are NOT auto-captured yet
+
+**Status:** PARTIAL — prefill works; auto-capture does not. (2026-06-16)
+
+Faxanadu has no battery; its save IS the mantra. We added a synthetic-SRAM feature
+(extras.c): persist a mantra to a sidecar file `faxanadu.srm` and auto-inject it on
+the password ("Enter your mantra") screen so the player never types it.
+
+What WORKS (validated):
+- **Prefill/auto-inject**: a mantra in `faxanadu.srm` (or via `--password`, or legacy
+  `saves.txt`) is loaded at boot and auto-typed onto the password screen, both rows,
+  full 24 chars. Verified with a real mantra `y8f?8n?8YQSYzGhTkPhCEIQg`.
+
+What does NOT work yet — **we do not capture NEW passcodes**:
+- The encoder lives at bank-12 `$96FE` (packs progress RAM → bit-buffer `$04CD`;
+  fields incl. `$0437,$0439,$042C,$042D,$03BD-$03C1` and an item-array loop via packer
+  `$982A`). Calling `func_96FE_b12()` OUT-OF-BAND during gameplay UNDER-PACKS: it
+  produces a 12-char mantra, not 24, because `$982A` needs the in-context bank/pointer
+  state that only exists when the game itself runs the mantra (priest) screen.
+- So `mantra_capture_tick()` is disabled (`s_auto_capture_enabled = 0`) to avoid
+  clobbering a good `faxanadu.srm` with an incomplete 12-char mantra.
+- **Fix path:** capture at the **priest's mantra screen** (where the game runs the
+  encoder in-context and shows the full 24 chars) — detect that screen per-frame and
+  read the displayed mantra (PPU nametable) or re-run the encoder there. Needs a Ghidra
+  pass to find the priest-screen game-state value + on-screen position.
+
+This is almost certainly **Faxanadu-specific** (password game). The launcher should be
+updated to reflect Faxanadu's mantra-save (its SAVES panel currently shows "no SRAM"
+from the iNES battery bit).
+
+---
+
+## ISSUE #13 — Watchdog 10s misses on the mantra/password screen
+
+**Status:** DOCUMENTED, not chased. (2026-06-16)
+
+On the bank-12 mantra/password screen, the runner's watchdog logs
+`=== WATCHDOG: Frame N exceeded 10.0s ===` roughly every ~606 frames (~10s) and
+recovers via `=== Continuing (forced VBlank trigger) ===`. Representative recomp
+stack at the stall:
+
+```
+func_C913 -> func_CBBF -> func_CA78 -> func_8006_b5 -> func_8000_b5 -> func_DA6A ->
+func_DA7D -> func_CAF7 -> func_C999 -> func_823A_b5 -> func_8517_b5 -> func_CB4F
+(+ func_9F44_b12)
+```
+
+Spans bank5 (`func_8000/8517/823A_b5`) + bank12 (`func_9F44_b12`) — i.e. a spin-wait
+on the mantra screen that the watchdog rescues. Unconfirmed whether this is a genuine
+regression from recent ecosystem changes (launcher/save_ram/config) or a pre-existing
+bank-12 roughness (see PATTERNS.md "bank-12 ... never becomes 12") simply exposed by
+now actually using the password screen. The screen is functional (renders + accepts
+input); the misses are noisy but non-fatal. Deferred — to investigate separately.
+
+---
+
 ## Historical notes
 
 - bank-14 dispatch misses ($8C0F, $8C98, $89EF, $A6FF, $0001): status unclear after

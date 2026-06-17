@@ -220,6 +220,138 @@ static void maybe_inject_password(void) {
     printf("[Password] Injected \"%s\" (%d chars)\n", s_password, len);
 }
 
+/* ============================================================================
+ * Synthetic SRAM: auto-capture the game's own mantra, persist it, auto-prefill.
+ *
+ * Faxanadu has no battery, and it uses the $6000-$7FFF WRAM window itself, so we
+ * can't repurpose it. Instead the "save" is just the mantra: each ~half-second of
+ * gameplay we ask the GAME's own encoder (func_96FE_b12, bank 12) to pack the
+ * current progress into its bit-buffer at $04CD, read the 6-bit chars back out
+ * (the same fields the password screen would show), and persist the resulting
+ * mantra string to a sidecar file. On boot it's loaded and auto-injected onto the
+ * password screen (existing maybe_inject_password path) — no typing, ever.
+ *
+ * Calling the recompiled encoder out-of-band is made safe by bracketing it in
+ * runtime_begin_post_nmi()/end_post_nmi(), which neutralises maybe_trigger_vblank
+ * (no NMI re-entrancy), plus saving/restoring the scratch it touches.
+ * ==========================================================================*/
+
+extern uint8_t g_ram[];
+void func_96FE_b12(void);   /* bank-12 mantra encoder: progress RAM -> $04CD bits */
+
+/* Inverse of password_char_to_index: mantra table index (0-63) -> ASCII. */
+static char index_to_char(int idx) {
+    if (idx < 26) return (char)('A' + idx);
+    if (idx < 52) return (char)('a' + (idx - 26));
+    if (idx < 62) return (char)('0' + (idx - 52));
+    if (idx == 62) return ',';
+    if (idx == 63) return '?';
+    return '?';
+}
+
+/* Generate the mantra for the current progress by running the game's encoder and
+ * extracting the 6-bit fields. Writes a NUL-terminated ASCII mantra to `out`.
+ * Returns its length (0 on failure). Side-effect-free w.r.t. game state. */
+static int faxanadu_generate_mantra(char *out, int out_sz) {
+    /* Save the scratch the encoder/packers touch so the live game is untouched:
+     * $00EC-$00EF (packer temps/pointer) and $04C9-$04D8 (cursors/count/checksum
+     * + the bit-buffer at $04CD). */
+    uint8_t save_zp[4], save_sc[16];
+    memcpy(save_zp, &g_ram[0x00EC], sizeof(save_zp));
+    memcpy(save_sc, &g_ram[0x04C9], sizeof(save_sc));
+
+    runtime_begin_post_nmi();   /* neutralise maybe_trigger_vblank during the call */
+    func_96FE_b12();            /* pack current progress -> $04CD, sets $04CB count */
+    runtime_end_post_nmi();
+
+    int count = g_ram[0x04CB];
+    int len = 0, byte_i = 0, bit_i = 0;
+    if (count > 0 && count <= 24) {
+        for (int c = 0; c < count && len < out_sz - 1; c++) {
+            int idx = 0;
+            for (int b = 0; b < 6; b++) {           /* 6 bits, MSB-first (matches $98E9) */
+                int bit = (g_ram[0x04CD + byte_i] >> (7 - bit_i)) & 1;
+                idx = (idx << 1) | bit;
+                if (++bit_i == 8) { bit_i = 0; byte_i++; }
+            }
+            out[len++] = index_to_char(idx);
+        }
+    }
+    out[len] = '\0';
+
+    memcpy(&g_ram[0x00EC], save_zp, sizeof(save_zp));
+    memcpy(&g_ram[0x04C9], save_sc, sizeof(save_sc));
+    return len;
+}
+
+/* The mantra sidecar save ("our own SRAM"), exe-relative. */
+static void mantra_save_path(char *out, int max_len) {
+    get_exe_relative_path("faxanadu.srm", out, max_len);
+}
+
+static char s_saved_mantra[25];   /* last mantra written to disk (dirty check) */
+
+static void mantra_save_write(const char *mantra) {
+    char path[512];
+    mantra_save_path(path, sizeof(path));
+    FILE *f = fopen(path, "w");
+    if (!f) return;
+    fprintf(f, "%s\n", mantra);
+    fclose(f);
+    snprintf(s_saved_mantra, sizeof(s_saved_mantra), "%s", mantra);
+    printf("[Mantra] Saved \"%s\"\n", mantra);
+}
+
+/* Load the persisted mantra (returns 1 and fills s_loaded_password on success). */
+static int mantra_save_read(void) {
+    char path[512];
+    mantra_save_path(path, sizeof(path));
+    FILE *f = fopen(path, "r");
+    if (!f) return 0;
+    char line[64];
+    int ok = fgets(line, sizeof(line), f) != NULL;
+    fclose(f);
+    if (!ok) return 0;
+    int len = (int)strlen(line);
+    while (len > 0 && (line[len-1] == '\n' || line[len-1] == '\r')) line[--len] = '\0';
+    if (len == 0 || len > 24) return 0;
+    for (int i = 0; i < len; i++) if (password_char_to_index(line[i]) < 0) return 0;
+    memcpy(s_loaded_password, line, len + 1);
+    snprintf(s_saved_mantra, sizeof(s_saved_mantra), "%s", line);
+    return 1;
+}
+
+/* Per-frame capture (called from game_post_nmi). Gated to real gameplay: skips
+ * until the game has progress (encoder source fields non-zero), so we never
+ * overwrite a good save with the blank power-on state. Persists only on change. */
+/* DISABLED for now. Regenerating the mantra out-of-band (calling func_96FE_b12
+ * during normal gameplay) UNDER-PACKS: it yields a 12-char mantra instead of the
+ * real 24, because the encoder's item-array packer ($982A) needs the in-context
+ * bank/pointer state that only exists when the game itself runs the mantra
+ * (priest) screen. So we do NOT auto-capture new passcodes yet — the prefill path
+ * (load a known mantra from faxanadu.srm and auto-inject it) is the working win.
+ * The fix is to capture at the priest's mantra screen instead. See ISSUES.md. */
+static int s_auto_capture_enabled = 0;
+
+static void mantra_capture_tick(uint64_t frame_count) {
+    if (!s_auto_capture_enabled) return;   /* see comment above — under-packs out-of-band */
+    if ((frame_count % 30) != 0) return;   /* ~twice a second */
+
+    /* Gameplay gate: any core progress field set => a started game. */
+    if ((g_ram[0x042C] | g_ram[0x042D] | g_ram[0x0437] | g_ram[0x0439]) == 0)
+        return;
+
+    char mantra[25];
+    if (faxanadu_generate_mantra(mantra, sizeof(mantra)) <= 0) return;
+    if (strcmp(mantra, s_saved_mantra) == 0) return;   /* unchanged */
+
+    mantra_save_write(mantra);
+    /* Keep it ready for the prefill path too. */
+    snprintf(s_loaded_password, sizeof(s_loaded_password), "%s", mantra);
+    s_password = s_loaded_password;
+    s_password_injected = 0;   /* allow re-inject on the next password screen */
+}
+
 /* ---- game_extras.h implementation ---- */
 
 uint32_t game_get_expected_crc32(void) { return 0x57DD23D1u; }
@@ -286,9 +418,14 @@ void game_on_init(void) {
             verify_mode_init(g_rom_path_for_extras);
     }
 
-    /* If no --password CLI flag, try loading from saves.txt */
+    /* Auto-prefill source (unless --password overrides): prefer our persisted
+     * synthetic-SRAM mantra (faxanadu.srm, auto-captured during play), then fall
+     * back to the legacy saves.txt. */
     if (!s_password_from_cli) {
-        if (load_password_from_file()) {
+        if (mantra_save_read()) {
+            s_password = s_loaded_password;
+            printf("[Mantra] Loaded saved mantra \"%s\" (auto-prefill)\n", s_loaded_password);
+        } else if (load_password_from_file()) {
             s_password = s_loaded_password;
             printf("[Password] Loaded mantra from saves.txt: \"%s\"\n", s_loaded_password);
         }
@@ -317,7 +454,8 @@ void game_on_frame(uint64_t frame_count) {
 }
 
 void game_post_nmi(uint64_t frame_count) {
-    (void)frame_count;
+    /* Auto-capture the current-progress mantra into our synthetic-SRAM save. */
+    mantra_capture_tick(frame_count);
 
     if (s_chr_enabled)
         chr_override_frame_end();
