@@ -24,4 +24,4 @@
 #   3. commit this file change
 
 branch = audit/cpu-coverage-2026-05
-sha    = 6dadf6d9696844506acba554f42ec05b5ed31006
+sha    = ce18ead728e923811f78bb7d228124d260ae713b

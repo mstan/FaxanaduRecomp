@@ -92,7 +92,6 @@ add_executable(FaxanaduRecomp
     override_text.c   # optional text override plugin — game-specific strings in extras.c
     ${NESRECOMP_RUNNER_ROOT}/src/override_chr.c   # CHR asset dump + override plugin
     ${NESRECOMP_RUNNER_ROOT}/src/chr_codec.c       # NES 2bpp CHR <-> PNG codec
-    recomp_stack.c
     nes_snapshot.c
     verify_mode.c
     watchdog.c
