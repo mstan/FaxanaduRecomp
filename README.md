@@ -1,3 +1,15 @@
+<p align="center">
+  <a href="https://discord.gg/Ad9BwSzctP">
+    <img src=".github/raid-discord.png" alt="Join the Retro AI Development (R.A.I.D.) Discord" width="550">
+  </a>
+</p>
+
+<p align="center">
+  <b>R.A.I.D. — Retro AI Development.</b> A Discord community for developers reverse-engineering, decompiling, and recompiling retro games with AI. Click the banner to join.
+</p>
+
+---
+
 # FaxanaduRecomp
 
 Static recompilation of Faxanadu (NES) for native PC.
