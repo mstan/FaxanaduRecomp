@@ -74,11 +74,6 @@ endif()
 # launcher.c's main(), and stages the launcher assets next to the exe.
 include(${CMAKE_SOURCE_DIR}/recomp-ui/recomp_ui.cmake)
 recomp_target_launcher_ui(FaxanaduRecomp BOXART ${CMAKE_SOURCE_DIR}/boxart.tga)
-if(WIN32)
-    # OpenGL for the ImGui GL3 backend (previously pulled in by the RmlUi
-    # launcher.cmake via OpenGL::GL).
-    target_link_libraries(FaxanaduRecomp PRIVATE opengl32)
-endif()
 
 # Faxanadu saves via a password (mantra), not battery SRAM. Drive the launcher's
 # SAVES panel to show/edit that password (the faxanadu.srm sidecar next to the exe
