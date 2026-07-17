@@ -23,3 +23,7 @@ chr_dump/
 *.chr.bin
 
 # DO NOT ignore generated/ — committed for reproducibility
+
+# recomp-ui launcher is a junction to the shared checkout (submodule later).
+recomp-ui
+build_ui/
