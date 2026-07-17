@@ -152,3 +152,6 @@ endif()
 target_compile_definitions(FaxanaduRecomp PRIVATE
     NESRECOMP_GAME_PASSWORD_SAVE="faxanadu.srm"
     NESRECOMP_GAME_PASSWORD_SAVE_LABEL="Mantra")
+
+# Single-player (one controller) — hide the launcher's Player 2 card.
+target_compile_definitions(FaxanaduRecomp PRIVATE NESRECOMP_GAME_PLAYERS=1)
