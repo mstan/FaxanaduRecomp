@@ -4,7 +4,6 @@ setlocal enabledelayedexpansion
 rem build_all.bat — Release (non-debug) Windows build for FaxanaduRecomp.
 rem
 rem Produces: build_release\FaxanaduRecomp.exe
-rem Flags:    ENABLE_NESTOPIA_ORACLE=OFF, NESRECOMP_REVERSE_DEBUG=OFF
 rem           (NESRECOMP_ENABLE_TRACE stays default-ON but is inert without a
 rem            debug.ini, matching the SuperMarioBrosRecomp release convention.)
 rem Regen:    plain, from the committed game config — byte-identical to the
@@ -42,9 +41,9 @@ cd /d %~dp0
 nesrecomp\build_recomp\NESRecomp.exe baserom.nes
 if !ERRORLEVEL! NEQ 0 ( echo REGEN FAILED & exit /b 2 )
 
-echo === STEP 3: Configure + build (oracle OFF, non-debug) ===
+echo === STEP 3: Configure + build release ===
 if not exist build_release\CMakeCache.txt (
-    cmake -S . -B build_release -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_COMPILER=cl -DCMAKE_CXX_COMPILER=cl -DENABLE_NESTOPIA_ORACLE=OFF -DNESRECOMP_REVERSE_DEBUG=OFF
+    cmake -S . -B build_release -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_COMPILER=cl -DCMAKE_CXX_COMPILER=cl
     if !ERRORLEVEL! NEQ 0 ( echo CMAKE FAILED & exit /b 3 )
 )
 cmake --build build_release

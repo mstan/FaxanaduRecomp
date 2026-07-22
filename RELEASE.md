@@ -30,8 +30,7 @@ player's mantra save (`faxanadu.srm`) / logs.
    ```
 
    The zip lands in `release\` (gitignored). `make_release.ps1` calls
-   `build_all.bat` (plain regen, `ENABLE_NESTOPIA_ORACLE=OFF`,
-   `NESRECOMP_REVERSE_DEBUG=OFF`) and strips `debug.ini`.
+   `build_all.bat` for a plain release build and strips `debug.ini`.
 
 3. Smoke-test the zip from a scratch directory (extract, run, point at a ROM,
    confirm the launcher + game boot and a save round-trips).
