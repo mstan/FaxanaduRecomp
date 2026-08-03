@@ -65,6 +65,17 @@ FaxanaduRecomp.exe [ROM] --password "k8fPcv?,TwSYzGZQhMIQhCEA"
 | MD5   | `b3bb9296b5e1e0c83e90b6da9e8a41aa` (ROM data only) |
 | SHA-1 | `5b05c8859f356013d37f0545f5de5fa1693da5da` (ROM data only) |
 
+## Experimental 3D Voxel Diorama
+
+Open **Mods** in the launcher and enable **3D Voxel Diorama**. The bundled
+feature is disabled by default. Dense floors, walls, and architecture receive
+full depth; ladders, windows, and façade linework stay shallow; characters
+remain oriented sprite cards with contact shadows. Dialogue, title, and mantra
+panels stay in their authored 2D presentation.
+
+Numpad 8/2 adjusts pitch, 4/6 yaw, 7/9 roll, +/- zoom, and 1/3 sprite scale.
+Numpad 0 toggles the live view and Numpad 5 restores package defaults.
+
 ## Building from Source
 
 Prerequisites: Windows 10+, Visual Studio 2022, CMake 3.20+ (SDL2 is bundled)

@@ -13,6 +13,7 @@
 #include "input_script.h"
 #include "override_text.h"
 #include "override_chr.h"
+#include "game_voxel.h"
 #ifdef ENABLE_NESTOPIA_ORACLE
 #include "nestopia_bridge.h"
 #endif
@@ -408,6 +409,8 @@ void game_on_init(void) {
         exit(0);
     }
 
+    game_voxel_init();
+
     /* Text override plugin — opt-in via --text-overrides */
     if (s_text_overrides_enabled)
         text_override_setup();
@@ -467,6 +470,7 @@ void game_on_init(void) {
 }
 
 void game_on_frame(uint64_t frame_count) {
+    game_voxel_update();
     (void)frame_count;
     if (s_debug_enabled) {
         debug_server_poll();
@@ -654,7 +658,9 @@ void game_fill_frame_record(void *record) {
     r->game_data[4] = g_ram[0x035D];  /* player_gold_hi */
 }
 
-void game_post_render(uint32_t *framebuf) { (void)framebuf; }
+void game_post_render(uint32_t *framebuf) {
+    game_voxel_post_render(framebuf);
+}
 
 int game_handle_debug_cmd(const char *cmd, int id, const char *json) {
     (void)json;
