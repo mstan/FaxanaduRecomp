@@ -65,13 +65,23 @@ FaxanaduRecomp.exe [ROM] --password "k8fPcv?,TwSYzGZQhMIQhCEA"
 | MD5   | `b3bb9296b5e1e0c83e90b6da9e8a41aa` (ROM data only) |
 | SHA-1 | `5b05c8859f356013d37f0545f5de5fa1693da5da` (ROM data only) |
 
-## Experimental 3D Voxel Diorama
+## Experimental Voxel 3D (first person)
 
-Open **Mods** in the launcher and enable **3D Voxel Diorama**. The bundled
-feature is disabled by default. Dense floors, walls, and architecture receive
-full depth; ladders, windows, and façade linework stay shallow; characters
-remain oriented sprite cards with contact shadows. Dialogue, title, and mantra
-panels stay in their authored 2D presentation.
+Open **Mods** in the launcher and enable **Voxel 3D (first person)**. The
+bundled feature is disabled by default. The camera follows the hero through an
+upright reconstruction of the current room. Native Left/Right movement turns
+the view along the level, while the right stick provides temporary horizontal
+and vertical free look. A, B, Up, Down, Start, and Select retain their original
+Faxanadu behavior so attacks, jumps, doors, conversations, ladders, and menus
+remain usable.
+
+Dense floors, walls, and platforms become geometry. Thin vines, signs,
+ladders, windows, and façade linework remain non-obstructing background detail.
+The hero's own card is hidden because the camera occupies it; enemies, spells,
+pickups, and effects remain camera-facing cards. Dialogue, title, and mantra
+panels stay in their authored 2D presentation. The earlier room-diorama
+experiment is retained under `mods/hidden` for development reference but is
+not shown in release launchers.
 
 Numpad 8/2 adjusts pitch, 4/6 yaw, 7/9 roll, +/- zoom, and 1/3 sprite scale.
 Numpad 0 toggles the live view and Numpad 5 restores package defaults.

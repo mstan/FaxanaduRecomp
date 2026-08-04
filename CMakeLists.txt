@@ -77,6 +77,10 @@ recomp_target_launcher_ui(FaxanaduRecomp
     BOXART ${CMAKE_SOURCE_DIR}/boxart.tga)
 
 add_custom_command(TARGET FaxanaduRecomp POST_BUILD
+    # copy_directory is additive. Remove the formerly visible diorama package
+    # so incremental builds keep that parked experiment out of the launcher.
+    COMMAND ${CMAKE_COMMAND} -E remove_directory
+        "$<TARGET_FILE_DIR:FaxanaduRecomp>/mods/packages/faxanadu.enhancement.voxel-diorama"
     COMMAND ${CMAKE_COMMAND} -E copy_directory
         "${CMAKE_SOURCE_DIR}/mods/preloaded"
         "$<TARGET_FILE_DIR:FaxanaduRecomp>/mods"

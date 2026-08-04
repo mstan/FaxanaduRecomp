@@ -1,0 +1,84 @@
+format_version = 1
+id = "faxanadu.enhancement.voxel-first-person"
+version = "1.0.0"
+name = "Voxel 3D (first person)"
+author = "NESRecomp"
+description = "Places the camera at the hero's live position while reconstructing Faxanadu rooms upright without modifying the stock ROM or mantra data."
+license = "MIT"
+resolver = "declarative"
+save_compatibility = "stock"
+
+[[target]]
+game_id = "faxanadu-us"
+rom_crc32 = "57dd23d1"
+
+[[feature]]
+id = "voxel-first-person"
+name = "Voxel 3D (first person)"
+camera_controls = true
+description = "Tracks the hero through upright room architecture, turns with native Left/Right movement, and provides right-stick free look."
+group = "Display"
+default_enabled = false
+exclusive_group = "display-mode"
+
+[[plugin]]
+feature = "voxel-first-person"
+id = "faxanadu.voxel-first-person"
+
+[[option]]
+feature = "voxel-first-person"
+id = "pitch"
+label = "Look pitch"
+description = "Vertical first-person look angle in degrees."
+group = "Camera"
+type = "integer"
+default = 15
+min = 5
+max = 85
+step = 5
+
+[[option]]
+feature = "voxel-first-person"
+id = "yaw"
+label = "Look yaw"
+description = "Horizontal look offset from the hero's movement facing."
+group = "Camera"
+type = "integer"
+default = 0
+min = -180
+max = 180
+step = 5
+
+[[option]]
+feature = "voxel-first-person"
+id = "roll"
+label = "Camera roll"
+group = "Camera"
+type = "integer"
+default = 0
+min = -45
+max = 45
+step = 5
+
+[[option]]
+feature = "voxel-first-person"
+id = "zoom"
+label = "Field of view"
+group = "Camera"
+type = "integer"
+default = 100
+min = 50
+max = 175
+step = 5
+
+[[option]]
+feature = "voxel-first-person"
+id = "sprite-scale"
+label = "Sprite scale"
+description = "World scale of enemies, spells, pickups, and effects."
+group = "Sprites"
+type = "integer"
+default = 120
+min = 75
+max = 200
+step = 5
