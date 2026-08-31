@@ -20,6 +20,6 @@ tiles/
 chr_dump/
 *.chr.bin
 
-# DO NOT ignore generated/ — committed for reproducibility
+generated/
 
 build_ui/
