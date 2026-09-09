@@ -104,6 +104,11 @@ has been translated to C by [NESRecomp](nesrecomp/) and compiled to native x64.
 | `generated/faxanadu_dispatch.c` | Dispatch table (committed) |
 | `reference/` | Reference screenshots for visual regression |
 
+## License
+
+PolyForm Noncommercial 1.0.0 — see [`LICENSE`](LICENSE). Third-party
+components retain their own licenses.
+
 ---
 
 <p align="center">
