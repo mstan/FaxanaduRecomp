@@ -1,6 +1,7 @@
 # game.toml — Faxanadu (NES, Mapper 1 / MMC1, 16 PRG banks, CHR RAM)
 
 [game]
+name = "Faxanadu"
 output_prefix = "faxanadu"
 disable_ptr_scan = true
 disable_secondary = true

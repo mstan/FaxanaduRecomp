@@ -19,7 +19,21 @@
  */
 
 #include "override_text.h"
+#ifdef CYC_CONTENT_TOOLS
+#include "cyc_core.h"
+#include "cyc_mod.h"
+#define g_ram (cyc_cpu_ram())
+static uint8_t *runner_get_prg_bank_rw(int bank) {
+    size_t size;
+    if (bank < 0) return NULL;
+    uint8_t *prg = cyc_mod_prg_data_rw(&size);
+    return prg && ((size_t)bank + 1) * 0x4000 <= size ? prg + (size_t)bank * 0x4000 : NULL;
+}
+static void text_ram_store(uint16_t addr, uint8_t value) { cyc_mod_poke(addr, value); }
+#else
 #include "nes_runtime.h"   /* g_ram[], runner_get_prg_bank_rw() */
+static void text_ram_store(uint16_t addr, uint8_t value) { g_ram[addr] = value; }
+#endif
 
 #include <string.h>
 #include <stdio.h>
@@ -570,9 +584,9 @@ void text_override_apply(void) {
                 int rlen  = o->replacement_len;
                 int write = (rlen < plen) ? rlen : plen;
                 for (int k = 0; k < write; k++)
-                    g_ram[BUF_BASE + buf_advance(tile_pos, (uint8_t)k)] = o->replacement[k];
+                    text_ram_store(BUF_BASE + buf_advance(tile_pos, (uint8_t)k), o->replacement[k]);
                 for (int k = write; k < plen; k++)
-                    g_ram[BUF_BASE + buf_advance(tile_pos, (uint8_t)k)] = SPACE_TILE;
+                    text_ram_store(BUF_BASE + buf_advance(tile_pos, (uint8_t)k), SPACE_TILE);
 
                 o->hit_count++;
             }

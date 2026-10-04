@@ -4,11 +4,41 @@ project(FaxanaduRecomp C CXX)
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_CXX_STANDARD 17)
 
-set(NESRECOMP_ROOT ${CMAKE_SOURCE_DIR}/nesrecomp)
+set(NESRECOMP_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/nesrecomp" CACHE PATH "NESRecomp engine checkout")
 
 # nesrecomp/ and recomp-ui/ are git submodules (see .gitmodules); the pinned
 # commit is the gitlink recorded in this repo. After cloning run setup.sh/.bat
 # (git submodule update --init) to fetch them at the recorded commits.
+
+set(NESRECOMP_BACKEND "cycle" CACHE STRING "CPU backend: cycle or legacy")
+set_property(CACHE NESRECOMP_BACKEND PROPERTY STRINGS cycle legacy)
+if(NESRECOMP_BACKEND STREQUAL "cycle")
+    set(NESRECOMP_ROM "" CACHE FILEPATH "Original ROM image (not distributed)")
+    set(NESRECOMP_CYCLE_SEEDS "${CMAKE_CURRENT_SOURCE_DIR}/cyc_seeds.txt" CACHE FILEPATH "Cycle coverage seeds")
+    set(NESRECOMP_HOST_COMPILER "" CACHE FILEPATH "Optional prebuilt host compiler")
+    if(NOT EXISTS "${NESRECOMP_ROM}")
+        message(FATAL_ERROR "Set NESRECOMP_ROM to the original Faxanadu ROM")
+    endif()
+    include("${NESRECOMP_ROOT}/runner/cyc/project.cmake")
+    nesrecomp_add_cycle_game(FaxanaduRecomp
+        ROM "${NESRECOMP_ROM}"
+        GAME_CONFIG "${CMAKE_CURRENT_SOURCE_DIR}/game.toml"
+        RECOMPILER "${NESRECOMP_HOST_COMPILER}"
+        SEED_FILE "${NESRECOMP_CYCLE_SEEDS}"
+        HOST_EXTRAS "${CMAKE_CURRENT_SOURCE_DIR}/cyc_extras.c"
+        PLAYERS 1 REGION NTSC PASSWORD_SAVE "faxanadu.srm" PASSWORD_SAVE_LABEL "Mantra"
+        BOXART "${CMAKE_CURRENT_SOURCE_DIR}/boxart.tga")
+    target_sources(FaxanaduRecomp PRIVATE override_text.c
+        "${NESRECOMP_ROOT}/runner/src/override_chr.c"
+        "${NESRECOMP_ROOT}/runner/src/chr_codec.c"
+        "${NESRECOMP_ROOT}/runner/src/crc32.c")
+    target_include_directories(FaxanaduRecomp PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}"
+        "${NESRECOMP_ROOT}/runner/include" "${NESRECOMP_ROOT}/runner/src")
+    target_compile_definitions(FaxanaduRecomp PRIVATE CYC_CONTENT_TOOLS)
+    return()
+elseif(NOT NESRECOMP_BACKEND STREQUAL "legacy")
+    message(FATAL_ERROR "NESRECOMP_BACKEND must be cycle or legacy")
+endif()
 
 include(${NESRECOMP_ROOT}/runner/runner.cmake)
 
@@ -62,8 +92,9 @@ endif()
 # recomp-ui/ is a directory junction -> the shared recomp-ui checkout. Its
 # module defines RECOMP_LAUNCHER on the target, un-gating the launcher block in
 # launcher.c's main(), and stages the launcher assets next to the exe.
-include(${CMAKE_SOURCE_DIR}/recomp-ui/recomp_ui.cmake)
-recomp_target_launcher_ui(FaxanaduRecomp BOXART ${CMAKE_SOURCE_DIR}/boxart.tga)
+set(NESRECOMP_RECOMP_UI "${CMAKE_CURRENT_SOURCE_DIR}/recomp-ui" CACHE PATH "recomp-ui checkout")
+include("${NESRECOMP_RECOMP_UI}/recomp_ui.cmake")
+recomp_target_launcher_ui(FaxanaduRecomp CONSOLE nes BOXART ${CMAKE_SOURCE_DIR}/boxart.tga)
 
 # Faxanadu saves via a password (mantra), not battery SRAM. Drive the launcher's
 # SAVES panel to show/edit that password (the faxanadu.srm sidecar next to the exe

@@ -22,3 +22,7 @@ chr_dump/
 generated/
 
 build_ui/
+build-cycle/
+build-legacy/
+cycle-evidence/
+faxanadu_auto_entries.csv
