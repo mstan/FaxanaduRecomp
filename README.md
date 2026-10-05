@@ -118,3 +118,8 @@ components retain their own licenses.
 <p align="center">
   <a href="https://discord.gg/Ad9BwSzctP"><img src=".github/raid-discord.png" alt="Join the Retro AI Development (R.A.I.D.) Discord" width="200"></a>
 </p>
+
+Cycle Windows builds use `tools/build.ps1 -Rom <original-ROM>`. Create a ROM-free
+ZIP with `tools/make_release.ps1 -Rom <original-ROM>`; `-SkipBuild -BuildDir
+build-cycle` packages an existing production cycle build. Legacy C remains
+available through explicit CMake selection.
