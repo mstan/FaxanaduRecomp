@@ -16,6 +16,13 @@ Built with the [NESRecomp](https://github.com/mstan/nesrecomp) framework.
 
 [![FaxanaduRecomp showcase](media/title_screen.png)](https://www.youtube.com/watch?v=lLXSnK3HVW4)
 
+## Default cycle controls
+
+Default cycle controls: arrows move, Z is A, X is B, Enter is Start and
+Backslash is Select. Escape opens the menu, Tab fast-forwards, and F8/F9
+save/load the cycle state. Use Controls to remap inputs in `config.ini`.
+Older `keybinds.ini` and F5/F6/F7 instructions below apply to the legacy host.
+
 ## Quick Start
 
 1. Download `FaxanaduRecomp-windows-x64.zip` from [Releases](../../releases)
