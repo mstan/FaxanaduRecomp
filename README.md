@@ -130,3 +130,21 @@ Cycle Windows builds use `tools/build.ps1 -Rom <original-ROM>`. Create a ROM-fre
 ZIP with `tools/make_release.ps1 -Rom <original-ROM>`; `-SkipBuild -BuildDir
 build-cycle` packages an existing production cycle build. Legacy C remains
 available through explicit CMake selection.
+
+
+The October 2026 USA coverage pass exercises original entries for all six
+outside regions and encounters all eight real boss species, including King
+Grieve and Shadow Eura. Authored screen and sprite metadata were bound by
+reproducing both complete 16 KiB data banks against the supplied USA ROM.
+The probes assist screen selection, player health and entrance position;
+original screen initialization, actors and combat routines still run.
+These are encounter checks, with some routes ending in player death.
+
+All eight boss routes match native/interpreter machine hashes, pictures and
+complete states. After adding 958 observed ROM instruction starts, all eight
+routes and the earlier six region routes replay exactly against their
+pre-rebuild native and interpreter results on engine `0498965`. Earlier
+intro/region coverage added 1,103 valid starts. Item collection, mantra
+interactions and the ending require separate qualification. Areas 3 and 4
+are the towns/buildings profiles; dungeon screens belong to the surrounding
+regions. This build uses stock rendering.
