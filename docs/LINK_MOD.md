@@ -3,7 +3,8 @@
 This optional mod replaces Faxanadu's player with Zelda II Link on the USA
 cycle build. Enable **Play as Link** in Mods and select your **Zelda II: The
 Adventure of Link (USA)** ROM. Restart gameplay after changing the mod selection.
-The package is installed but disabled by default.
+The package is installed but disabled by default. The Mods menu shows the
+standard **Experimental** badge for this feature.
 
 The release includes `Play-as-Link.nesmod` for installing the same package in
 another compatible FaxanaduRecomp build. Its gameplay plugin is compiled into
@@ -53,6 +54,8 @@ health, magic, equipment, money, experience, shops, items, quest requirements,
 boss defeats and mantra progress. Starting HP/MP follow Faxanadu's normal
 rules; unlocking a spell does not grant the MP to cast it. Native in-game
 progress does not acquire a dependency on a Link-specific save format.
+Link and Dave both use a 32-pixel standing sprite height. The adapter retains
+the same 32-pixel terrain body while using Link's own movement physics.
 
 | Spell | MP | Adaptation |
 |---|---:|---|

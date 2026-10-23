@@ -8,7 +8,7 @@ ap = argparse.ArgumentParser(description=__doc__)
 ap.add_argument("--out", required=True, type=Path)
 args = ap.parse_args()
 manifest = root / "mods/preloaded/packages/faxanadu.gameplay.zelda2-link/1.0.0/manifest.toml"
-readme = """Play as Link for FaxanaduRecomp
+readme = """Play as Link (Experimental) for FaxanaduRecomp
 
 Install this .nesmod through Mods in a compatible FaxanaduRecomp build.
 Select your Zelda II: The Adventure of Link (USA) ROM, enable Play as Link,

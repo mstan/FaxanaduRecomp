@@ -7,8 +7,8 @@ if (-not $Rom) {
     if ($images.Count -eq 1) { $Rom=$images[0].FullName }
 }
 $notes = @'
-Optional Play as Link mod: open Mods, select your Zelda II USA ROM, enable
-Play as Link, then launch Faxanadu. Both original ROMs remain on your computer.
+Optional experimental Play as Link mod: open Mods, select your Zelda II USA ROM,
+enable Play as Link (marked Experimental), then launch Faxanadu. Both original ROMs remain on your computer.
 A jumps, B uses the sword, Down crouches; airborne Up/Down stab vertically.
 Select opens magic; A confirms, B cancels. Up+B casts. C and V are optional
 cast/picker shortcuts (config.ini [Game] LinkCastKey / LinkPickerKey).
