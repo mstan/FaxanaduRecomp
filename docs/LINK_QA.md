@@ -10,7 +10,10 @@ The original checkout's unrelated dirty files were preserved.
 
 | Check | Evidence / outcome |
 |---|---|
-| Original movement and animation | 7,276 checks against executed Zelda II walking, randomized walking animation, jumping, sword phases/display/beam timing and bounce routines; MSVC and GCC |
+| Original movement and animation | 7,306 checks against executed Zelda II walking, randomized walking animation, jumping, sword phases/display/beam timing, projectile heights/collision boxes and bounce routines; MSVC and GCC |
+| Native HUD | Every HUD pixel matches the native PPU output during standing/crouching beam and transition probes; persistent spell/cost label removed |
+| Transition visibility | All 83 scroll frames retain Link, including native waits without a body draw call; per-frame native/interpreter states match |
+| Sword/beam alignment | Standing and crouching projectile origins match the executed original routines; standing blade and beam share the original OAM Y |
 | Supported Faxanadu image | Full disassembly rebuild matched all 16 PRG banks; all 19 hook content keys verified |
 | Eight spells | Native/interpreter complete states, machine traces and presentation match; MP costs and Life healing checked |
 | Current-build save/load | Open-picker and active-effect continuation match uninterrupted execution for every spell |
@@ -57,6 +60,17 @@ Zoradohna `$2e`, Borabohra `$2f`, Pakukame `$30`, Zorugeriru `$31`, King Grieve
 player remained alive. Initial HP is recorded for each fixture; some source
 encounters already contained prior native damage.
 
+The owner playtest exposed 18 missing Link frames across one right-hand
+transition. Retaining the replacement sprite during native scrolling waits,
+including the frame that starts a transition, reduced that count to zero.
+Rendering still respects native scanline sprite enable and left-edge clipping.
+The beam was six pixels too low standing and nine pixels too low crouching;
+the corrected sprite origins and four-by-six projectile collision box come
+from executed Zelda II routines. Fire also uses its original tile and height.
+All eight spell/save-load integration cases and eight assisted boss defeats
+passed again with the corrected projectile geometry. The live owner window
+was refreshed with normal audio and its current position/progress restored.
+
 ## Assistance and limits
 
 Screen loaders, temporary player protection, HP/MP refills, teleports and
@@ -89,6 +103,11 @@ schedules, RAM snapshots, controller CSVs, logs and PNGs under:
 - `interactions/report.json`, `followthrough-v2/report.json`
 - `ability-qa/report.json`, `guard-effects-v2/report.json`, `upscroll/report.json`
 - `integration-delivery/report.json`, `window-qa/report.json`, `audio-qa/report.json`
+- `presentation-fixed/report.json`, with per-frame PNGs and states for the
+  HUD, both beam heights and the transition; `visual-fix/before/report.json`
+  retains the original missing-frame reproduction
+- `integration-visual-fix/report.json`, `visual-combat/combat.json` for spell,
+  current-build save/load and boss combat checks after the geometry correction
 - `release-audit.json` for archive hashes and the complete PE import closure;
   the window report records the three bundled runtime DLLs actually loaded
 - `pictures/` for the native ending checkpoints

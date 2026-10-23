@@ -31,8 +31,11 @@ static void reset(ForeignState *s) {
 static void projectile(ForeignMoveResult *out,unsigned kind,int crouch) {
     ForeignActionEvent *e=&out->actions.events[out->actions.count++];
     e->kind=kind;e->command=FOREIGN_ACTION_SPAWN;
-    e->offset_x=24;e->offset_y=crouch?9:22;e->velocity_x=2;
-    e->width=12;e->height=8;e->damage=1;e->lifetime_ticks=kind==LINK_BEAM?32:128;
+    /* Source $9847/$97f1: beam sprite Y is Link Y + 0/10 (stand/duck),
+     * fire Y is +4/13. The event uses the controller's bottom-origin ABI. */
+    int y=kind==LINK_BEAM?(crouch?10:0):(crouch?13:4);
+    e->offset_x=24;e->offset_y=32-y;e->velocity_x=2;
+    e->width=4;e->height=6;e->damage=1;e->lifetime_ticks=kind==LINK_BEAM?32:128;
     e->flags=FOREIGN_ACTION_HOSTILE|FOREIGN_ACTION_DESTROY_ON_SOLID;
 }
 static void tick(ForeignState *s,const ForeignInput *in,ForeignMoveResult *out) {

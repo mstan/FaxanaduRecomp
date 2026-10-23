@@ -108,7 +108,7 @@ static void advance_projectiles(void) {
         --p->life;int dir=p->vx>0?1:-1;
         for(int step=0;step<abs(p->vx)/256&&p->life;step++) {
             p->x+=dir*256;int x=p->x/256,y=p->y/256;
-            if(x<0||x>255||y<0||y>207||solid(x,y)||solid(x+7,y+7))p->life=0;
+            if(x<0||x>255||y<0||y>207||solid(x+2,y+4)||solid(x+5,y+9))p->life=0;
         }
     }
 }
@@ -308,7 +308,8 @@ static int sword_hook(uint16_t addr) {
     }
     for(int i=0;i<LINK_PROJECTILES&&!hit;i++) {
         LinkProjectile *p=&S.projectile[i];if(!p->life||(p->hit&(1u<<slot)))continue;
-        if(overlap(p->x/256,p->y/256,12,8,x,y,w,h)) {
+        /* Zelda II $e4bc: sprite origin +2/+4, four by six collision box. */
+        if(overlap(p->x/256+2,p->y/256+4,4,6,x,y,w,h)) {
             hit=1;magic=p->kind==1?-1:0;hit_facing=p->vx>0?1:-1;p->hit|=(uint8_t)(1u<<slot);p->life=0;
         }
     }
@@ -382,13 +383,13 @@ static int inventory_hook(uint16_t addr) {
     return 0;
 }
 static int body_hook(uint16_t addr) {
-    (void)addr;S.draw=0;S.hud_visible=0;
+    (void)addr;S.draw=0;
     if(!(R(IScript_PortraitID)&0x80))return 0;
     int scrolling=R(Screen_ReadyState)==1||R(Screen_ReadyState)==5;
     int x=scrolling?R(Maybe_PlayerX_ForScroll):R(Player_PosX_Block);
     int y=scrolling?R(Maybe_PlayerY_ForScroll):R(Player_PosY);
     S.draw_x=(int16_t)((x-R(PPU_ScrollX))&255);if(S.draw_x>248)S.draw_x-=256;
-    S.draw_y=(int16_t)(y+32);S.draw=1;S.hud_visible=!S.dying;S.draw_frame=S.dying?3:(uint8_t)link_frame();
+    S.draw_y=(int16_t)(y+32);S.draw=1;S.draw_frame=S.dying?3:(uint8_t)link_frame();
     const ForeignState *fighter=nes_foreign_state();
     if(S.draw_frame==6&&fighter&&!fighter->grounded)S.draw_y-=4;
     S.draw_left=(R(Player_Flags)&0x40)==0;
@@ -457,8 +458,24 @@ static void activate(void) {
 }
 int fax_link_active(void){return enabled;}
 void fax_link_power_on(void){memset(&S,0,sizeof S);S.version=1;memset(&move,0,sizeof move);}
-void fax_link_frame_begin(void) {if(enabled){S.previous_draw=S.draw;S.draw=0;S.hud_visible=0;}}
-void fax_link_frame_end(void) {if(enabled&&S.flash)--S.flash;}
+void fax_link_frame_begin(void) {
+    if(enabled){
+        S.previous_draw=S.draw;S.scrolling=R(Screen_ScrollDirection)<4;
+        /* Native scrolling has waits that retain the previous OAM without
+         * calling Player_DrawBody. Retain its replacement over those waits. */
+        if(!S.scrolling)S.draw=0;
+    }
+}
+void fax_link_frame_end(void) {
+    if(enabled){
+        int scrolling=R(Screen_ScrollDirection)<4;
+        /* A transition can begin after frame_begin cleared the ordinary
+         * draw flag, then yield before its first Player_DrawBody call. */
+        if(scrolling&&!S.scrolling&&!S.draw)S.draw=S.previous_draw;
+        S.scrolling=(uint8_t)scrolling;
+        if(S.flash)--S.flash;
+    }
+}
 const uint32_t *fax_link_present(int *w,int *h) {
     if(!enabled)return NULL;
     memcpy(picture,S.picker?frozen:cyc_frame_argb(),sizeof picture);
@@ -479,7 +496,7 @@ static int state_validate(const uint8_t *buf,int len) {
     if(len!=sizeof S+sizeof move+sizeof(ForeignState)+sizeof(LinkPrivate)+sizeof frozen)return 0;
     FaxLinkState next;memcpy(&next,buf,sizeof next);
     if(next.version!=1||next.spell>=8||next.cursor>=8||next.picker>1||next.foreign>1||next.draw_frame>=20||
-       next.hud_visible>1||next.fairy_pending_end>1||next.dying>1||next.death_phase>8||(next.effects&~0x3b))return 0;
+       next.scrolling>1||next.fairy_pending_end>1||next.dying>1||next.death_phase>8||(next.effects&~0x3b))return 0;
     for(int i=0;i<LINK_PROJECTILES;i++)if(next.projectile[i].life>128||next.projectile[i].kind>2||
         next.projectile[i].x< -4096||next.projectile[i].x>69632||next.projectile[i].y< -4096||next.projectile[i].y>69632||
         llabs((int64_t)next.projectile[i].vx)>1024)return 0;

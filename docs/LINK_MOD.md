@@ -42,6 +42,10 @@ Set either shortcut to `0` to disable it. The picker pauses the world and
 consumes its confirmation input. Casting with Up+B consumes that chord so
 it cannot also open a door or start a sword swing.
 
+Faxanadu's gameplay HUD remains unchanged. Spell names and costs are shown
+only in the explicitly opened picker; no persistent spell/cost label is drawn
+over the native HUD.
+
 ## Abilities and progression
 
 All moves and eight spells are available immediately. Faxanadu still supplies

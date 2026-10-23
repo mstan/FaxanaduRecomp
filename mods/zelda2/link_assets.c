@@ -4,6 +4,7 @@
 #include "fax_profile.h"
 #include "cyc_mod.h"
 #include "cyc_core.h"
+#include "cyc_render.h"
 #include "hw_internal.h"
 #include "mod_audio.h"
 #include <stdio.h>
@@ -70,7 +71,10 @@ void fax_link_audio_mix(int16_t *samples,size_t count) {
 }
 static void pixel(uint32_t *fb,int x,int y,uint32_t color,int behind) {
     if(fax_link.dying&&((y-fax_link.draw_y)&7)<fax_link.death_phase)return;
-    if(x>=0&&x<256&&y>=32&&y<240&&(!behind||!cyc_frame_bg_opaque()[y*256+x]))fb[y*256+x]=color;
+    if(x<0||x>=256||y<32||y>=240)return;
+    uint8_t mask=cyc_render_line_mask(y);
+    if(!(mask&0x10)||(x<8&&!(mask&4)))return;
+    if(!behind||!cyc_frame_bg_opaque()[y*256+x])fb[y*256+x]=color;
 }
 static void tile(uint32_t *fb,int number,int x,int y,int flip,int vflip,const uint8_t *palette,int behind) {
     int top=(number&1)*0x100+(number&0xfe);
@@ -94,7 +98,7 @@ static void character(uint32_t *fb,int x,int y,int left,unsigned frame,int behin
         unsigned at=offset+row*3+(mirror?2-col:col);
         if(at<sizeof body&&body[at]!=0xf5)tile(fb,body[at],x+col*8,y+row*16,mirror,0,palette,behind);
     }
-    if(frame==4||frame==5||frame==7)tile(fb,frame==7?0x54:0x32,x+(left?-8:24),y+(frame==7?16:0),!left,0,palette,behind);
+    if(frame==5||frame==7)tile(fb,frame==7?0x54:0x32,x+(left?-8:24),y+(frame==7?16:0),!left,0,palette,behind);
 }
 /* Small, implementation-owned 5x7 font, rows packed into five columns. */
 static const uint8_t font[37][5]={
@@ -124,16 +128,16 @@ void fax_link_render(uint32_t *fb) {
     if(fax_link.draw)character(fb,fax_link.draw_x-4,fax_link.draw_y,fax_link.draw_left,fax_link.draw_frame,fax_link.draw_behind);
     for(int i=0;i<LINK_PROJECTILES;i++) {
         const LinkProjectile *p=&fax_link.projectile[i];if(!p->life)continue;
-        tile(fb,p->kind==1?0x32:0x64,p->x/256,p->y/256+28,p->vx>0,0,palettes+(fax_link.ticks&3)*4,0);
+        /* Projectiles and Link use the same sprite-origin/HUD transform. */
+        tile(fb,p->kind==1?0x32:0x84,p->x/256,p->y/256+32,p->vx>0,0,palettes+(fax_link.ticks&3)*4,0);
     }
     for(int i=0;i<8;i++)if(fax_link.transformed&(1u<<i)) {
         int x=cyc_mod_peek(F_CurrentSprites_XPos_Full+i),y=cyc_mod_peek(F_CurrentSprites_YPos+i);
         character(fb,x-4,y+32,0,14,0);
     }
     if(fax_link.flash)for(int y=32;y<240;y++)for(int x=0;x<256;x++)if((x+y)&1)fb[y*256+x]=0xffe0e8f0;
-    if(!fax_link.hud_visible&&!fax_link.picker)return;
-    char label[64];snprintf(label,sizeof label,"%s %u",link_spell_name(fax_link.spell),link_spell_cost(fax_link.spell,80));
-    rect(fb,152,23,104,9,0xff101820);text(fb,154,24,label,0xffe8f0e0);
+    if(!fax_link.picker)return;
+    char label[64];
     if(fax_link.picker) {
         rect(fb,28,43,200,184,0xffd8d8b0);rect(fb,30,45,196,180,0xff102820);
         text(fb,50,52,"LINK MAGIC",0xfff0e8a0);

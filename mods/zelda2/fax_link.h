@@ -4,13 +4,14 @@
 #define LINK_PACKAGE "faxanadu.gameplay.zelda2-link"
 #define LINK_FEATURE "play-as-link"
 #define LINK_PROJECTILES 4
+/* x/y are NES sprite origins in game coordinates, excluding the HUD. */
 typedef struct {int32_t x,y,vx;uint16_t life;uint8_t kind,hit;} LinkProjectile;
 typedef struct {
     uint32_t version;
     uint64_t ticks;
     uint8_t effects,spell,picker,cursor,foreign,area,screen,initialized;
     uint8_t transformed,ladder_jump,thunder,fairy_pending_end,draw,draw_frame,draw_left,draw_behind;
-    uint8_t previous_draw,shortcut_picker,shortcut_cast,flash,hud_visible;
+    uint8_t previous_draw,shortcut_picker,shortcut_cast,flash,scrolling;
     uint8_t raw_buttons,raw_changed,dying,death_phase;
     int16_t draw_x,draw_y;
     LinkProjectile projectile[LINK_PROJECTILES];

@@ -137,10 +137,41 @@ static void contact_motion(void) {
         CHECK(link_private()->gravity_fraction==memory[0x03e6]);
     }
 }
+static void projectile_heights(void) {
+    for(int fire=0;fire<2;fire++)for(int crouch=0;crouch<2;crouch++) {
+        clear();
+        memory[0x4d]=80;memory[0x29]=128;memory[0x9f]=memory[0x5f]=1;
+        /* $0495 and $17 are 1 standing, 0 ducked in the actual ROM. */
+        memory[0x0495]=memory[0x17]=(uint8_t)!crouch;
+        memory[0x0784]=8;memory[0x0774]=255;
+        memory[0x0400]=(uint8_t)(crouch?1:2);memory[0x050a]=5;
+        memory[0x80]=(uint8_t)(crouch?7:5);
+        if(fire)call(0x97f1);else call(0x9847);
+        CHECK(memory[0x8d]!=0);
+        int source_y=memory[0x36]-128;
+        link_environment(fire?(1u<<LINK_FIRE):0,1,0);
+        ForeignInput in={0};in.attack_pressed=1;in.stick_y=crouch?-1:0;
+        ForeignMoveResult out;int emitted=0;
+        for(int t=0;t<10;t++) {
+            nes_foreign_tick(t,&in,&out);in.attack_pressed=0;
+            if(!out.actions.count)continue;
+            ++emitted;
+            CHECK(32-out.actions.events[0].offset_y==source_y);
+            call(0xe4bc); /* original projectile collision rectangle */
+            CHECK(out.actions.events[0].width==memory[2]);
+            CHECK(out.actions.events[0].height==memory[3]);
+        }
+        CHECK(emitted==1);
+        if(!fire&&!crouch) {
+            int beam_y=memory[0x36];call(0xebf0);
+            CHECK(beam_y==memory[0x0220]); /* identical standing blade/beam OAM Y */
+        }
+    }
+}
 int main(int argc,char **argv) {
     CHECK(argc==2);FILE *f=fopen(argv[1],"rb");CHECK(f!=NULL);fseek(f,0,SEEK_END);long n=ftell(f),base=n==262160?16:0;
     CHECK(n==262160||n==262144);fseek(f,base,SEEK_SET);CHECK(fread(memory+0x8000,1,0x4000,f)==0x4000);
     fseek(f,base+7*0x4000,SEEK_SET);CHECK(fread(memory+0xc000,1,0x4000,f)==0x4000);fclose(f);
     CHECK(memory[0x93bc]==0xad&&memory[0x94c5]==0xad);
-    CHECK(link_controller_register());walking();walking_animation();jumps();sword_timing();contact_motion();behavior();printf("PASS %u source-ROM and controller checks\n",checks);return 0;
+    CHECK(link_controller_register());walking();walking_animation();jumps();sword_timing();contact_motion();projectile_heights();behavior();printf("PASS %u source-ROM and controller checks\n",checks);return 0;
 }
