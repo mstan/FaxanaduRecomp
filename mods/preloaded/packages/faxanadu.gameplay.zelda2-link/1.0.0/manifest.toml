@@ -1,0 +1,35 @@
+format_version = 1
+id = "faxanadu.gameplay.zelda2-link"
+version = "1.0.0"
+name = "Play as Link"
+author = "NESRecomp contributors"
+description = "Zelda II Link in Faxanadu: original movement, swordplay, full-health sword beams and all eight spells. Requires your Zelda II USA ROM."
+license = "PolyForm-Noncommercial-1.0.0 (implementation only)"
+resolver = "declarative"
+save_compatibility = "mod-specific"
+
+[[target]]
+game_id = "faxanadu-usa"
+rom_crc32 = "57dd23d1"
+
+[[feature]]
+id = "play-as-link"
+name = "Play as Link"
+description = "A jumps, B uses the sword, Down crouches, Up/Down in the air stab. Select opens magic; Up+B casts. Start opens inventory; Down+Start uses the selected item. All eight spells use Faxanadu MP. Equipment and quests remain native."
+group = "Gameplay"
+exclusive_group = "player-controller"
+default_enabled = false
+
+[[external_rom]]
+feature = "play-as-link"
+id = "zelda2-us"
+label = "Zelda II: The Adventure of Link (USA) ROM"
+description = "Select the canonical Zelda II USA NES ROM. Graphics and sound are extracted locally."
+format = "nes"
+identity = "Zelda II: The Adventure of Link (USA)"
+size = 262144
+normalized_sha1 = "11333adb723a5975e0ecca3aee8f4747aa8d2d26"
+
+[[plugin]]
+feature = "play-as-link"
+id = "faxanadu.zelda2.link"

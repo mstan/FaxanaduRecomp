@@ -1,5 +1,11 @@
 # Faxanadu Modding Guide
 
+The cycle build also supports the NESRecomp package engine. The bundled,
+disabled-by-default **Play as Link** package uses trusted function hooks and
+locally extracted owner-ROM assets. Install `Play-as-Link.nesmod` through Mods,
+or use the preloaded package, then select your Zelda II USA ROM and enable it.
+See [the Link mod guide](docs/LINK_MOD.md) for controls, architecture and tests.
+
 FaxanaduRecomp supports modding text and tile graphics without rebuilding
 the game.  Drop override files next to the executable and they are loaded
 automatically on startup.

@@ -3,6 +3,7 @@ project(FaxanaduRecomp C CXX)
 
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_CXX_STANDARD 17)
+option(NESRECOMP_ENABLE_TRACE "Enable game diagnostics" OFF)
 
 set(NESRECOMP_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/nesrecomp" CACHE PATH "NESRecomp engine checkout")
 
@@ -35,15 +36,23 @@ if(NESRECOMP_BACKEND STREQUAL "cycle")
         RECOMPILER "${NESRECOMP_HOST_COMPILER}"
         SEED_FILE "${NESRECOMP_CYCLE_SEEDS}"
         HOST_EXTRAS "${CMAKE_CURRENT_SOURCE_DIR}/cyc_extras.c"
+            mods/zelda2/link_controller.c mods/zelda2/fax_link.c mods/zelda2/link_assets.c
+            "${NESRECOMP_ROOT}/runner/src/foreign_controller.c"
+            "${NESRECOMP_ROOT}/runner/src/mod_audio.c"
+        MODS GAME_ID "faxanadu-usa"
         PLAYERS 1 REGION NTSC PASSWORD_SAVE "faxanadu.srm" PASSWORD_SAVE_LABEL "Mantra"
         BOXART "${CMAKE_CURRENT_SOURCE_DIR}/boxart.tga")
     target_sources(FaxanaduRecomp PRIVATE override_text.c
         "${NESRECOMP_ROOT}/runner/src/override_chr.c"
-        "${NESRECOMP_ROOT}/runner/src/chr_codec.c"
-        "${NESRECOMP_ROOT}/runner/src/crc32.c")
+        "${NESRECOMP_ROOT}/runner/src/chr_codec.c")
     target_include_directories(FaxanaduRecomp PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}"
         "${NESRECOMP_ROOT}/runner/include" "${NESRECOMP_ROOT}/runner/src")
     target_compile_definitions(FaxanaduRecomp PRIVATE CYC_CONTENT_TOOLS)
+    add_custom_command(TARGET FaxanaduRecomp POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+            "${CMAKE_CURRENT_SOURCE_DIR}/mods/preloaded" "$<TARGET_FILE_DIR:FaxanaduRecomp>/mods"
+        COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/tools/package_link_mod.py"
+            --out "$<TARGET_FILE_DIR:FaxanaduRecomp>/Play-as-Link.nesmod")
     return()
 elseif(NOT NESRECOMP_BACKEND STREQUAL "legacy")
     message(FATAL_ERROR "NESRECOMP_BACKEND must be cycle or legacy")
