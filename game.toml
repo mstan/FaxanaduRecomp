@@ -96,3 +96,119 @@ bank5 = [
 bank14 = [
     0x8C0F,  # entity dispatch entry (no static reference)
 ]
+
+# Link hooks: the source rebuild matches every byte of the supported USA ROM.
+
+[[mod_function_hook]]
+id = "faxanadu.link.tick"
+addr = 0xe103
+bank = 15
+bytes = "A5 A4 30 2B 20 F6 EC B0 0D A5 19 29"
+
+[[mod_function_hook]]
+id = "faxanadu.link.vertical"
+addr = 0xe2c8
+bank = 15
+bytes = "A5 A5 10 0A A5 16 10 06 20 52 E7 4C"
+
+[[mod_function_hook]]
+id = "faxanadu.link.horizontal"
+addr = 0xe174
+bank = 15
+bytes = "A5 54 10 D7 A5 A5 29 02 D0 D5 A5 A5"
+
+[[mod_function_hook]]
+id = "faxanadu.link.sword"
+addr = 0x8804
+bank = 14
+bytes = "20 C8 A8 D0 C1 A5 A4 10 BD A4 AE 88"
+
+[[mod_function_hook]]
+id = "faxanadu.link.shield"
+addr = 0x877c
+bank = 14
+bytes = "AD BF 03 C9 03 B0 47 20 27 B9 38 E9"
+
+[[mod_function_hook]]
+id = "faxanadu.link.damage"
+addr = 0xc08e
+bank = 15
+bytes = "AD 32 04 38 ED BC 04 8D 32 04 AD 31"
+
+[[mod_function_hook]]
+id = "faxanadu.link.magic"
+addr = 0xba5b
+bank = 14
+bytes = "AD B3 02 10 79 20 F6 EC B0 73 A5 16"
+
+[[mod_function_hook]]
+id = "faxanadu.link.body"
+addr = 0xebee
+bank = 15
+bytes = "AD C7 03 30 01 60 A5 0E C9 01 F0 17"
+
+[[mod_function_hook]]
+id = "faxanadu.link.shield-draw"
+addr = 0xb982
+bank = 14
+bytes = "AD C7 03 10 4D AD BF 03 30 48 C9 03"
+
+[[mod_function_hook]]
+id = "faxanadu.link.sword-draw"
+addr = 0xb7d6
+bank = 14
+bytes = "AD C7 03 10 FA AD C8 03 30 F5 A5 A7"
+
+[[mod_function_hook]]
+id = "faxanadu.link.actor-move"
+addr = 0xa66b
+bank = 14
+bytes = "AD 2A 04 30 09 BC CC 02 B9 44 B5 D0"
+
+[[mod_function_hook]]
+id = "faxanadu.link.actor-draw"
+addr = 0x8bd2
+bank = 14
+bytes = "AD C7 03 10 40 AE 78 03 BC CC 02 30"
+
+[[mod_function_hook]]
+id = "faxanadu.link.actor-touch"
+addr = 0x890a
+bank = 14
+bytes = "AE 78 03 BD CC 02 C9 FF F0 F5 20 C8"
+
+[[mod_function_hook]]
+id = "faxanadu.link.new-game"
+addr = 0xe0aa
+bank = 15
+bytes = "A9 00 85 9F 85 A2 85 58 85 59 85 A9"
+
+[[mod_function_hook]]
+id = "faxanadu.link.death"
+addr = 0xd8ec
+bank = 15
+bytes = "A2 FF 9A A2 0E 20 1A CC A5 A4 29 40"
+
+[[mod_function_hook]]
+id = "faxanadu.link.player"
+addr = 0xe0ca
+bank = 15
+bytes = "20 03 E1 20 C8 E2 20 74 E1 20 E8 E0"
+
+[[mod_function_hook]]
+id = "faxanadu.link.death-draw"
+addr = 0xd9d6
+bank = 15
+bytes = "AD DD 03 C9 08 B0 43 AD DE 03 10 0B"
+
+[[mod_function_hook]]
+id = "faxanadu.link.inventory"
+addr = 0xe016
+bank = 15
+bytes = "A5 24 D0 04 A5 63 F0 0C A5 19 29 20"
+
+[[mod_function_hook]]
+id = "faxanadu.link.item"
+addr = 0xc478
+bank = 15
+bytes = "A5 A4 29 05 D0 1E A5 16 29 04 F0 18"

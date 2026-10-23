@@ -29,6 +29,10 @@ Older `keybinds.ini` and F5/F6/F7 instructions below apply to the legacy host.
 2. Extract and run `FaxanaduRecomp.exe`
 3. Select your Faxanadu (USA) ROM when prompted — the path is saved for future launches
 
+Optional **Play as Link** is available in Mods. Select your Zelda II USA ROM,
+enable the mod, and launch Faxanadu with Link's movement, sword beams, vertical
+stabs and all eight spells. See [controls and details](docs/LINK_MOD.md).
+
 ## Controls
 
 | NES Button | Keyboard |
