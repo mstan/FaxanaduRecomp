@@ -16,7 +16,9 @@ the original stop-and-scroll sequence.
 
 **Fit to screen is adaptive.** Window width and height determine the actual
 world viewport at the selected pixel zoom. Wide windows show more horizontal
-terrain; portrait windows show more vertical terrain. The HUD stays centered
+terrain; portrait windows show more vertical terrain. The camera clamps to
+the connected region's edges, keeping the floor at the viewport bottom when
+the region is shorter than the view. The HUD stays centered
 and scales down when the viewport is narrower than 256 pixels. Mouse wheel
 changes pixel zoom; F4 toggles a connected-map overview, capped at the
 preview's 4096x2048 presentation limit. Empty space outside the connected
@@ -28,9 +30,14 @@ remain in charge. Start pause freezes the expanded world without changing its
 aspect ratio. The native inventory appears over the frozen expanded world;
 only its text boxes cover the scene, so actors remain visible both inside and
 outside the original NES bounds. Its complete panel scales down in narrow
-windows. Scripted transitions retain
-native presentation.
+windows. Death, dialogue and scripted transitions retain native animation
+and UI inside the adaptive canvas, without switching its aspect ratio.
+Neighboring terrain uses the current region background palette, including
+native fades; isolated actor palettes stay local to their sprites.
 Native controls: Select opens inventory; B closes it; Start pauses/unpauses.
+The painted gate in the first Trunk room has no registered Up destination in
+the USA game. The preview preserves that behavior; its registered-door setup
+provides an actual unlocked Up interaction.
 This preview is exclusive with Play as Link until their adapters are qualified
 together. Both enhancements remain available separately.
 
@@ -82,6 +89,8 @@ All automated launches were hidden and muted with native saves disabled.
 | Native door rules | Trunk 13->11 normal door; Trunk 11->13 refuses without J key, opens after a granted key and native use dialogue; native/interpreter state agreement |
 | Inventory / native terrain | Native Select inventory and B close after a seamless handoff; native background remains the destination room |
 | Pause / inventory aspect | Original Start and Select inputs retain the expanded picture and frozen room records, with native/interpreter agreement; host-paused wide/portrait resizes preserve the paused frame and neighboring ticks |
+| Camera / scripts | Camera bounds checked at real wide/portrait drawable sizes; 651 death/animation/message frames and 181 real NPC dialogue frames retain a 512x320 canvas; actual enemy-contact death/retry restores gameplay; registered Trunk13->11 door opens with Up |
+| Town palette | Eight connected Eolis rooms match native terrain samples; stale white instance palettes cannot recolor terrain. Static setup probes were neutral; the actual death/retry route reproduces stale neighboring NPC-room palettes in the old build, and the candidate corrects them with an identical complete guest core state |
 | Current-build restore | Supported right seam: complete final state and rendered picture reproduce exactly after save/load; native/interpreter state and rolling trace match |
 | Adaptive Fit | Actual SDL 1536x720 -> 512x240, 600x1200 -> 200x400, 3840x720 -> 1280x240; complete HUD remains visible in portrait |
 | Shared CIRAM API | Invalid bounds/NULL and isolated upload refused; upload/restore succeeds; serialized complete machine unchanged after the probe |

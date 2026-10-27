@@ -80,6 +80,20 @@ def main():
         current_build_restore=final == (replay / "final.cycstate").read_bytes(),
         restored_picture=(native / "picture.png").read_bytes() == (replay / "picture.png").read_bytes(),
     )
+    # A neighbor may have captured a temporary fade/loading palette. Such a
+    # stale sprite-instance cache must never recolor the region's terrain.
+    stale = bytearray((native / "sample.cycstate").read_bytes())
+    p, n = next((p, n) for tag, p, n in state.chunks(stale)
+                if tag == b"MOD " and stale[p:p+64].split(b"\0")[0] == b"faxanadu.world")
+    stride = (n - 64 - 32) // 83
+    for i in range(83):
+        first_palette = p + 64 + 32 + i * stride + 2048 + 8192
+        stale[first_palette:first_palette+16] = bytes([0x30]) * 16
+    stale_path = out / "stale-instance-palette.cycstate"
+    stale_path.write_bytes(stale)
+    fault = run("stale-instance-palette", stale_path, start + 21, 99, [(0, "RIGHT"), (24, "-")])
+    results["stale_instance_palette_keeps_native_background"] = (fault / "picture.png").read_bytes() == (replay / "picture.png").read_bytes()
+    results["stale_instance_palette_keeps_execution"] = (fault / "hash.txt").read_bytes() == (replay / "hash.txt").read_bytes()
     # Original Start pause and Select inventory must stop room simulation
     # without discarding the expanded picture. Exercise real input handlers.
     for name, button, bank in (("pause", "START", 14), ("inventory", "SELECT", 12)):

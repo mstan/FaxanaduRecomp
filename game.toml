@@ -254,3 +254,9 @@ id = "faxanadu.world.inventory"
 addr = 0xe016
 bank = 15
 bytes = "a5 24 d0 04 a5 63 f0 0c a5 19 29 20"
+
+[[mod_function_hook]]
+id = "faxanadu.world.death"
+addr = 0xd8ec
+bank = 15
+bytes = "a2 ff 9a a2 0e 20 1a cc a5 a4 29 40"
