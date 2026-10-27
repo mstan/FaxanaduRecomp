@@ -42,7 +42,7 @@ static int pending_y;
 static unsigned ticks,last_tick,handoffs,failures,portals;
 static bool player_tick;
 static bool collision_active;
-static bool death_mode;
+static bool death_mode,script_mode;
 static int camera_x,camera_y,picture_w,picture_h,draw_w=1280,draw_h=720;
 static uint32_t *canvas;
 static size_t capacity;
@@ -99,7 +99,7 @@ static bool supported(void){
     rom_ok=(~crc==0x57dd23d1u);return rom_ok;
 }
 static bool scene_ready(void){return q(0xe)==0&&q(0x54)==255&&(q(0x3c7)&128)&&!q(0x438)&&q(0x13);}
-static bool playing(void){return !death_mode&&scene_ready()&&!q(0x120)&&q(0x100)==14;}
+static bool playing(void){return !death_mode&&!script_mode&&scene_ready()&&!q(0x120)&&q(0x100)==14;}
 static int death_hook(uint16_t pc){(void)pc;if(enabled&&!cyc_mod_isolated())death_mode=true;return 0;}
 /* Drain only scratch-machine PPU packets. Graphics loads are original native
  * routines; their normal NMI queue is collected without waiting for hardware.
@@ -157,13 +157,34 @@ static void topology(unsigned current){
         }
     }
 }
-static void refresh(void){
+static void refresh(bool completed){
     int a=q(0x24),id=q(0x63);if(a<0||a>7||id>=(int)counts[a])return;
     if(area!=a){memset(rooms,0,sizeof rooms);memset(raster_valid,0,sizeof raster_valid);area=a;active=-1;}
     if(!rooms[id].owned)topology(id);
-    if(active!=id){if(active>=0)portals++;active=id;}
-    capture(id,true);
+    bool changed=active!=id;
+    if(changed){if(active>=0)portals++;active=id;}
+    /* Player entry runs after the ROM clears OAM. Keep the last completed
+     * scene until this tick actually finishes drawing, including when an
+     * actor interrupts the tick to start a conversation. */
+    if(completed||changed||!rooms[id].live)capture(id,true);
     for(unsigned i=0;i<counts[area];i++)if(rooms[i].owned&&!rooms[i].valid)decode(i);
+}
+static int script_hook(uint16_t pc){
+    (void)pc;
+    if(!enabled||cyc_mod_isolated()||death_mode||script_mode||active<0||
+       area!=q(0x24)||active!=q(0x63))return 0;
+    /* Dialogue can begin in the middle of the actor loop. The original
+     * paused drawing routine completes the whole pose without advancing
+     * AI or interactions. Run it before portrait loading clears OAM and
+     * replaces sprite graphics/palettes, then retain that scene throughout
+     * opening, text, and closing. Never change the live guest here. */
+    if(cyc_mod_isolate_begin()){
+        if(bank(14)&&call(0xcb47,0,0)&&call(0xdc46,0,0))capture((unsigned)active,true);
+        else failures++;
+        cyc_mod_isolate_end();
+    }else failures++;
+    script_mode=true;collision_active=false;cyc_mod_set_ram_read_hook(NULL);
+    return 0;
 }
 static int freeze_hook(uint16_t pc){
     unsigned button=pc==0xe02b?0x10:0x20;
@@ -212,8 +233,8 @@ static int player_hook(uint16_t pc){
     unsigned caller=q(0x100|(uint8_t)(regs.s+1))|(q(0x100|(uint8_t)(regs.s+2))<<8);
     player_tick=caller>=0xdb45&&caller<0xdbef;
     if(!player_tick){collision_active=false;cyc_mod_set_ram_read_hook(NULL);return 0;}
-    if(scene_ready()&&q(0x100)==14)death_mode=false; /* original gameplay resumed */
-    if(playing())refresh();
+    if(scene_ready()&&q(0x100)==14)death_mode=script_mode=false; /* main loop resumed */
+    if(playing())refresh(false);
     pre_x=q(0x9e);pre_y=q(0xa1);pending=-1;ticks++;collision_active=true;cyc_mod_set_ram_read_hook(collision_read);return 0;
 }
 static int seam_hook(uint16_t pc){
@@ -256,7 +277,7 @@ static int draw_hook(uint16_t pc){
     (void)pc;if(!enabled||cyc_mod_isolated()||active<0)return 0;
     cyc_mod_set_ram_read_hook(NULL);
     collision_active=false;
-    if(death_mode){pending=-1;return 0;}
+    if(death_mode||script_mode){pending=-1;return 0;}
     if(!player_tick||q(0x24)!=area||q(0x63)!=active){pending=-1;return 0;}
     int x=q(0x9e),y=q(0xa1),next=pending;
     if(next>=0){
@@ -285,7 +306,7 @@ void fax_world_step(void){
     if(trace)fprintf(trace,"%llu,%u,%u,%u,%u,%u,%u,%u,%u,%.4f\n",(unsigned long long)cyc_cycle_count(),q(0x24),q(0x63),q(0x9e),q(0xa1),q(0x54),q(0xe),handoffs,failures,sim_ms);
     if(!playing())return;
     memcpy(frozen_hud,cyc_frame_argb(),sizeof frozen_hud);hud_valid=true;
-    uint64_t start=SDL_GetPerformanceCounter();refresh();if(active<0)return;
+    uint64_t start=SDL_GetPerformanceCounter();refresh(true);if(active<0)return;
     if(ticks==last_tick)return;last_tick=ticks;
     int w,h;dimensions(&w,&h);Room *a=&rooms[active];
     for(unsigned id=0;id<counts[area];id++)if(id!=(unsigned)active&&rooms[id].owned){
@@ -315,17 +336,22 @@ static void raster(unsigned id){
 }
 static void actors(unsigned id,int w,int h){
     Room *r=&rooms[id];if(!r->live)return;
+    /* Sprite palettes are global to the connected region just like terrain
+     * palettes. A neighbor initialized during an arrival may have inherited
+     * a building/fade palette; it must use the active scene's colors. */
+    const uint8_t *pal=rooms[active].palette;
+    unsigned mask=cyc_render_line_mask(239);
     int ox=r->x*RW-camera_x,oy=HUD+r->y*RH-camera_y;
     for(int s=63;s>=1;s--){const uint8_t *o=r->ram+0x700+s*4;int sy=o[0]+1,sx=o[3];
         if(sy<HUD||sy>=240)continue;
-        if(id==(unsigned)active){int px=q(0x9e);if(px>240&&sx<32)sx+=256;}
+        if(id==(unsigned)active){int px=r->ram[0x9e];if(px>240&&sx<32)sx+=256;}
         unsigned tile=o[1],attr=o[2];
         for(int y=0;y<8;y++)for(int x=0;x<8;x++){
             int dx=ox+sx+x,dy=oy+sy-HUD+y;if(dx<0||dx>=w||dy<HUD||dy>=h)continue;
             unsigned py=attr&128?7-y:y,shift=attr&64?x:7-x,off=tile*16+py;
             unsigned v=((r->chr[off]>>shift)&1)|(((r->chr[off+8]>>shift)&1)<<1);if(!v)continue;
             if((attr&32)&&terrain(r,clamp(sx+x,0,255),clamp(sy-HUD+y,0,207)))continue;
-            canvas[(size_t)dy*w+dx]=hw_palette_argb[r->palette[16+(attr&3)*4+v]&63];
+            canvas[(size_t)dy*w+dx]=hw_palette_argb[(pal[16+(attr&3)*4+v]&((mask&1)?0x30:0x3f))|((mask>>5)<<6)];
         }
     }
 }
@@ -333,13 +359,18 @@ static void actors(unsigned id,int w,int h){
  * continues there. Ask the original drawing routines for an unclipped pose
  * at a safe scratch position, then supply just its off-room pixels. */
 static void player_edge(int w,int h){
-    int px=q(0x9e),py=q(0xa1);if(px>=8&&px<=232&&py>=8&&py<=176)return;
+    Room *r=&rooms[active];
+    int px=r->ram[0x9e],py=r->ram[0xa1];if(px>=8&&px<=232&&py>=8&&py<=176)return;
     uint8_t oam[256];if(!cyc_mod_isolate_begin())return;
+    /* Use the same retained player pose during dialogue, even while native
+     * portrait code temporarily changes drawing state. */
+    for(unsigned i=0;i<2048;i++)p(i,r->ram[i]);
     p(0x9e,128);p(0xa1,96);p(0x9f,0);p(0xa2,0);p(0xc,0);p(0x57,0);
     bool ok=bank(14)&&call(0xcb17,0,0)&&call(0xb982,0,0)&&call(0xebee,0,0)&&call(0xb7d6,0,0);
     if(ok)for(unsigned i=0;i<256;i++)oam[i]=q(0x700+i);
     cyc_mod_isolate_end();if(!ok){failures++;return;}
-    Room *r=&rooms[active];int ox=r->x*RW-camera_x,oy=HUD+r->y*RH-camera_y;
+    int ox=r->x*RW-camera_x,oy=HUD+r->y*RH-camera_y;
+    unsigned mask=cyc_render_line_mask(239);
     for(int s=63;s>=1;s--){const uint8_t *o=oam+s*4;if(o[0]>=239)continue;
         int sx=o[3]+px-128,sy=o[0]+1-HUD+py-96;unsigned attr=o[2],tile=o[1];
         for(int y=0;y<8;y++)for(int x=0;x<8;x++){
@@ -347,7 +378,7 @@ static void player_edge(int w,int h){
             int dx=ox+lx,dy=oy+ly;if(dx<0||dx>=w||dy<HUD||dy>=h)continue;
             unsigned cy=attr&128?7-y:y,shift=attr&64?x:7-x,off=tile*16+cy;
             unsigned v=((r->chr[off]>>shift)&1)|(((r->chr[off+8]>>shift)&1)<<1);if(!v)continue;
-            canvas[(size_t)dy*w+dx]=hw_palette_argb[r->palette[16+(attr&3)*4+v]&63];
+            canvas[(size_t)dy*w+dx]=hw_palette_argb[(r->palette[16+(attr&3)*4+v]&((mask&1)?0x30:0x3f))|((mask>>5)<<6)];
         }
     }
 }
@@ -362,7 +393,7 @@ static void menu_rect(int width,int height,const uint32_t *native,int x,int y,in
     }
 }
 static bool ui_pixel(int x,int y){
-    if(q(0x100)!=12||q(0x20c))return false;
+    if((!script_mode&&q(0x100)!=12)||q(0x20c))return false;
     int bx=q(0x208)*8,by=q(0x209)*8;
     if(bx==32&&by==64&&x>=16&&x<96&&y>=48&&y<160)return true;
     return x>=bx&&x<bx+q(0x20a)*8&&y>=by&&y<by+q(0x20b)*8;
@@ -390,8 +421,8 @@ const uint32_t *fax_world_present(int *w,int *h,const uint32_t *native){
         for(int y=0;y<nh;y++)for(int x=0;x<nw;x++)canvas[(size_t)y*width+nx+x]=native[(y*240/nh)*RW+x*RW/nw];
         goto finished;
     }
-    camera_x=atlas?l*RW:a->x*RW+q(0x9e)+8-width/2;
-    camera_y=atlas?t*RH:a->y*RH+q(0xa1)+16-(height-HUD)/2;
+    camera_x=atlas?l*RW:a->x*RW+a->ram[0x9e]+8-width/2;
+    camera_y=atlas?t*RH:a->y*RH+a->ram[0xa1]+16-(height-HUD)/2;
     if(!atlas){
         int xmax=(r+1)*RW-width,ymax=(b+1)*RH-(height-HUD);
         camera_x=xmax<l*RW?(l*RW+xmax)/2:clamp(camera_x,l*RW,xmax);
@@ -404,7 +435,7 @@ const uint32_t *fax_world_present(int *w,int *h,const uint32_t *native){
         for(int y=0;y<RH;y++){int dy=oy+y;if(dy<HUD||dy>=height)continue;
             memcpy(canvas+(size_t)dy*width+ox+x0,rasters[id]+y*RW+x0,(size_t)(x1-x0)*4);}
     }
-    bool original_scene=death_mode||!scene_ready()||(q(0x100)!=14&&q(0x100)!=12);
+    bool original_scene=death_mode;
     if(original_scene){
         int ox=a->x*RW-camera_x,oy=HUD+a->y*RH-camera_y;
         for(int y=HUD;y<240;y++)for(int x=0;x<RW;x++){
@@ -415,13 +446,14 @@ const uint32_t *fax_world_present(int *w,int *h,const uint32_t *native){
         for(unsigned id=0;id<counts[area];id++)if(rooms[id].owned&&id!=(unsigned)active)actors(id,width,height);
         actors((unsigned)active,width,height);player_edge(width,height);
     }
-    if(q(0x100)==12&&!q(0x20c)){
+    if((script_mode||q(0x100)==12)&&!q(0x20c)){
         /* Overlay native text boxes only. Copying the entire NES image
          * would erase frozen actors inside its rectangle while leaving
          * the neighboring actors visible. Inventory submenus retain the
          * top menu underneath them. All coordinates are native tile units. */
         int x=q(0x208)*8,y=q(0x209)*8;
         if(x==32&&y==64)menu_rect(width,height,native,16,48,80,112);
+        if(q(0x3c7)<128)menu_rect(width,height,native,16,112,64,80);
         menu_rect(width,height,native,x,y,q(0x20a)*8,q(0x20b)*8);
     }
     int hw=width<256?width:256,hh=HUD*hw/256,hx=(width-hw)/2;
@@ -430,7 +462,7 @@ const uint32_t *fax_world_present(int *w,int *h,const uint32_t *native){
 finished:
     picture_w=width;picture_h=height;render_ms=(SDL_GetPerformanceCounter()-start)*1000.0/SDL_GetPerformanceFrequency();return canvas;
 }
-void fax_world_reset(void){make_mask();memset(rooms,0,sizeof rooms);memset(raster_valid,0,sizeof raster_valid);area=active=-1;pending=-1;rom_ok=false;hud_valid=death_mode=false;ticks=last_tick=handoffs=failures=portals=0;player_tick=collision_active=false;cyc_mod_set_ram_read_hook(NULL);}
+void fax_world_reset(void){make_mask();memset(rooms,0,sizeof rooms);memset(raster_valid,0,sizeof raster_valid);area=active=-1;pending=-1;rom_ok=false;hud_valid=death_mode=script_mode=false;ticks=last_tick=handoffs=failures=portals=0;player_tick=collision_active=false;cyc_mod_set_ram_read_hook(NULL);}
 void fax_world_loaded(void){memset(raster_valid,0,sizeof raster_valid);cyc_mod_set_ram_read_hook(collision_active?collision_read:NULL);}
 bool fax_world_option(const char *name,const char *value){
     if(!strcmp(name,"--world-view")){if(strcmp(value,"off")&&strcmp(value,"seamless")&&strcmp(value,"atlas"))return false;enabled=strcmp(value,"off")!=0;hooks(enabled);atlas=!strcmp(value,"atlas");if(enabled)nes_mod_set_local_only("Seamless world",1);return true;}
@@ -467,20 +499,20 @@ void fax_world_tcp_setup(void){}
 enum { STATE_HEADER=32 };
 static int state_get(uint8_t *buf,int cap){
     if(!enabled)return 0;int len=STATE_HEADER+(int)sizeof rooms;if(len>cap)return -1;
-    memset(buf,0,STATE_HEADER);memcpy(buf,"FAXWORLD",8);buf[8]=3;buf[9]=(uint8_t)(area+1);buf[10]=(uint8_t)(active+1);buf[18]=death_mode;
+    memset(buf,0,STATE_HEADER);memcpy(buf,"FAXWORLD",8);buf[8]=4;buf[9]=(uint8_t)(area+1);buf[10]=(uint8_t)(active+1);buf[18]=death_mode;buf[19]=script_mode;
     buf[11]=(uint8_t)(pending+1);buf[12]=(uint8_t)direction;buf[13]=player_tick;buf[14]=collision_active;buf[15]=(uint8_t)pending_y;
     buf[16]=(uint8_t)pre_x;buf[17]=(uint8_t)pre_y;memcpy(buf+20,&ticks,4);memcpy(buf+24,&last_tick,4);
     memcpy(buf+STATE_HEADER,rooms,sizeof rooms);return len;
 }
 static int state_validate(const uint8_t *buf,int len){
-    if(!len)return 1;if(!enabled||!buf||len!=STATE_HEADER+sizeof rooms||memcmp(buf,"FAXWORLD",8)||buf[8]!=3||buf[9]>8||buf[10]>MAX_ROOMS||buf[11]>MAX_ROOMS||buf[12]>3||buf[13]>1||buf[14]>1||buf[18]>1)return 0;
+    if(!len)return 1;if(!enabled||!buf||len!=STATE_HEADER+sizeof rooms||memcmp(buf,"FAXWORLD",8)||buf[8]!=4||buf[9]>8||buf[10]>MAX_ROOMS||buf[11]>MAX_ROOMS||buf[12]>3||buf[13]>1||buf[14]>1||buf[18]>1||buf[19]>1)return 0;
     if(!buf[9]&&(buf[10]||buf[11]))return 0;
     if(buf[9]&&(buf[10]>counts[buf[9]-1]||buf[11]>counts[buf[9]-1]))return 0;
     for(unsigned i=0;i<MAX_ROOMS;i++){Room r;memcpy(&r,buf+STATE_HEADER+i*sizeof r,sizeof r);if(r.live>1||r.valid>1||r.owned>1||r.x< -83||r.x>83||r.y< -83||r.y>83)return 0;for(unsigned j=0;j<4;j++)if(r.edges[j]!=255&&r.edges[j]>=MAX_ROOMS)return 0;}return 1;
 }
 static int state_set(const uint8_t *buf,int len){
     if(!state_validate(buf,len))return 0;if(!len){fax_world_reset();return 1;}
-    area=buf[9]-1;active=buf[10]-1;pending=buf[11]-1;direction=buf[12];player_tick=buf[13]!=0;collision_active=buf[14]!=0;death_mode=buf[18]!=0;pending_y=buf[15];pre_x=buf[16];pre_y=buf[17];
+    area=buf[9]-1;active=buf[10]-1;pending=buf[11]-1;direction=buf[12];player_tick=buf[13]!=0;collision_active=buf[14]!=0;death_mode=buf[18]!=0;script_mode=buf[19]!=0;pending_y=buf[15];pre_x=buf[16];pre_y=buf[17];
     memcpy(&ticks,buf+20,4);memcpy(&last_tick,buf+24,4);memcpy(rooms,buf+STATE_HEADER,sizeof rooms);fax_world_loaded();return 1;
 }
 static int hud_get(uint8_t *buf,int cap){
@@ -493,7 +525,7 @@ static int hud_set(const uint8_t *buf,int len){
     if(!hud_validate(buf,len))return 0;hud_valid=len!=0;
     if(hud_valid)memcpy(frozen_hud,buf+4,sizeof frozen_hud);return 1;
 }
-static void hooks(bool on){const char *ids[]={"player","seam","draw","queue","wait","pause","inventory","death"};char id[64];for(unsigned i=0;i<sizeof ids/sizeof ids[0];i++){snprintf(id,sizeof id,"faxanadu.world.%s",ids[i]);nes_mod_set_function_hook_enabled(id,on);}}
+static void hooks(bool on){const char *ids[]={"player","seam","draw","queue","wait","pause","inventory","death","script"};char id[64];for(unsigned i=0;i<sizeof ids/sizeof ids[0];i++){snprintf(id,sizeof id,"faxanadu.world.%s",ids[i]);nes_mod_set_function_hook_enabled(id,on);}}
 static void deactivate(void){enabled=atlas=false;fixed_w=fixed_h=0;cyc_mod_set_ram_read_hook(NULL);hooks(false);}
 static void activate(void){enabled=true;hooks(true);zoom=nes_mod_get_option_int("faxanadu.enhancement.seamless-world","seamless-world","pixel-zoom",3);nes_mod_set_local_only("Seamless world",1);}
 NES_MOD_CONSTRUCTOR(register_world){
@@ -503,6 +535,7 @@ NES_MOD_CONSTRUCTOR(register_world){
        !nes_mod_register_function_entry_plugin("faxanadu.world.pause",0xe02b,freeze_hook)||
        !nes_mod_register_function_entry_plugin("faxanadu.world.inventory",0xe016,freeze_hook)||
        !nes_mod_register_function_entry_plugin("faxanadu.world.death",0xd8ec,death_hook)||
+       !nes_mod_register_function_entry_plugin("faxanadu.world.script",0x8242,script_hook)||
        !nes_mod_register_function_entry_plugin("faxanadu.world.queue",0xcfdc,queue_hook)||
        !nes_mod_register_function_entry_plugin("faxanadu.world.wait",0xcff4,wait_hook)||
        !nes_mod_register_reset_callback(deactivate)||!nes_mod_register_activation_plugin("faxanadu.seamless-world",activate)||

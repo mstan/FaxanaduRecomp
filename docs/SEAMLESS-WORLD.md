@@ -30,10 +30,12 @@ remain in charge. Start pause freezes the expanded world without changing its
 aspect ratio. The native inventory appears over the frozen expanded world;
 only its text boxes cover the scene, so actors remain visible both inside and
 outside the original NES bounds. Its complete panel scales down in narrow
-windows. Death, dialogue and scripted transitions retain native animation
-and UI inside the adaptive canvas, without switching its aspect ratio.
+windows. Dialogue retains a completed world pose and camera throughout the
+opening, text, and closing; native text and portrait panels cover that scene.
+Death retains its native animation inside the adaptive canvas.
 Neighboring terrain uses the current region background palette, including
-native fades; isolated actor palettes stay local to their sprites.
+native fades. All visible actors use the active world scene's sprite palette;
+cached building or portrait palettes cannot recolor neighboring NPCs/enemies.
 Native controls: Select opens inventory; B closes it; Start pauses/unpauses.
 The painted gate in the first Trunk room has no registered Up destination in
 the USA game. The preview preserves that behavior; its registered-door setup
@@ -89,8 +91,9 @@ All automated launches were hidden and muted with native saves disabled.
 | Native door rules | Trunk 13->11 normal door; Trunk 11->13 refuses without J key, opens after a granted key and native use dialogue; native/interpreter state agreement |
 | Inventory / native terrain | Native Select inventory and B close after a seamless handoff; native background remains the destination room |
 | Pause / inventory aspect | Original Start and Select inputs retain the expanded picture and frozen room records, with native/interpreter agreement; host-paused wide/portrait resizes preserve the paused frame and neighboring ticks |
-| Camera / scripts | Camera bounds checked at real wide/portrait drawable sizes; 651 death/animation/message frames and 181 real NPC dialogue frames retain a 512x320 canvas; actual enemy-contact death/retry restores gameplay; registered Trunk13->11 door opens with Up |
+| Camera / scripts | Camera bounds checked at real wide/portrait drawable sizes; death/animation/message frames retain the adaptive canvas. Real NPC and locked-door dialogue retain completed actors and stable pixels throughout the message, preserve guest execution against the original, and reproduce exactly through save/load; shop portrait panels and closing also checked |
 | Town palette | Eight connected Eolis rooms match native terrain samples; stale white instance palettes cannot recolor terrain. Static setup probes were neutral; the actual death/retry route reproduces stale neighboring NPC-room palettes in the old build, and the candidate corrects them with an identical complete guest core state |
+| Sprite palette | Actual death/retry A/B preserves actor OAM, CHR and complete guest core state. All 357 changed sprite pixels in two affected NPC rooms map from stale building colors to the native outdoor palette; poisoning neighboring sprite palettes no longer changes NPC or enemy colors |
 | Current-build restore | Supported right seam: complete final state and rendered picture reproduce exactly after save/load; native/interpreter state and rolling trace match |
 | Adaptive Fit | Actual SDL 1536x720 -> 512x240, 600x1200 -> 200x400, 3840x720 -> 1280x240; complete HUD remains visible in portrait |
 | Shared CIRAM API | Invalid bounds/NULL and isolated upload refused; upload/restore succeeds; serialized complete machine unchanged after the probe |
@@ -127,6 +130,9 @@ also passes. Only Windows x64 has been built for this preview so far.
 ```powershell
 python tests/world/integration.py --exe <FaxanaduRecomp.exe> --rom <USA-ROM> `
   --state <current-build-supported-right-exit.cycstate> --out <QA-directory>
+python tests/world/dialogue.py --exe <FaxanaduRecomp.exe> --rom <USA-ROM> `
+  --npc-state <stock-Up-contact.cycstate> --door-state <stock-locked-door.cycstate> `
+  --out <dialogue-QA-directory>
 ```
 
 The fixture must place the native player at x=240 on a supported right exit.
@@ -137,6 +143,13 @@ alone can produce mechanically valid geometry with incorrect colors. Earlier
 preview states had that preparation defect and are superseded.
 The test records source/binary identities, executes native/interpreter routes,
 checks every logged scroll mode and compares current-build replay.
+The dialogue test requires Pillow and visible, nonblinking player fixtures.
+Its original/candidate and interpreter comparisons cover the actual dialogue
+input, pixel stability, opening pose, closing, palette isolation and restore.
+An existing clipped-player scratch draw failure at `$B982` occurs once in both
+the preceding and current builds with the x=3 NPC fixture; it is retained in
+the raw logs and is not evidence of a new regression or a fully audited edge
+renderer. The normal seam regression reports no failures.
 
 Developer CLI: `--world-view off|seamless|atlas`; `--world-size WxH` fixes the
 viewport for reproducibility, so omit it for adaptive Fit. TCP: `fax_world`,
@@ -147,4 +160,5 @@ The task's `preview/Open-preview.ps1` starts a normal window, normal audio and
 a localhost checklist. The first setup is paused. Tests can be switched and
 resumed without an agent, and individual Pass/Fail/Deferred notes persist in
 `observations.json`. The helper disables native saves and uses its own profile.
-It has been verified hidden; an owner-facing game has not been launched.
+The owner has playtested earlier checkpoints; individual failures and subsequent
+candidate evidence remain separate. Human acceptance of this checkpoint is open.
