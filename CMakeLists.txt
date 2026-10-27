@@ -35,7 +35,7 @@ if(NESRECOMP_BACKEND STREQUAL "cycle")
         GAME_CONFIG "${CMAKE_CURRENT_SOURCE_DIR}/game.toml"
         RECOMPILER "${NESRECOMP_HOST_COMPILER}"
         SEED_FILE "${NESRECOMP_CYCLE_SEEDS}"
-        HOST_EXTRAS "${CMAKE_CURRENT_SOURCE_DIR}/cyc_extras.c"
+        HOST_EXTRAS "${CMAKE_CURRENT_SOURCE_DIR}/cyc_extras.c" fax_world.c
             mods/zelda2/link_controller.c mods/zelda2/fax_link.c mods/zelda2/link_assets.c
             "${NESRECOMP_ROOT}/runner/src/foreign_controller.c"
             "${NESRECOMP_ROOT}/runner/src/mod_audio.c"

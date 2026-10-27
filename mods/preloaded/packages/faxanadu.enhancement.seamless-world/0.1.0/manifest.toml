@@ -1,0 +1,38 @@
+format_version = 1
+id = "faxanadu.enhancement.seamless-world"
+version = "0.1.0"
+name = "Seamless World (Experimental)"
+author = "NESRecomp"
+description = "Continuous connected rooms and live neighboring actors with adaptive Fit to screen. Doors and scripted area changes retain their native paths. Local play preview."
+license = "MIT"
+resolver = "declarative"
+save_compatibility = "faxanadu-world-preview"
+
+[[target]]
+game_id = "faxanadu-usa"
+rom_crc32 = "57dd23d1"
+
+[[feature]]
+id = "seamless-world"
+name = "Seamless World (Experimental)"
+description = "Fit the real world to the window. Resize freely; mouse wheel changes pixel zoom; F4 shows the connected map."
+group = "Display"
+default_enabled = false
+experimental = true
+exclusive_groups = ["display-mode", "player-controller"]
+
+[[plugin]]
+feature = "seamless-world"
+id = "faxanadu.seamless-world"
+
+[[option]]
+feature = "seamless-world"
+id = "pixel-zoom"
+label = "Pixel zoom"
+description = "Window size and pixel zoom determine the visible world area."
+group = "Camera"
+type = "integer"
+default = 3
+min = 1
+max = 8
+step = 1

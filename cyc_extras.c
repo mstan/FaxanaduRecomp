@@ -6,6 +6,7 @@
 #include "override_text.h"
 #include "override_chr.h"
 #include "mods/zelda2/fax_link.h"
+#include "fax_world.h"
 #ifdef CYC_WITH_SDL
 #include "cyc_tcp.h"
 #include <SDL.h>
@@ -165,6 +166,7 @@ static void inject_password(void) {
 static void power_on(void *ctx) {
     (void)ctx; frame = 0; injected = false;
     fax_link_power_on();
+    fax_world_reset();
     if (compile_path[0]) {
         int n = chr_override_compile_dir(compile_path);
         exit(n < 0 ? 2 : 0);
@@ -206,6 +208,7 @@ static void frame_begin(void *ctx) {
 static void frame_end(void *ctx) {
     (void)ctx; ++frame;
     fax_link_frame_end();
+    fax_world_step();
     if (tiles_enabled || tile_dump) chr_override_frame_end();
     if (!cyc_host_saves_enabled() || frame % 900) return;
     if (!(cyc_mod_peek(0x042C) | cyc_mod_peek(0x042D) | cyc_mod_peek(0x0437) | cyc_mod_peek(0x0439))) return;
@@ -214,6 +217,7 @@ static void frame_end(void *ctx) {
 }
 static bool option(void *ctx, const char *name, const char *value) {
     (void)ctx;
+    if(!strncmp(name,"--world-",8))return fax_world_option(name,value);
     char *path = NULL;
     if (!strcmp(name, "--text-overrides")) { path = text_path; text_enabled = true; }
     else if (!strcmp(name, "--tiles")) { path = tiles_path; tiles_enabled = true; }
@@ -244,21 +248,26 @@ static void tcp_setup(void *ctx) {
     cyc_tcp_register("mantra_now", "Read current progress without changing the machine", mantra_now);
     cyc_tcp_register("mantra_save", "Persist the current progress mantra", mantra_save);
     fax_link_tcp_setup();
+    fax_world_tcp_setup();
 }
 #endif
 static const uint32_t *present(void *ctx,int *w,int *h) {
-    (void)ctx;return fax_link_present(w,h);
+    (void)ctx;const uint32_t *native=fax_link_present(w,h);
+    const uint32_t *world=fax_world_present(w,h,native?native:cyc_frame_argb());
+    return world?world:native;
 }
 static void audio_mix(void *ctx,int16_t *samples,size_t count) {
     (void)ctx;fax_link_audio_mix(samples,count);
 }
 static void event(void *ctx,const void *e,int player) {
     (void)ctx;(void)player;fax_link_event(e);
+    fax_world_event(e);
 }
 static void load_setting(void *ctx,const char *key,const char *value) {
     (void)ctx;fax_link_load_setting(key,value);
 }
 static void save_settings(void *ctx,FILE *f) {(void)ctx;fax_link_save_settings(f);}
+static void state_loaded(void *ctx) {(void)ctx;fax_world_loaded();}
 const CycHostExtras *cyc_host_extras(void) {
     static const CycHostOption options[] = {
         { "--password", true, "Prefill a 1..24 character mantra (spaces allowed)" },
@@ -266,10 +275,13 @@ const CycHostExtras *cyc_host_extras(void) {
         { "--tiles", true, "Tile override directory, with hot reload" },
         { "--tile-dump", false, "Dump unique CHR transfers as PNG and binary assets" },
         { "--tile-compile", true, "Compile tile PNGs to CHR caches and exit" },
+        { "--world-view", true, "World camera: off, seamless or atlas" },
+        { "--world-size", true, "Fixed development viewport WxH; omit for adaptive Fit" },
     };
     static const CycHostExtras extras = {
         .present=present,.audio_rate=44100,.audio_mix=audio_mix,.event=event,
         .load_setting=load_setting,.save_settings=save_settings,
+        .state_loaded=state_loaded,
         .power_on = power_on, .frame_begin = frame_begin, .frame_end = frame_end,
         .options = options, .option_count = sizeof(options) / sizeof(options[0]), .option = option,
 #ifdef CYC_WITH_SDL

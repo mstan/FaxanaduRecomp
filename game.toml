@@ -212,3 +212,33 @@ id = "faxanadu.link.item"
 addr = 0xc478
 bank = 15
 bytes = "A5 A4 29 05 D0 1E A5 16 29 04 F0 18"
+
+[[mod_function_hook]]
+id = "faxanadu.world.player"
+addr = 0xe0ca
+bank = 15
+bytes = "20 03 e1 20 c8 e2 20 74 e1 20 e8 e0"
+
+[[mod_function_hook]]
+id = "faxanadu.world.seam"
+addr = 0xe8e9
+bank = 15
+bytes = "ad 2e 04 29 7f c9 01 d0 05 ad d1 03"
+
+[[mod_function_hook]]
+id = "faxanadu.world.draw"
+addr = 0xb982
+bank = 14
+bytes = "ad c7 03 10 4d ad bf 03 30 48 c9 03"
+
+[[mod_function_hook]]
+id = "faxanadu.world.queue"
+addr = 0xcfdc
+bank = 15
+bytes = "48 20 ca cf 68 a6 20 9d 00 05 e8 a5"
+
+[[mod_function_hook]]
+id = "faxanadu.world.wait"
+addr = 0xcff4
+bank = 15
+bytes = "a5 20 c5 1f d0 fa 60 20 3c cf a5 20"
