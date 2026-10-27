@@ -7,7 +7,8 @@ not a fully qualified replacement or release.
 
 ## Playable behavior
 
-Enable **Seamless World (Experimental)** in Mods. Ordinary reciprocal screen
+Enable **Seamless**, the first entry in Mods and marked **Experimental**.
+It is disabled by default. Ordinary reciprocal screen
 connections form a continuous world: the camera follows the player, adjacent
 terrain is visible, and neighboring native actors advance before entry.
 Room handoffs keep those actor instances rather than respawning them.
@@ -160,5 +161,7 @@ The task's `preview/Open-preview.ps1` starts a normal window, normal audio and
 a localhost checklist. The first setup is paused. Tests can be switched and
 resumed without an agent, and individual Pass/Fail/Deferred notes persist in
 `observations.json`. The helper disables native saves and uses its own profile.
-The owner has playtested earlier checkpoints; individual failures and subsequent
-candidate evidence remain separate. Human acceptance of this checkpoint is open.
+The owner accepted checkpoint `2cc7cb4` as passing a preliminary playtest on
+2026-10-27 and authorized its experimental release. Earlier individual failures
+and subsequent candidate evidence remain separate; this is not a full gameplay
+or progression qualification.

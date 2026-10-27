@@ -7,6 +7,16 @@ if (-not $Rom) {
     if ($images.Count -eq 1) { $Rom=$images[0].FullName }
 }
 $notes = @'
+Optional experimental Seamless mod: open Mods and enable Seamless, the first
+mod in the list and marked Experimental. Connected rooms form a continuous
+world with moving neighboring actors and adaptive Fit to screen.
+Resize the window freely. Mouse wheel changes pixel zoom; F4 shows the map.
+Start pauses, Select opens native inventory, B closes it.
+Doors and scripted region changes retain their native transitions.
+Seamless passed a preliminary owner playtest; cross-room combat/projectiles
+and broader progression coverage remain incomplete. It is disabled by default
+and cannot be combined with Play as Link. Both mods are local-play only.
+
 Optional experimental Play as Link mod: open Mods, select your Zelda II USA ROM,
 enable Play as Link (marked Experimental), then launch Faxanadu. Both original ROMs remain on your computer.
 A jumps, B uses the sword, Down crouches; airborne Up/Down stab vertically.
@@ -23,7 +33,3 @@ if (-not $SkipBuild) {
 }
 & (Join-Path $PSScriptRoot 'stage_windows_runtime.ps1') -BuildDir $buildPath -RedistDir $RedistDir
 & (Join-Path $EngineRoot 'tools/package_cycle_windows.ps1') -ProjectRoot $root -Target 'FaxanaduRecomp' -Title 'Faxanadu' -BuildDir $buildPath -Rom $Rom -EngineRoot $EngineRoot -RecompUi $RecompUi -SkipBuild -GameNotes $notes
-$package = Join-Path $buildPath 'Release/Play-as-Link.nesmod'
-if (Test-Path -LiteralPath $package) {
-    Copy-Item -LiteralPath $package -Destination (Join-Path $root 'release/Play-as-Link.nesmod') -Force
-}

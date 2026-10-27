@@ -33,6 +33,14 @@ Optional **Play as Link** is available in Mods. Select your Zelda II USA ROM,
 enable the mod, and launch Faxanadu with Link's movement, sword beams, vertical
 stabs and all eight spells. See [controls and details](docs/LINK_MOD.md).
 
+Optional **Seamless** appears first in Mods, marked **Experimental** and
+disabled by default. It joins connected rooms, advances neighboring actors,
+and adapts the world view to your window with Fit to screen. Mouse wheel
+changes pixel zoom; F4 shows the connected map. Dialogue and pause preserve
+the expanded view. It passed a preliminary owner playtest; broader gameplay
+coverage and cross-room combat/projectiles remain incomplete. Seamless and
+Play as Link are separate local-play modes. See [details](docs/SEAMLESS-WORLD.md).
+
 ## Controls
 
 | NES Button | Keyboard |

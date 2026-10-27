@@ -1,47 +1,35 @@
-# Release procedure
+# Windows release procedure
 
-How to cut a FaxanaduRecomp Windows release. Per-version notes live in
-`RELEASE_NOTES.md` (and on the GitHub release itself).
+Build the cycle backend from the pinned `nesrecomp` and `recomp-ui` submodules
+using an original Faxanadu USA ROM. No ROM or player data ships.
 
-## Asset convention: one zip, only a zip
+```powershell
+powershell -File tools/make_release.ps1 -Rom <USA-ROM>
+# Or package an already validated cycle build:
+powershell -File tools/make_release.ps1 -Rom <USA-ROM> -BuildDir <build> -SkipBuild
+```
 
-Every release ships exactly one asset — never a bare exe (it is broken without
-`SDL2.dll` and the `launcher/` assets):
+The single release asset is `release/FaxanaduRecomp-windows-x64.zip`. It contains
+the executable, SDL2 and licensed Visual C++ runtimes, launcher assets, licenses,
+instructions, and the preloaded mod catalog. Both Seamless and Play as Link are
+disabled by default and marked Experimental. No developer profile, ROM path,
+native save, save state, log or extracted owner graphics belongs in the ZIP.
 
-| asset | contents |
-|---|---|
-| `FaxanaduRecomp-windows-x64.zip` | `FaxanaduRecomp.exe` + `SDL2.dll` + `keybinds.ini` + `launcher/` + `README.txt` |
+Extract into an isolated directory and verify the launcher, first-row Seamless
+entry and Experimental badge, disabled default, enabled catalog path, gameplay
+and current-build save/load. Verify the PE runtime dependency closure. Automated
+launches are hidden and muted; preserve the owner's saves and settings.
 
-The zip never contains `debug.ini`, `config.ini`, a ROM (`baserom.nes`), or the
-player's mantra save (`faxanadu.srm`) / logs.
+After validation and the owner's merge/release authorization, merge to `master`,
+push the pinned engine commit before the game commit, and publish:
 
-## Steps
+```powershell
+git tag vX.Y.Z
+git push origin master vX.Y.Z
+gh release create vX.Y.Z release/FaxanaduRecomp-windows-x64.zip `
+  --title "vX.Y.Z - <headline>" --notes-file RELEASE_NOTES.md
+```
 
-1. Make sure the tree is the release commit: game repo `master`, and the
-   `nesrecomp/` junction checked out at the SHA in `nesrecomp.pin`. `generated/`
-   is committed and valid for the pinned recompiler (the build re-regens it
-   byte-identically anyway).
-
-2. Build + stage the zip:
-
-   ```powershell
-   powershell -File tools\make_release.ps1            # builds + zips
-   powershell -File tools\make_release.ps1 -SkipBuild # zip an existing build_release
-   ```
-
-   The zip lands in `release\` (gitignored). `make_release.ps1` calls
-   `build_all.bat` for a plain release build and strips `debug.ini`.
-
-3. Smoke-test the zip from a scratch directory (extract, run, point at a ROM,
-   confirm the launcher + game boot and a save round-trips).
-
-4. Tag and publish:
-
-   ```powershell
-   git tag vX.Y.Z ; git push origin master --tags
-   gh release create vX.Y.Z release\FaxanaduRecomp-windows-x64.zip `
-       --title "vX.Y.Z — <headline>" --notes-file RELEASE_NOTES.md
-   ```
-
-Linux / macOS builds use `tools/build-linux.sh` / `tools/build-macos.sh`; only
-Windows is cut here.
+Keep one current Faxanadu ZIP in `G:/Nextcloud/Games/NES`. Verify a replacement
+before removing superseded Faxanadu archives; preserve saves and other games.
+Keep release evidence and checksum records in the workspace.
