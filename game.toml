@@ -242,3 +242,15 @@ id = "faxanadu.world.wait"
 addr = 0xcff4
 bank = 15
 bytes = "a5 20 c5 1f d0 fa 60 20 3c cf a5 20"
+
+[[mod_function_hook]]
+id = "faxanadu.world.pause"
+addr = 0xe02b
+bank = 15
+bytes = "a5 19 29 10 f0 f9 a9 01 8d 20 01 20"
+
+[[mod_function_hook]]
+id = "faxanadu.world.inventory"
+addr = 0xe016
+bank = 15
+bytes = "a5 24 d0 04 a5 63 f0 0c a5 19 29 20"

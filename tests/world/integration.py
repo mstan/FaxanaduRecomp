@@ -94,6 +94,12 @@ def main():
         results[name + "_native_mode"] = paused_mem[0x100] == bank and bool(paused_mem[0x120]) == (name == "pause")
         results[name + "_world_frozen"] = mod_records(paused_bytes) == mod_records((paused / "sample.cycstate").read_bytes())
         results[name + "_backend_state"] = paused_bytes == (paused_interp / "final.cycstate").read_bytes()
+        record = next(paused_bytes[p+64:p+n] for tag, p, n in state.chunks(paused_bytes)
+                      if tag == b"MOD " and paused_bytes[p:p+64].split(b"\0")[0] == b"faxanadu.world")
+        stride = (len(record) - 32) // 83
+        active = record[10] - 1
+        oam = record[32 + active * stride + 0x700:32 + active * stride + 0x800]
+        results[name + "_active_sprites_retained"] = any(32 <= oam[i] + 1 < 240 for i in range(4, 256, 4))
     receipt = dict(checks=results, executable_sha256=hashlib.sha256(args.exe.read_bytes()).hexdigest(),
                    source_state_sha256=hashlib.sha256(original).hexdigest(), rom_crc32="57dd23d1")
     (out / "results.json").write_text(json.dumps(receipt, indent=2))

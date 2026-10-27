@@ -26,7 +26,9 @@ Doors, region changes and connections that cannot be embedded consistently
 retain native portal transitions. Original key checks, scripts and progress
 remain in charge. Start pause freezes the expanded world without changing its
 aspect ratio. The native inventory appears over the frozen expanded world;
-its complete panel scales down in narrow windows. Scripted transitions retain
+only its text boxes cover the scene, so actors remain visible both inside and
+outside the original NES bounds. Its complete panel scales down in narrow
+windows. Scripted transitions retain
 native presentation.
 Native controls: Select opens inventory; B closes it; Start pauses/unpauses.
 This preview is exclusive with Play as Link until their adapters are qualified
@@ -119,6 +121,11 @@ python tests/world/integration.py --exe <FaxanaduRecomp.exe> --rom <USA-ROM> `
 ```
 
 The fixture must place the native player at x=240 on a supported right exit.
+Prepared outdoor fixtures must enter through `Game_SetupAndLoadOutsideArea`
+or explicitly supply the native destination palette when using the horizontal
+area-change loader. The latter retains its caller's palette argument; using it
+alone can produce mechanically valid geometry with incorrect colors. Earlier
+preview states had that preparation defect and are superseded.
 The test records source/binary identities, executes native/interpreter routes,
 checks every logged scroll mode and compares current-build replay.
 
