@@ -80,6 +80,20 @@ def main():
         current_build_restore=final == (replay / "final.cycstate").read_bytes(),
         restored_picture=(native / "picture.png").read_bytes() == (replay / "picture.png").read_bytes(),
     )
+    # Original Start pause and Select inventory must stop room simulation
+    # without discarding the expanded picture. Exercise real input handlers.
+    for name, button, bank in (("pause", "START", 14), ("inventory", "SELECT", 12)):
+        paused = run(name, args.state.resolve(), start, 80, [(10, button), (15, "-")], sample=25)
+        paused_interp = run(name + "-interp", args.state.resolve(), start, 80,
+                            [(10, button), (15, "-")], True)
+        paused_bytes = (paused / "final.cycstate").read_bytes()
+        paused_mem = state.ram(paused_bytes)
+        def mod_records(data):
+            return [data[p:p+n] for tag, p, n in state.chunks(data) if tag == b"MOD "]
+        results[name + "_expanded"] = struct.unpack_from(">II", (paused / "picture.png").read_bytes(), 16) == (512, 320)
+        results[name + "_native_mode"] = paused_mem[0x100] == bank and bool(paused_mem[0x120]) == (name == "pause")
+        results[name + "_world_frozen"] = mod_records(paused_bytes) == mod_records((paused / "sample.cycstate").read_bytes())
+        results[name + "_backend_state"] = paused_bytes == (paused_interp / "final.cycstate").read_bytes()
     receipt = dict(checks=results, executable_sha256=hashlib.sha256(args.exe.read_bytes()).hexdigest(),
                    source_state_sha256=hashlib.sha256(original).hexdigest(), rom_crc32="57dd23d1")
     (out / "results.json").write_text(json.dumps(receipt, indent=2))

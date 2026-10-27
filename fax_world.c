@@ -95,7 +95,8 @@ static bool supported(void){
     for(size_t i=0;i<sizeof payload;i++){crc^=payload[i];for(int b=0;b<8;b++)crc=(crc>>1)^((0u-(crc&1))&0xedb88320u);}
     rom_ok=(~crc==0x57dd23d1u);return rom_ok;
 }
-static bool playing(void){return q(0xe)==0&&q(0x54)==255&&(q(0x3c7)&128)&&!q(0x438)&&!q(0x120)&&q(0x13)&&q(0x100)==14;}
+static bool scene_ready(void){return q(0xe)==0&&q(0x54)==255&&(q(0x3c7)&128)&&!q(0x438)&&q(0x13);}
+static bool playing(void){return scene_ready()&&!q(0x120)&&q(0x100)==14;}
 /* Drain only scratch-machine PPU packets. Graphics loads are original native
  * routines; their normal NMI queue is collected without waiting for hardware.
  * These hooks are enabled only inside our isolated scope. */
@@ -329,7 +330,11 @@ static void player_edge(int w,int h){
     }
 }
 const uint32_t *fax_world_present(int *w,int *h,const uint32_t *native){
-    if(!enabled||!supported()||!playing()||active<0)return NULL;
+    /* Start pauses native simulation, not the expanded picture. Select's
+     * native inventory is composited over the frozen world at the same zoom.
+     * Never show a cached region while an original portal is replacing it. */
+    if(!enabled||!supported()||!scene_ready()||active<0||area!=q(0x24)||active!=q(0x63)||
+       (q(0x100)!=14&&q(0x100)!=12))return NULL;
     uint64_t start=SDL_GetPerformanceCounter();dimensions(w,h);
     Room *a=&rooms[active];int l=a->x,t=a->y,r=l,b=t;
     for(unsigned i=0;i<counts[area];i++)if(rooms[i].owned){Room *v=&rooms[i];if(v->x<l)l=v->x;if(v->x>r)r=v->x;if(v->y<t)t=v->y;if(v->y>b)b=v->y;}
@@ -338,6 +343,9 @@ const uint32_t *fax_world_present(int *w,int *h,const uint32_t *native){
     if(n>capacity){uint32_t *v=realloc(canvas,n*sizeof *v);if(!v)return NULL;canvas=v;capacity=n;}
     camera_x=atlas?l*RW:a->x*RW+q(0x9e)+8-width/2;
     camera_y=atlas?t*RH:a->y*RH+q(0xa1)+16-(height-HUD)/2;
+    /* Keep the native menu's terrain aligned with the surrounding world.
+     * Its original 256-pixel panel is centered while inventory owns input. */
+    if(q(0x100)==12){camera_x=a->x*RW-(width-RW)/2;camera_y=a->y*RH;}
     for(size_t i=0;i<n;i++)canvas[i]=0xff000000;
     for(unsigned id=0;id<counts[area];id++)if(rooms[id].owned&&rooms[id].valid){
         Room *v=&rooms[id];int ox=v->x*RW-camera_x,oy=HUD+v->y*RH-camera_y;
@@ -348,7 +356,14 @@ const uint32_t *fax_world_present(int *w,int *h,const uint32_t *native){
     }
     for(unsigned id=0;id<counts[area];id++)if(rooms[id].owned&&id!=(unsigned)active)actors(id,width,height);
     actors((unsigned)active,width,height);
-    player_edge(width,height);
+    if(q(0x100)==14)player_edge(width,height);
+    if(q(0x100)==12){
+        int pw=width<RW?width:RW,ph=RH*pw/RW;
+        if(ph>height-HUD){ph=height-HUD;pw=RW*ph/RH;}
+        int px=(width-pw)/2;
+        for(int y=0;y<ph;y++)for(int x=0;x<pw;x++)
+            canvas[(size_t)(HUD+y)*width+px+x]=native[(HUD+y*RH/ph)*RW+x*RW/pw];
+    }
     int hw=width<256?width:256,hh=HUD*hw/256,hx=(width-hw)/2;
     for(int y=0;y<hh;y++)for(int x=0;x<hw;x++)canvas[(size_t)y*width+hx+x]=native[(y*HUD/hh)*256+x*256/hw];
     picture_w=width;picture_h=height;render_ms=(SDL_GetPerformanceCounter()-start)*1000.0/SDL_GetPerformanceFrequency();return canvas;

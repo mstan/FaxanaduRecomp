@@ -24,7 +24,10 @@ geometry remains empty; terrain is not stretched or repeated to fill it.
 
 Doors, region changes and connections that cannot be embedded consistently
 retain native portal transitions. Original key checks, scripts and progress
-remain in charge. Native inventory, dialogue and pause use native presentation.
+remain in charge. Start pause freezes the expanded world without changing its
+aspect ratio. The native inventory appears over the frozen expanded world;
+its complete panel scales down in narrow windows. Scripted transitions retain
+native presentation.
 Native controls: Select opens inventory; B closes it; Start pauses/unpauses.
 This preview is exclusive with Play as Link until their adapters are qualified
 together. Both enhancements remain available separately.
@@ -76,6 +79,7 @@ All automated launches were hidden and muted with native saves disabled.
 | Neighbor actors | Actual room positions/ticks change before entry and remain in the adopted instance; no cross-room combat claim |
 | Native door rules | Trunk 13->11 normal door; Trunk 11->13 refuses without J key, opens after a granted key and native use dialogue; native/interpreter state agreement |
 | Inventory / native terrain | Native Select inventory and B close after a seamless handoff; native background remains the destination room |
+| Pause / inventory aspect | Original Start and Select inputs retain the expanded picture and frozen room records, with native/interpreter agreement; host-paused wide/portrait resizes preserve the paused frame and neighboring ticks |
 | Current-build restore | Supported right seam: complete final state and rendered picture reproduce exactly after save/load; native/interpreter state and rolling trace match |
 | Adaptive Fit | Actual SDL 1536x720 -> 512x240, 600x1200 -> 200x400, 3840x720 -> 1280x240; complete HUD remains visible in portrait |
 | Shared CIRAM API | Invalid bounds/NULL and isolated upload refused; upload/restore succeeds; serialized complete machine unchanged after the probe |

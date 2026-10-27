@@ -26,9 +26,9 @@ def main():
     def tcp(cmd, **kw):
         with socket.create_connection(("127.0.0.1", config["tcp_port"]), 5) as s:
             s.settimeout(10)
-            f = s.makefile("rwb", buffering=0)
-            f.write((json.dumps(dict(cmd=cmd, **kw)) + "\n").encode())
-            response = json.loads(f.readline())
+            with s.makefile("rwb", buffering=0) as f:
+                f.write((json.dumps(dict(cmd=cmd, **kw)) + "\n").encode())
+                response = json.loads(f.readline())
             if not response.get("ok"):
                 raise RuntimeError(response)
             return response
@@ -105,6 +105,7 @@ def main():
             game.terminate()
             raise RuntimeError("Game did not start its local debug interface")
         tcp("menu", open=True)
+        tcp("window_size", w=1280, h=720)
         tcp("load_state", path=str(root / checks[0]["state"]))
         tcp("menu", open=True)
         server = ThreadingHTTPServer(("127.0.0.1", config["http_port"]), Handler)
